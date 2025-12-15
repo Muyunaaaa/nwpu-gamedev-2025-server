@@ -1,0 +1,9 @@
+[submodule "vendors/nlohmann"]
+	path = vendors/nlohmann
+	url = https://github.com/nlohmann/json.git
+[submodule "vendors/enet"]
+	path = vendors/enet
+	url = https://github.com/lsalzman/enet.git
+[submodule "vendors/entt"]
+	path = vendors/entt
+	url = https://github.com/skypjack/entt.git
