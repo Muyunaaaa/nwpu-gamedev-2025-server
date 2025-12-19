@@ -7,3 +7,9 @@
 [submodule "vendors/entt"]
 	path = vendors/entt
 	url = https://github.com/skypjack/entt.git
+[submodule "vendors/flatbuffers"]
+	path = vendors/flatbuffers
+	url = https://github.com/google/flatbuffers.git
+[submodule "vendors/JoltPhysics"]
+	path = vendors/JoltPhysics
+	url = https://github.com/jrouwe/JoltPhysics.git
