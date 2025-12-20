@@ -6,4 +6,4 @@
 #include "util/math/glm_include.h"
 #include "game/dataset/PlayerState.h"
 #include "game/dataset/InputDataPackage.h"
-#include "network/PackageQueue.h"
+#include "network/PacketQueue.h"

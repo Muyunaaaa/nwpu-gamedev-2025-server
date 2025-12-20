@@ -54,6 +54,7 @@ add_subdirectory(vendors/spdlog)
 # ==============================
 add_executable(server)
 
+
 # ==============================
 # 源文件
 # ==============================
@@ -69,6 +70,9 @@ target_sources(server PRIVATE ${SERVER_SOURCES})
 target_include_directories(server
         PRIVATE
         ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/vendors/flatbuffers/include
+        ${PROJECT_SOURCE_DIR}/generated
+        ${PROJECT_SOURCE_DIR}/vendors/enet/include
 )
 
 # ==============================

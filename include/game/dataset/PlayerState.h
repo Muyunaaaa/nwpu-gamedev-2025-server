@@ -6,6 +6,8 @@
 #define PLAYERSTATE_H
 
 #include <cstdint>
+#include "util/math/common.h"
+#include "util/math/glm_include.h"
 
 class PlayerState {
 private:
@@ -17,6 +19,7 @@ private:
     bool isShooting;
 
 public:
+    PlayerState(){}
     PlayerState(uint32_t id, myu::math::Vec3 pos, glm::vec3 rot, uint32_t health, bool alive, bool shooting)
         : id(id), position(pos), rotation(glm::normalize(rot)), health(health), isAlive(alive), isShooting(shooting) {
     }
