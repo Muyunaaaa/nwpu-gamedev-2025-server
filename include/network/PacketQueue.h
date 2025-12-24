@@ -12,9 +12,13 @@ private:
     std::queue<NetPacket> packets;
 
 public:
-    PacketQueue();
+    PacketQueue() = default;
 
-    ~PacketQueue();
+    ~PacketQueue() = default;
+
+    std::queue<NetPacket>& getPackets() {
+        return packets;
+    }
 
     std::queue<NetPacket> getPackets() const {
         return packets;

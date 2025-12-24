@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.16)
 # 项目基本信息
 # ==============================
 project(
-        nwpu_gamedev_2025_server
+        server
         VERSION 0.1.0
         LANGUAGES C CXX
 )

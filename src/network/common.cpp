@@ -6,6 +6,7 @@
 #include "network/NetPacket.h"
 #include "util/time/getTime.h"
 #include "network/PacketQueue.h"
+#include "network/common.h"
 
 //将此时在信道缓冲区的所有数据包接受并放入PacketQueue中
 //这里仅仅处理游戏中的数据包，不处理连接断开等其他事件
