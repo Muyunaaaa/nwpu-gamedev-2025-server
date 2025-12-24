@@ -13,3 +13,6 @@
 [submodule "vendors/JoltPhysics"]
 	path = vendors/JoltPhysics
 	url = https://github.com/jrouwe/JoltPhysics.git
+[submodule "vendors/concurrentqueue"]
+	path = vendors/concurrentqueue
+	url = https://github.com/cameron314/concurrentqueue.git

@@ -6,8 +6,8 @@
 #define PLAYERSTATE_H
 
 #include <cstdint>
-#include "util/math/common.h"
-#include "util/math/glm_include.h"
+#include "math/common.h"
+#include "math/glm_include.h"
 
 class PlayerState {
 private:

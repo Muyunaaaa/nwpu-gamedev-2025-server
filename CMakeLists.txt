@@ -12,7 +12,7 @@ project(
 # ==============================
 # C++ 标准
 # ==============================
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -43,6 +43,10 @@ add_subdirectory(vendors/glm)
 # nlohmann/json（header-only）
 add_subdirectory(vendors/nlohmann)
 
+add_subdirectory(vendors/flatbuffers)
+
+add_subdirectory(vendors/concurrentqueue)
+
 # spdlog（header-only 或 static）
 set(SPDLOG_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(SPDLOG_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -60,6 +64,7 @@ add_executable(server)
 # ==============================
 file(GLOB_RECURSE SERVER_SOURCES
         src/*.cpp
+        include/*.h
 )
 
 target_sources(server PRIVATE ${SERVER_SOURCES})
@@ -73,6 +78,7 @@ target_include_directories(server
         ${PROJECT_SOURCE_DIR}/vendors/flatbuffers/include
         ${PROJECT_SOURCE_DIR}/generated
         ${PROJECT_SOURCE_DIR}/vendors/enet/include
+        ${PROJECT_SOURCE_DIR}/vendors/concurrentqueue
 )
 
 # ==============================
