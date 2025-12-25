@@ -1,8 +1,0 @@
-namespace myu.net;
-
-//
-table PlayerInfo {
-  player_name: string;
-}
-
-root_type PlayerInfo;

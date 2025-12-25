@@ -1,0 +1,31 @@
+namespace moe.net;
+
+enum PlayerMotionState : byte {
+    NORMAL = 0,
+    JUMPING = 1,
+    CROUCHING = 2,
+}
+
+struct Vec3 {
+    x: float;
+    y: float;
+    z: float;
+}
+
+table PlayerUpdate {
+    temp_id: uint16;
+
+    pos: Vec3;
+    vel: Vec3;
+    head: Vec3;
+
+    motion_state: PlayerMotionState;
+    weapon_id: uint16;
+}
+
+table AllPlayerUpdate {
+    updates: [PlayerUpdate];
+    my_update: PlayerUpdate;
+}
+
+root_type AllPlayerUpdate;

@@ -17,5 +17,5 @@ public:
 
 private:
     std::atomic<bool> running{false};
-    myu::NetWork network;
+    std::atomic<size_t> tick{0};
 };

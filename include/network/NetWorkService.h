@@ -10,6 +10,25 @@
 
 namespace myu {
     struct NetWork {
+        // 1. 私有化构造函数
+    private:
+        NetWork() = default;
+        ~NetWork();
+
+        // 2. 禁用拷贝构造和赋值操作
+    public:
+        NetWork(const NetWork&) = delete;
+        NetWork& operator=(const NetWork&) = delete;
+        NetWork(NetWork&&) = delete;
+        NetWork& operator=(NetWork&&) = delete;
+
+        // 3. 提供全局唯一的访问点
+        static NetWork& getInstance() {
+            static NetWork instance; // 静态局部变量，线程安全且仅初始化一次
+            return instance;
+        }
+
+        // --- 以下是原本的成员变量和方法 ---
         static constexpr int SERVER_PORT = 1234;
         static constexpr int SERVER_HOST = ENET_HOST_ANY;
         static constexpr int MAX_CLIENTS = 32;
@@ -31,9 +50,6 @@ namespace myu {
 
         std::thread networkThread;
         std::atomic<bool> running{false};
-
-        NetWork() = default;
-        ~NetWork();
 
         void init();
         void startNetworkThread();
