@@ -1,6 +1,8 @@
 #include "state/GameState.h"
 #include "state/MatchController.h"
 class WarmupState : public GameState {
+private:
+    float timer = 10.0f;
 public:
     void OnEnter(MatchController *controller) override;
     void Update(MatchController *controller, float deltaTime) override;

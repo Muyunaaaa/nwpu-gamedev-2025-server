@@ -14,8 +14,9 @@ void MatchController::ChangeState(GameState *newState) {
     }
 }
 
-void MatchController::BroadcastMessage(const std::string &msg) {
-//myu::NetWork::broadcast();
+void MatchController::BroadcastMessage(std::span<const uint8_t> msg) {
+    SendPacket pkt(-1, CH_RELIABLE, msg, true);
+    myu::NetWork::getInstance().broadcast(pkt);
 }
 
 void MatchController::Tick(float deltaTime) {

@@ -28,6 +28,7 @@ public:
     static constexpr int MAX_ROUNDS = 6;
 
     std::unordered_map<uint32_t, PlayerInfo> players;
+    std::vector<uint32_t> players_just_joined;
 
     static RoomContext& getInstance() {
         static RoomContext instance;

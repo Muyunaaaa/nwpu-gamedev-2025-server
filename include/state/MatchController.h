@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdint>
+#include <span>
 #include <string>
 #include "state/GameState.h"
 
@@ -12,7 +14,7 @@ public:
     void ChangeState(GameState* newState);
 
     void Tick(float deltaTime);
-    void BroadcastMessage(const std::string& msg);
+    void BroadcastMessage(std::span<const uint8_t> message);
     void CheckWinCondition();
     //TODO:补充其他功能
 };

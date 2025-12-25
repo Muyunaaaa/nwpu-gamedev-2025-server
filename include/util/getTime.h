@@ -15,12 +15,18 @@ namespace myu::time {
 
     /// 微秒
     inline uint64_t now_us() {
-        return now_ns() / 1'000;
+        using namespace std::chrono;
+        return duration_cast<microseconds>(
+            steady_clock::now().time_since_epoch()
+        ).count();
     }
 
     /// 毫秒（最常用）
     inline uint64_t now_ms() {
-        return now_ns() / 1'000'000;
+        using namespace std::chrono;
+        return duration_cast<milliseconds>(
+            steady_clock::now().time_since_epoch()
+        ).count();
     }
 
 }
