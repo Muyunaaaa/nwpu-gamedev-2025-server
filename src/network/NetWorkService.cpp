@@ -184,6 +184,7 @@ bool myu::NetWork::sendAllPackets() {
         _sendOnePacket(packet);
         sent = true;
     }
+    enet_host_flush(host);
     return sent;
 }
 
