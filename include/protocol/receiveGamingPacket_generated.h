@@ -35,31 +35,37 @@ enum PacketType : int8_t {
   PacketType_PLAYER_STATE = 0,
   PacketType_FIRE = 1,
   PacketType_MOVE = 2,
+  PacketType_SYNC_REQ = 3,
+  PacketType_SYNC_ACK = 4,
   PacketType_MIN = PacketType_PLAYER_STATE,
-  PacketType_MAX = PacketType_MOVE
+  PacketType_MAX = PacketType_SYNC_ACK
 };
 
-inline const PacketType (&EnumValuesPacketType())[3] {
+inline const PacketType (&EnumValuesPacketType())[5] {
   static const PacketType values[] = {
     PacketType_PLAYER_STATE,
     PacketType_FIRE,
-    PacketType_MOVE
+    PacketType_MOVE,
+    PacketType_SYNC_REQ,
+    PacketType_SYNC_ACK
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[4] = {
+  static const char * const names[6] = {
     "PLAYER_STATE",
     "FIRE",
     "MOVE",
+    "SYNC_REQ",
+    "SYNC_ACK",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_PLAYER_STATE, PacketType_MOVE)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_PLAYER_STATE, PacketType_SYNC_ACK)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
