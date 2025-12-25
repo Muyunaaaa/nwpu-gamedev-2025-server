@@ -1,0 +1,79 @@
+include "PlayerInfo.fbs";
+include "PlayerTeam.fbs";
+
+namespace moe.net;
+
+// waiting room
+table PlayerJoinedEvent {
+    uuid: string;
+    name: string;
+
+    player_count: uint16;
+}
+
+table PlayerLeftEvent {
+    uuid: string;
+    name: string;
+
+    player_count: uint16;
+}
+
+
+// here the game starts
+// server should allocate temp IDs, assign teams, etc.
+table GameStartedEvent {
+    // contains all players' info at game start
+    players: AllPlayerInfo;
+}
+
+// per-round events
+table RoundPurchaseStartedEvent {
+    round_number: uint16;
+}
+
+table RoundStartedEvent {
+    round_number: uint16;
+}
+
+table RoundEndedEvent {
+    round_number: uint16;
+    winning_team: PlayerTeam;
+}
+
+// in-game events
+table PlayerKilledEvent {
+    victim_temp_id: uint16;
+    killer_temp_id: uint16;
+    weapon_id: uint16;
+}
+
+table BombPlantedEvent {
+    planter_temp_id: uint16;
+    bomb_site: uint16; // 0 for A, 1 for B
+}
+
+table BombDefusedEvent {
+    defuser_temp_id: uint16;
+}
+
+table ChatMessageEvent {
+    sender_temp_id: uint16;
+    message: string;
+}
+
+union EventData {
+    PlayerJoinedEvent,
+    PlayerLeftEvent,
+    GameStartedEvent,
+    RoundPurchaseStartedEvent,
+    RoundStartedEvent,
+    RoundEndedEvent,
+    PlayerKilledEvent,
+    BombPlantedEvent,
+    BombDefusedEvent,
+    ChatMessageEvent,
+}
+
+table Event {
+    payload: EventData;
+}
