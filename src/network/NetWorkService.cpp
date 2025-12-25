@@ -42,7 +42,7 @@ void myu::NetWork::pollAllPackets() {
                     event.packet->data + event.packet->dataLength
                 );
 
-                packet_queue.enqueue(std::move(pkt));
+                recv_packet_queue.enqueue(std::move(pkt));
 
                 enet_packet_destroy(event.packet);
                 spdlog::info("收到来自客户端 {} 的数据包，长度为 {} 字节", id, pkt.payload.size());
@@ -63,7 +63,7 @@ void myu::NetWork::pollAllPackets() {
 
             case ENET_EVENT_TYPE_DISCONNECT: {
                 ClientID id = reinterpret_cast<uintptr_t>(event.peer->data);
-                packet_queue.enqueue(RecvPacket{
+                recv_packet_queue.enqueue(RecvPacket{
                     .type = NetPacketType::Disconnect,
                     .client = id,
                     .recv_time_ns = time::now_ns()
@@ -96,9 +96,10 @@ void myu::NetWork::startNetworkThread() {
 
         while (running.load(std::memory_order_relaxed)) {
             pollAllPackets();
+            sendAllPackets();
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(1)
-            ); // 防止空转吃满 CPU
+            );
         }
 
         spdlog::info("网络线程退出");
@@ -108,7 +109,7 @@ void myu::NetWork::startNetworkThread() {
 
 void myu::NetWork::stopNetworkThread() {
     if (!running.exchange(false)) {
-        return; // 本来就没在跑
+        return;
     }
 
     if (networkThread.joinable()) {
@@ -131,9 +132,72 @@ myu::NetWork::~NetWork() {
 }
 
 bool myu::NetWork::popPacket(RecvPacket &out) {
-    //TODO: 实现出队列
+    return recv_packet_queue.try_dequeue(out);
 }
 
-bool myu::NetWork::sendPacket(const SendPacket &packet) {
-    //TODO: 实现发送数据包
+bool myu::NetWork::pushPacket(const SendPacket &in) {
+    return send_packet_queue.enqueue(in);
+}
+
+bool myu::NetWork::_sendOnePacket(const SendPacket &packet) {
+    auto it = idToPeer.find(packet.client);
+    if (it == idToPeer.end()) {
+        spdlog::warn("尝试向未知客户端 {} 发送数据包", packet.client);
+        return false;
+    }
+    ENetPeer *peer = it->second;
+
+    enet_uint32 flags = packet.reliable
+                            ? ENET_PACKET_FLAG_RELIABLE
+                            : 0;
+
+    ENetPacket *enet_packet = enet_packet_create(
+        packet.data.data(),
+        packet.data.size(),
+        flags
+    );
+
+    if (!enet_packet) {
+        spdlog::error("enet_packet_create 失败");
+        return false;
+    }
+
+    int ret = enet_peer_send(
+        peer,
+        static_cast<enet_uint8>(packet.channel),
+        enet_packet
+    );
+
+    if (ret != 0) {
+        spdlog::error("enet_peer_send 失败，client={}", packet.client);
+        enet_packet_destroy(enet_packet);
+        return false;
+    }
+
+    return true;
+}
+
+bool myu::NetWork::sendAllPackets() {
+    SendPacket packet;
+    bool sent = false;
+    while (send_packet_queue.try_dequeue(packet)) {
+        _sendOnePacket(packet);
+        sent = true;
+    }
+    return sent;
+}
+
+//这里的广播只是将发送的数据包压入队列，必须要使用sendAllPacket才能真正发送
+bool myu::NetWork::broadcast(const SendPacket &packet) {
+    bool ok = true;
+
+    for (const auto &[clientId, peer]: idToPeer) {
+        SendPacket pkt = packet;
+        pkt.client = clientId;
+        if (!pushPacket(pkt)) {
+            spdlog::error("向客户端 {} 广播数据包失败", clientId);
+            ok = false;
+        }
+    }
+    return ok;
 }
