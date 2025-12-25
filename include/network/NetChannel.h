@@ -5,7 +5,7 @@
 #ifndef NETCHANNEL_H
 #define NETCHANNEL_H
 #include <cstdint>
-enum NetChannel : uint8_t {
+enum NetChannel : enet_uint8 {
     CH_RELIABLE = 0,   // 登录、加入房间、重要状态
     CH_STATE    = 1,   // 高频状态同步（可丢包）
     CH_CHAT     = 2,   // 聊天

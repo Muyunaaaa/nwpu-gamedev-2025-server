@@ -15,7 +15,8 @@ namespace myu {
         static constexpr int MAX_CLIENTS = 32;
         static constexpr int MAX_EACH_CLIENT_CHANNELS = 2;
 
-        moodycamel::ConcurrentQueue<RecvPacket> packet_queue;
+        moodycamel::ConcurrentQueue<RecvPacket> recv_packet_queue;
+        moodycamel::ConcurrentQueue<SendPacket> send_packet_queue;
 
         std::unordered_map<ClientID, ENetPeer*> idToPeer;
         std::unordered_map<ENetPeer*, ClientID> peerToId;
@@ -35,12 +36,13 @@ namespace myu {
         ~NetWork();
 
         void init();
-        //开一个网络线程
         void startNetworkThread();
         void stopNetworkThread();
-        //轮询所有数据包，将数据包放在网络队列中
         void pollAllPackets();
         bool popPacket(RecvPacket& out);
-        bool sendPacket(const SendPacket& packet);
+        bool pushPacket(const SendPacket& packet);
+        bool _sendOnePacket(const SendPacket& packet);
+        bool sendAllPackets();
+        bool broadcast(const SendPacket& packet);
     };
 }
