@@ -1,8 +1,21 @@
-//
-// Created by Administrator on 25-12-25.
-//
+#pragma once
 
-#ifndef SERVER_H
-#define SERVER_H
+#include "network/NetWorkService.h"
+#include <atomic>
 
-#endif //SERVER_H
+#include "protocol/receiveGamingPacket_generated.h"
+
+class Server {
+public:
+    void start();
+    void run();
+    void stop();
+    void onClientConnect(ClientID client);
+    void onClientDisconnect(ClientID client);
+    void onClientPacket(const RecvPacket &pkt);
+    void dispatchNetMessage(ClientID client,const myu::net::NetMessage *msg);
+
+private:
+    std::atomic<bool> running{false};
+    myu::NetWork network;
+};
