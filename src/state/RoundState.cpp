@@ -69,12 +69,12 @@ void broadcastDefused(MatchController *controller) {
 
 void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     flatbuffers::FlatBufferBuilder fbb;
-    uint16_t winner = controller->winner_team;
+    PlayerTeam winner = controller->winner_team;
     uint16_t round_number = controller->currentRound;
     auto winner_event = moe::net::CreateRoundEndedEvent(
         fbb,
         round_number,
-        static_cast<moe::net::PlayerTeam>(winner)
+        parseToNetPlayerTeam(winner)
     );
     auto event = moe::net::CreateGameEvent(
         fbb,

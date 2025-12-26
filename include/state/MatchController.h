@@ -5,6 +5,7 @@
 #include <string>
 
 #include "RoomContext.h"
+#include "game/PlayerTeam.h"
 #include "state/GameState.h"
 
 /*
@@ -43,7 +44,7 @@ public:
     int planter_id = -1; //-1:无效id
     int defuser_id = -1;
 
-    uint16_t winner_team = 0; //0:无胜利，1:反恐精英胜利，2:恐怖分子胜利
+    PlayerTeam winner_team = PlayerTeam::NONE; //0:无胜利，1:反恐精英胜利，2:恐怖分子胜利
     uint16_t c4_planted_site = 0; //0:未下包，1:A点，2:B点
 
     void ChangeState(std::unique_ptr<GameState> newState);

@@ -86,12 +86,12 @@ void MatchController::defuseC4() {
 }
 
 void MatchController::ctWin() {
-    winner_team = 1;
+    winner_team = PlayerTeam::CT;
     ct_win_round++;
 }
 
 void MatchController::tWin() {
-    winner_team = 2;
+    winner_team = PlayerTeam::T;
     t_win_round++;
 }
 
@@ -104,7 +104,7 @@ void MatchController::initRound() {
     c4_defused = false;
     c4_planted = false;
     round_running = false;//初始化先不启动回合
-    winner_team = 0;
+    winner_team = PlayerTeam::NONE;
 }
 
 void MatchController::resetRound() {
@@ -116,7 +116,7 @@ void MatchController::resetRound() {
     c4_defused = false;
     c4_planted = false;
     round_running = false;
-    winner_team = 0;
+    winner_team = PlayerTeam::NONE;
 }
 
 void MatchController::killACt() {
