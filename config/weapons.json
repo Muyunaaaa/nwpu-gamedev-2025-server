@@ -1,0 +1,44 @@
+{
+  "weapons": [
+    {
+      "id": 1,
+      "name": "Glock-18",
+      "price": 200,
+      "damage": 20,
+      "fire_rate": 6.0,
+      "clip_size": 20
+    },
+    {
+      "id": 2,
+      "name": "USP-S",
+      "price": 300,
+      "damage": 25,
+      "fire_rate": 5.5,
+      "clip_size": 12
+    },
+    {
+      "id": 3,
+      "name": "Desert Eagle",
+      "price": 700,
+      "damage": 53,
+      "fire_rate": 2.0,
+      "clip_size": 7
+    },
+    {
+      "id": 4,
+      "name": "AK-47",
+      "price": 2700,
+      "damage": 36,
+      "fire_rate": 10.0,
+      "clip_size": 30
+    },
+    {
+      "id": 5,
+      "name": "M4A1",
+      "price": 3100,
+      "damage": 33,
+      "fire_rate": 11.0,
+      "clip_size": 30
+    }
+  ]
+}

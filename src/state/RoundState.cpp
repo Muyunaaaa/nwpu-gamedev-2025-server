@@ -11,62 +11,6 @@
 #include "util/getTime.h"
 
 //工具函数
-void broadcastPlanted(MatchController *controller) {
-    flatbuffers::FlatBufferBuilder fbb;
-    uint16_t planter_id = controller->planter_id;
-    uint16_t bomb_site = controller->c4_planted_site;
-    auto plant_event = moe::net::CreateBombPlantedEvent(
-        fbb,
-        planter_id,
-        bomb_site
-    );
-    auto event = moe::net::CreateGameEvent(
-        fbb,
-        moe::net::EventData::EventData_BombPlantedEvent,
-        plant_event.Union()
-    );
-    auto header = moe::net::CreateReceivedHeader(
-        fbb,
-        Server::instance().getTick(),
-        myu::time::now_ms()
-    );
-    auto msg = moe::net::CreateReceivedNetMessage(
-        fbb,
-        header,
-        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-        event.Union()
-    );
-    fbb.Finish(msg);
-    controller->BroadcastMessage(fbb.GetBufferSpan());
-}
-
-void broadcastDefused(MatchController *controller) {
-    flatbuffers::FlatBufferBuilder fbb;
-    uint16_t defuser_id = controller->defuser_id;
-    auto defuse_event = moe::net::CreateBombDefusedEvent(
-        fbb,
-        defuser_id
-    );
-    auto event = moe::net::CreateGameEvent(
-        fbb,
-        moe::net::EventData::EventData_BombDefusedEvent,
-        defuse_event.Union()
-    );
-    auto header = moe::net::CreateReceivedHeader(
-        fbb,
-        Server::instance().getTick(),
-        myu::time::now_ms()
-    );
-    auto msg = moe::net::CreateReceivedNetMessage(
-        fbb,
-        header,
-        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-        event.Union()
-    );
-    fbb.Finish(msg);
-    controller->BroadcastMessage(fbb.GetBufferSpan());
-}
-
 void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     flatbuffers::FlatBufferBuilder fbb;
     PlayerTeam winner = controller->winner_team;
@@ -94,7 +38,6 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     );
     fbb.Finish(msg);
     controller->BroadcastMessage(fbb.GetBufferSpan());
-    //TODO:这里还需要根据总局数判断是否结束比赛
     if (controller->checkMatchWin() == 0) {
         //还未结束
         controller->ChangeState(std::make_unique<WaitState>());
@@ -152,11 +95,9 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
         spdlog::info("c4已安放，炸弹计时器开始");
         timerMs = MatchController::C4_TIMER.count();
-        broadcastPlanted(controller);
     }
     if (controller->c4_defused) {
         spdlog::info("C4已拆除，反恐精英获胜");
-        broadcastDefused(controller);
         controller->ctWin();
         getWinnerAndBroadcastAndChangeState(controller);
     }

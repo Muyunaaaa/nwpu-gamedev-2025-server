@@ -1,7 +1,10 @@
 #include "state/MatchController.h"
 
+#include "Server.h"
 #include "network/NetWorkService.h"
 #include "protocol/receiveGamingPacket_generated.h"
+#include "state/RoundState.h"
+#include "state/WaitState.h"
 
 void MatchController::ChangeState(std::unique_ptr<GameState> newState) {
     if (currentState) {
@@ -19,6 +22,9 @@ void MatchController::BroadcastMessage(std::span<const uint8_t> msg) {
 }
 
 void MatchController::Tick(float deltaTime) {
+    if (currentState!= nullptr && dynamic_cast<WaitState*>(currentState.get()) == nullptr) {
+        Server::instance().playerSync();
+    }
     if (currentState) {
         currentState->Update(this, deltaTime);
     }
@@ -32,9 +38,10 @@ void MatchController::disableFire() {
     a_fire = false;
 }
 
-bool MatchController::fire_able() {
+bool MatchController::fire_able() const {
     return a_fire;
 }
+
 
 void MatchController::enableMove() {
     a_move = true;
@@ -44,7 +51,7 @@ void MatchController::disableMove() {
     a_move = false;
 }
 
-bool MatchController::move_able() {
+bool MatchController::move_able() const{
     return a_move;
 }
 
@@ -56,7 +63,7 @@ void MatchController::disablePurchase() {
     a_purchase = false;
 }
 
-bool MatchController::purchase_able() {
+bool MatchController::purchase_able() const{
     return a_purchase;
 }
 
@@ -68,7 +75,8 @@ void MatchController::gameStart() {
     game_over = false;
 }
 
-void MatchController::plantC4() {
+void MatchController::plantC4(PlantSite _c4_plant_site) {
+    c4_plant_site = _c4_plant_site;
     c4_planted = true;
 }
 
@@ -99,8 +107,7 @@ void MatchController::initRound() {
     players_alive = 4;
     ct_alive = 2;
     t_alive = 2;
-    planter_id = -1;
-    defuser_id = -1;
+    c4_plant_site = PlantSite::None;
     c4_defused = false;
     c4_planted = false;
     round_running = false;//初始化先不启动回合
@@ -111,8 +118,7 @@ void MatchController::resetRound() {
     players_alive = 4;
     ct_alive = 2;
     t_alive = 2;
-    planter_id = -1;
-    defuser_id = -1;
+    c4_plant_site = PlantSite::None;
     c4_defused = false;
     c4_planted = false;
     round_running = false;
@@ -149,6 +155,33 @@ uint16_t MatchController::checkMatchWin() {
     }
 }
 
+bool MatchController::plant_able() const {
+    //TODO:需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    //是否在交火阶段
+    if (dynamic_cast<RoundState*>(currentState.get()) == nullptr) {
+        return false;
+    }
+    //是否已经被安装炸弹
+    if (c4_planted) {
+        return false;
+    }
+    //不考虑是否被拆除，无意义
+    return true;
+    //假设客户端中只有T会发送请求，这里先不处理
+}
+
+bool MatchController::defuse_able() const {
+    //TODO:需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    //是否在交火阶段
+    if (dynamic_cast<RoundState*>(currentState.get()) == nullptr) {
+        return false;
+    }
+    //是否已经被安放炸弹
+    if (!c4_planted) {
+        return false;
+    }
+    return true;
+}
 
 
 

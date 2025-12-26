@@ -53,6 +53,9 @@ set(SPDLOG_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(SPDLOG_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory(vendors/spdlog)
 
+file(COPY ${CMAKE_SOURCE_DIR}/config
+        DESTINATION ${CMAKE_BINARY_DIR}/bin)
+
 # ==============================
 # 服务器可执行程序
 # ==============================

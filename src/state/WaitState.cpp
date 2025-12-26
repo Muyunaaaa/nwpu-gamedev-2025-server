@@ -1,6 +1,7 @@
 #include "state/WaitState.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "state/GameState.h"
 #include "state/MatchController.h"
 #include "state/RoomContext.h"
@@ -62,6 +63,7 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
     // 人数已满，进入 Warmup
     if (roomCtx.getReadyCount() == RoomContext::TARGET_PLAYERS) {
 
+        GameContext::Instance().InitFromRoom();
         controller->ChangeState(std::make_unique<WarmupState>());
 
         struct PlayerSnapshot {

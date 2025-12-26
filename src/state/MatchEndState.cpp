@@ -1,12 +1,14 @@
 #include "state/MatchEndState.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "protocol/Main_generated.h"
 #include "util/getTime.h"
 
 void MatchEndState::OnEnter(MatchController *controller) {
     //校验是否应该在该阶段
     timerMs = MatchController::END_UNTIL_SERVER_CLOSE_TIMER.count();
+    GameContext::Instance().Reset();
     moe::net::PlayerTeam winner_team;
     switch (winner) {
         case 0: {
@@ -56,7 +58,6 @@ void MatchEndState::OnEnter(MatchController *controller) {
     fbb.Finish(msg);
     controller->BroadcastMessage(fbb.GetBufferSpan());
 
-    //todo:修改日志
     if (winner == 3) {
         spdlog::info("平局");
     }else {

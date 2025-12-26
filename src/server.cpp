@@ -13,6 +13,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 #include "core/HandlePacket.h"
+#include "entity/Weapon.h"
+#include "entity//Weapon.h"
 #include "protocol/Main_generated.h"
 #include "util/getTime.h"
 
@@ -33,7 +35,8 @@ void init_logging() {
 
 
 void Server::start() {
-    auto& network = myu::NetWork::getInstance();
+    auto &network = myu::NetWork::getInstance();
+    WeaponConfigManager::Instance().LoadFromFile("./config/weapons.json");
     network.init();
     network.startNetworkThread();
     init_logging();
@@ -42,8 +45,8 @@ void Server::start() {
 
 void Server::run() {
     spdlog::info("Server main loop started");
-    auto& network = myu::NetWork::getInstance();
-    MatchController matchController;
+    auto &network = myu::NetWork::getInstance();
+    auto &matchController = MatchController::Instance();
     //FIXME:MEMLEAK
     matchController.ChangeState(std::make_unique<WaitState>());
     spdlog::info("房间已创建，等待玩家加入...");
@@ -115,7 +118,7 @@ void Server::run() {
 
 void Server::stop() {
     running = false;
-    auto& network = myu::NetWork::getInstance();
+    auto &network = myu::NetWork::getInstance();
     network.stopNetworkThread();
 }
 
@@ -208,11 +211,12 @@ size_t Server::getTick() const {
 }
 
 void Server::playerSync() {
+    //TODO:替换为正确的数据加载逻辑
     flatbuffers::FlatBufferBuilder fbb;
 
-    moe::net::Vec3 pos{0.0f,0.0f,0.0f};
-    moe::net::Vec3 vel{0.0f,0.0f,0.0f};
-    moe::net::Vec3 head{0.0f,0.0f,0.0f};
+    moe::net::Vec3 pos{0.0f, 0.0f, 0.0f};
+    moe::net::Vec3 vel{0.0f, 0.0f, 0.0f};
+    moe::net::Vec3 head{0.0f, 0.0f, 0.0f};
     auto my_update = moe::net::CreatePlayerUpdate(
         fbb,
         -1,
@@ -221,13 +225,13 @@ void Server::playerSync() {
         &head,
         moe::net::PlayerMotionState::PlayerMotionState_NORMAL,
         -1
-        );
-    auto player_updates = std::vector<flatbuffers::Offset<moe::net::PlayerUpdate>>();
+    );
+    auto player_updates = std::vector<flatbuffers::Offset<moe::net::PlayerUpdate> >();
     player_updates.push_back(my_update);
     auto event = moe::net::CreateAllPlayerUpdate(
         fbb,
-            fbb.CreateVector(player_updates),
-            my_update
+        fbb.CreateVector(player_updates),
+        my_update
     );
     auto header = moe::net::CreateReceivedHeader(
         fbb,
@@ -241,8 +245,6 @@ void Server::playerSync() {
         event.Union()
     );
     fbb.Finish(msg);
-    SendPacket player_update_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
+    SendPacket player_update_packet = SendPacket(-1, CH_STATE, fbb.GetBufferSpan(), false);
     myu::NetWork::getInstance().broadcast(player_update_packet);
 }
-
-
