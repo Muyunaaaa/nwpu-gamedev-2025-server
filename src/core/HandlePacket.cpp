@@ -58,10 +58,6 @@ void HandlePacket::handlePlant(ClientID, const myu::net::PlantBombEvent *msg) {
 
 }
 
-void HandlePacket::handlePlayerPositionSync(ClientID, const myu::net::PlayerPositionPacket *msg) {
-
-}
-
 void HandlePacket::handleDefuse(ClientID, const myu::net::DefuseBombEvent *msg) {
 
 }

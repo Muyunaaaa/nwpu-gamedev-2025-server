@@ -186,10 +186,6 @@ void Server::dispatchNetMessage(
             break;
         }
 
-        case myu::net::PacketUnion::PacketUnion_PlayerPositionPacket: {
-            HandlePacket::handlePlayerPositionSync(client, msg->packet_as_PlayerPositionPacket());
-        }
-
         case myu::net::PacketUnion::PacketUnion_PlayerInfo: {
             HandlePacket::handlePlayerReady(client, msg->packet_as_PlayerInfo());
             break;
@@ -197,6 +193,7 @@ void Server::dispatchNetMessage(
 
         case myu::net::PacketUnion::PacketUnion_NONE: {
             spdlog::error("Packet with none from {}", client);
+            break;
         }
 
         default:
