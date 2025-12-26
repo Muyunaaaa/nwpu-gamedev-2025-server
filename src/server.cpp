@@ -41,7 +41,7 @@ void Server::run() {
     auto& network = myu::NetWork::getInstance();
     MatchController matchController;
     //FIXME:MEMLEAK
-    matchController.ChangeState(new WaitState());
+    matchController.ChangeState(std::make_unique<WaitState>());
     spdlog::info("房间已创建，等待玩家加入...");
 
     using clock = std::chrono::steady_clock;
@@ -169,10 +169,27 @@ void Server::dispatchNetMessage(
             break;
         }
 
-        case myu::net::PacketUnion::PacketUnion_PlayerStatePacket: {
+        case myu::net::PacketUnion::PacketUnion_PurchaseEvent: {
             //handlePlayerState(client, msg->packet_as_PlayerStatePacket());
             break;
         }
+
+        case myu::net::PacketUnion::PacketUnion_DefuseBombEvent: {
+
+        }
+
+        case myu::net::PacketUnion::PacketUnion_PlantBombEvent: {
+
+        }
+
+        case myu::net::PacketUnion::PacketUnion_PlayerPositionPacket: {
+
+        }
+
+        case myu::net::PacketUnion::PacketUnion_NONE: {
+            spdlog::error("Packet with none from {}", client);
+        }
+
         case myu::net::PacketUnion::PacketUnion_PlayerInfo: {
             const auto *info = msg->packet_as_PlayerInfo();
 
@@ -213,3 +230,10 @@ void Server::dispatchNetMessage(
             break;
     }
 }
+
+size_t Server::getTick() const {
+    return tick;
+}
+
+
+

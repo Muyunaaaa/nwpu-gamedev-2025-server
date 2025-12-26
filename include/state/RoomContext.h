@@ -24,7 +24,7 @@ private:
         spdlog::info("RoomContext Initialized");
     }
 public:
-    static constexpr int TARGET_PLAYERS = 4;
+    static constexpr int TARGET_PLAYERS = 2;
     static constexpr int MAX_ROUNDS = 6;
 
     std::unordered_map<uint32_t, PlayerInfo> players;

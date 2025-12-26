@@ -1,5 +1,5 @@
 #pragma once
-class MatchController; // 前向声明
+class MatchController;
 
 class GameState {
 public:

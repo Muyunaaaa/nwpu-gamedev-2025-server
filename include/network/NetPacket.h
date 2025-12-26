@@ -24,13 +24,8 @@ struct SendPacket {
     ClientID client;
     NetChannel channel; // 信道
     bool reliable;
-    std::span<const uint8_t> data;//这里传入内存视图，限制拷贝和修改
+    std::vector<uint8_t> data;;//这里传入内存视图，限制拷贝和修改
     SendPacket() = default;
-    SendPacket(
-        ClientID c,
-        NetChannel ch,
-        std::span<const uint8_t> d,
-        bool r = true
-    ): client(c), channel(ch), reliable(r), data(d) {
-    }
+    SendPacket(ClientID c, NetChannel ch, std::span<const uint8_t> buf, bool r)
+        : client(c), channel(ch), reliable(r), data(buf.begin(), buf.end()) {}
 };

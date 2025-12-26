@@ -7,13 +7,29 @@
 
 class Server {
 public:
+    static Server& instance() {
+        static Server instance;
+        return instance;
+    }
+
     void start();
     void run();
     void stop();
+
     void onClientConnect(ClientID client);
     void onClientDisconnect(ClientID client);
     void onClientPacket(const RecvPacket &pkt);
-    void dispatchNetMessage(ClientID client,const myu::net::NetMessage *msg);
+    void dispatchNetMessage(ClientID client, const myu::net::NetMessage *msg);
+
+    size_t getTick() const;
+
+private:
+    Server() = default;
+    ~Server() = default;
+    Server(const Server&) = delete;
+    Server& operator=(const Server&) = delete;
+    Server(Server&&) = delete;
+    Server& operator=(Server&&) = delete;
 
 private:
     std::atomic<bool> running{false};
