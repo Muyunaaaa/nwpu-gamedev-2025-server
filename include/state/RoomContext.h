@@ -3,23 +3,21 @@
 #include <string>
 #include <unordered_map>
 
+#include "game/PlayerTeam.h"
+#include "network/NetPacket.h"
 #include "spdlog/spdlog.h"
 
-enum Team {
-    TEAM_UNASSIGNED = 0,
-    TEAM_CT = 1,
-    TEAM_T = 2
-};
 
 struct PlayerInfo {
-    uint32_t id;
+    ClientID id;
     std::string name;
-    Team team = TEAM_UNASSIGNED;
+    PlayerTeam team = PlayerTeam::NONE;
     bool isReady;      // 准备状态
 };
 
 /*
- * RoomContext 作为单例类，存储房间内的全局信息和状态，管理游戏未开始前的状态，不管理每一回合的状态
+ * RoomContext 作为单例类，仅仅储存和管理游戏开始前的房间状态,
+ * 当进入游戏后,该上下文的玩家信息将全部拷贝到新的玩家信息管理类中
  */
 class RoomContext {
 private:
@@ -30,8 +28,8 @@ public:
     static constexpr int TARGET_PLAYERS = 2;
     static constexpr int MAX_ROUNDS = 2;
 
-    std::unordered_map<uint32_t, PlayerInfo> players;
-    std::vector<uint32_t> players_just_joined;
+    std::unordered_map<ClientID, PlayerInfo> players;
+    std::vector<ClientID> players_just_joined;
 
     static RoomContext& getInstance() {
         static RoomContext instance;
@@ -43,5 +41,5 @@ public:
 
     int getReadyCount();
     int getTotalPlayerCount();
-    Team getTeamWithLessPlayers();
+    PlayerTeam getTeamWithLessPlayers();
 };

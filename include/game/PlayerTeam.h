@@ -25,4 +25,16 @@ inline moe::net::PlayerTeam parseToNetPlayerTeam(PlayerTeam team) {
     }
 }
 
+inline std::string toString(PlayerTeam team) {
+    switch (team) {
+        case PlayerTeam::CT:
+            return "CT";
+        case PlayerTeam::T:
+            return "T";
+        case PlayerTeam::NONE:
+            return "NONE";
+        default:
+            return "NONE";
+    }
+}
 #endif //PLAYERTEAM_H
