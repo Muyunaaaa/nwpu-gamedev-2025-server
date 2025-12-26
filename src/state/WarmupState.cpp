@@ -35,6 +35,7 @@ void WarmupState::OnEnter(MatchController *ctrl) {
     );
     fbb.Finish(msg);
     ctrl->BroadcastMessage(fbb.GetBufferSpan());
+    spdlog::info("第{}局",ctrl->currentRound);
     spdlog::info("游戏开始，进入购买阶段(10s)");
     ctrl->enablePurchase();
     ctrl->disableFire();

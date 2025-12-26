@@ -9,7 +9,7 @@ namespace myu::time {
     inline uint64_t now_ns() {
         using namespace std::chrono;
         return duration_cast<nanoseconds>(
-            steady_clock::now().time_since_epoch()
+            high_resolution_clock::now().time_since_epoch()
         ).count();
     }
 
@@ -17,7 +17,7 @@ namespace myu::time {
     inline uint64_t now_us() {
         using namespace std::chrono;
         return duration_cast<microseconds>(
-            steady_clock::now().time_since_epoch()
+            high_resolution_clock::now().time_since_epoch()
         ).count();
     }
 
@@ -25,7 +25,7 @@ namespace myu::time {
     inline uint64_t now_ms() {
         using namespace std::chrono;
         return duration_cast<milliseconds>(
-            steady_clock::now().time_since_epoch()
+            high_resolution_clock::now().time_since_epoch()
         ).count();
     }
 

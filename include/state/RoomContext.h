@@ -18,6 +18,9 @@ struct PlayerInfo {
     bool isReady;      // 准备状态
 };
 
+/*
+ * RoomContext 作为单例类，存储房间内的全局信息和状态，管理游戏未开始前的状态，不管理每一回合的状态
+ */
 class RoomContext {
 private:
     RoomContext() {
@@ -25,7 +28,7 @@ private:
     }
 public:
     static constexpr int TARGET_PLAYERS = 2;
-    static constexpr int MAX_ROUNDS = 6;
+    static constexpr int MAX_ROUNDS = 2;
 
     std::unordered_map<uint32_t, PlayerInfo> players;
     std::vector<uint32_t> players_just_joined;
