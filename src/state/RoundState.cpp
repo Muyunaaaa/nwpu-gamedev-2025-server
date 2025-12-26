@@ -6,6 +6,7 @@
 #include "protocol/Main_generated.h"
 #include "spdlog/spdlog.h"
 #include "state/MatchController.h"
+#include "state/MatchEndState.h"
 #include "state/WaitState.h"
 #include "util/getTime.h"
 
@@ -94,7 +95,22 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     fbb.Finish(msg);
     controller->BroadcastMessage(fbb.GetBufferSpan());
     //TODO:这里还需要根据总局数判断是否结束比赛
-    controller->ChangeState(std::make_unique<WaitState>());
+    if (controller->checkMatchWin() == 0) {
+        //还未结束
+        controller->ChangeState(std::make_unique<WaitState>());
+    }else if (controller->checkMatchWin() == 1) {
+        //CT胜利
+        controller->ChangeState(std::make_unique<MatchEndState>(1));
+    }else if (controller->checkMatchWin() == 2) {
+        //T胜利
+        controller->ChangeState(std::make_unique<MatchEndState>(2));
+    }else if (controller->checkMatchWin() == 3) {
+        //T平局
+        controller->ChangeState(std::make_unique<MatchEndState>(3));
+    }else {
+        spdlog::error("比赛胜负判断出现错误");
+    }
+
 }
 
 //主要实现
@@ -134,35 +150,42 @@ void RoundState::OnEnter(MatchController *controller) {
 
 void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
+        spdlog::info("c4已安放，炸弹计时器开始");
         timerMs = MatchController::C4_TIMER.count();
         broadcastPlanted(controller);
     }
     if (controller->c4_defused) {
+        spdlog::info("C4已拆除，反恐精英获胜");
         broadcastDefused(controller);
         controller->ctWin();
         getWinnerAndBroadcastAndChangeState(controller);
     }
     if (controller->ct_alive == 0) {
         controller->tWin();
+        spdlog::info("反恐精英全部阵亡，恐怖分子获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
     if (controller->t_alive == 0) {
         controller->ctWin();
+        spdlog::info("恐怖分子全部阵亡，反恐精英获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
     timerMs -= deltaTime;
     if (timerMs <= 0) {
         if (controller->c4_planted) {
             controller->tWin();
+            spdlog::info("C4爆炸，恐怖分子获胜");
             getWinnerAndBroadcastAndChangeState(controller);
         } else {
             controller->ctWin();
+            spdlog::info("回合时间耗尽,反恐精英获胜");
             getWinnerAndBroadcastAndChangeState(controller);
         }
     }
 }
 
 void RoundState::OnExit(MatchController *controller) {
+    spdlog::info("交火阶段结束，第{}回合结束",controller->currentRound);
     controller->roundEnd();
     controller->resetRound();
     controller->currentRound++;

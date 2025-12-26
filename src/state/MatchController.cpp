@@ -87,10 +87,12 @@ void MatchController::defuseC4() {
 
 void MatchController::ctWin() {
     winner_team = 1;
+    ct_win_round++;
 }
 
 void MatchController::tWin() {
     winner_team = 2;
+    t_win_round++;
 }
 
 void MatchController::initRound() {
@@ -128,6 +130,25 @@ void MatchController::killAT() {
         t_alive--;
     }
 }
+
+uint16_t MatchController::checkMatchWin() {
+    int max_rounds = RoomContext::MAX_ROUNDS;
+    if (max_rounds % 2 != 0) {
+        spdlog::error("Max rounds must be even");
+    }
+    int rounds_to_win = max_rounds / 2 + 1;
+    if (ct_win_round >= rounds_to_win) {
+        return 1;
+    }else if (t_win_round >= rounds_to_win) {
+        return 2;
+    }else if (ct_win_round < rounds_to_win
+        && t_win_round >= rounds_to_win && currentRound == max_rounds) {
+        return 3;
+    }else {
+        return 0;
+    }
+}
+
 
 
 

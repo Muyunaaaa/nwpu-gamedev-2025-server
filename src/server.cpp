@@ -12,6 +12,10 @@
 #include <spdlog/async.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
+#include "core/HandlePacket.h"
+#include "protocol/Main_generated.h"
+#include "util/getTime.h"
+
 void init_logging() {
     // 1. 初始化线程池：队列大小 8192，后端 1 个工作线程
     // 队列大小必须是 2 的幂
@@ -44,7 +48,6 @@ void Server::run() {
     matchController.ChangeState(std::make_unique<WaitState>());
     spdlog::info("房间已创建，等待玩家加入...");
 
-    using clock = std::chrono::steady_clock;
     constexpr float TPS = 60.0f; // 60 ticks per second
     constexpr auto delta_time = std::chrono::duration<float, std::chrono::milliseconds::period>(1000.0 / TPS);
     const auto step = std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
@@ -79,8 +82,9 @@ void Server::run() {
                          std::chrono::duration_cast<std::chrono::milliseconds>(_frameTime).count());
         }
 
-        //FIXME:更新状态机状态
         matchController.Tick(delta_time.count()); // 固定时间步长为16ms
+
+        // playerSync();
 
         nextTick += step;
 
@@ -116,7 +120,6 @@ void Server::stop() {
 }
 
 void Server::onClientConnect(ClientID client) {
-    //TODO:需要将连接数据包解包
     spdlog::info("Client {} connected", client);
 }
 
@@ -151,7 +154,6 @@ void Server::dispatchNetMessage(
     const myu::net::NetMessage *msg
 ) {
     const auto *header = msg->header();
-    const auto *payload = msg->packet_as_FirePacket();
 
     if (!header) {
         spdlog::warn("Packet without header from {}", client);
@@ -160,68 +162,41 @@ void Server::dispatchNetMessage(
 
     switch (msg->packet_type()) {
         case myu::net::PacketUnion::PacketUnion_MovePacket: {
-            //handleMove(client, msg->packet_as_MovePacket());
+            HandlePacket::handleMove(client, msg->packet_as_MovePacket());
             break;
         }
 
         case myu::net::PacketUnion::PacketUnion_FirePacket: {
-            //handleFire(client, msg->packet_as_FirePacket());
+            HandlePacket::handleFire(client, msg->packet_as_FirePacket());
             break;
         }
 
         case myu::net::PacketUnion::PacketUnion_PurchaseEvent: {
-            //handlePlayerState(client, msg->packet_as_PlayerStatePacket());
+            HandlePacket::handlePurchase(client, msg->packet_as_PurchaseEvent());
             break;
         }
 
         case myu::net::PacketUnion::PacketUnion_DefuseBombEvent: {
-
+            HandlePacket::handleDefuse(client, msg->packet_as_DefuseBombEvent());
+            break;
         }
 
         case myu::net::PacketUnion::PacketUnion_PlantBombEvent: {
-
+            HandlePacket::handlePlant(client, msg->packet_as_PlantBombEvent());
+            break;
         }
 
         case myu::net::PacketUnion::PacketUnion_PlayerPositionPacket: {
+            HandlePacket::handlePlayerPositionSync(client, msg->packet_as_PlayerPositionPacket());
+        }
 
+        case myu::net::PacketUnion::PacketUnion_PlayerInfo: {
+            HandlePacket::handlePlayerReady(client, msg->packet_as_PlayerInfo());
+            break;
         }
 
         case myu::net::PacketUnion::PacketUnion_NONE: {
             spdlog::error("Packet with none from {}", client);
-        }
-
-        case myu::net::PacketUnion::PacketUnion_PlayerInfo: {
-            const auto *info = msg->packet_as_PlayerInfo();
-
-            uint32_t player_id = client; // 假设 client 是唯一的 ClientID
-            std::string player_name = info->name()->c_str();
-            bool is_ready = info->ready();
-
-            auto &room = RoomContext::getInstance();
-
-            auto it = room.players.find(player_id);
-            if (it == room.players.end()) {
-                Team assigned_team = room.getTeamWithLessPlayers();
-
-                PlayerInfo new_player;
-                new_player.id = player_id;
-                new_player.name = player_name;
-                new_player.isReady = is_ready;
-                new_player.team = assigned_team;
-
-                room.players[player_id] = new_player;
-                room.players_just_joined.push_back(player_id);
-
-                spdlog::info("New player joined: {} (ID: {}) assigned to team {}",
-                             player_name, player_id, (int) assigned_team);
-            } else {
-                it->second.isReady = is_ready;
-                it->second.name = player_name;
-
-                spdlog::debug("Player {} (ID: {}) updated ready status to {}",
-                              player_name, player_id, is_ready);
-            }
-            break;
         }
 
         default:
@@ -235,5 +210,42 @@ size_t Server::getTick() const {
     return tick;
 }
 
+void Server::playerSync() {
+    flatbuffers::FlatBufferBuilder fbb;
+
+    moe::net::Vec3 pos{0.0f,0.0f,0.0f};
+    moe::net::Vec3 vel{0.0f,0.0f,0.0f};
+    moe::net::Vec3 head{0.0f,0.0f,0.0f};
+    auto my_update = moe::net::CreatePlayerUpdate(
+        fbb,
+        -1,
+        &pos,
+        &vel,
+        &head,
+        moe::net::PlayerMotionState::PlayerMotionState_NORMAL,
+        -1
+        );
+    auto player_updates = std::vector<flatbuffers::Offset<moe::net::PlayerUpdate>>();
+    player_updates.push_back(my_update);
+    auto event = moe::net::CreateAllPlayerUpdate(
+        fbb,
+            fbb.CreateVector(player_updates),
+            my_update
+    );
+    auto header = moe::net::CreateReceivedHeader(
+        fbb,
+        Server::instance().getTick(),
+        myu::time::now_ms()
+    );
+    auto msg = moe::net::CreateReceivedNetMessage(
+        fbb,
+        header,
+        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_AllPlayerUpdate,
+        event.Union()
+    );
+    fbb.Finish(msg);
+    SendPacket player_update_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
+    myu::NetWork::getInstance().broadcast(player_update_packet);
+}
 
 
