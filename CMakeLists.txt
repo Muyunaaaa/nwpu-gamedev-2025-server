@@ -22,7 +22,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
     add_compile_options(/W4 /utf-8)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic)
+    # add_compile_options(-Wall -Wextra -Wpedantic)
+    # allow warnings or joltphysics will not compile
 endif()
 
 # ==============================
@@ -46,6 +47,8 @@ add_subdirectory(vendors/nlohmann)
 add_subdirectory(vendors/flatbuffers)
 
 add_subdirectory(vendors/concurrentqueue)
+
+add_subdirectory(vendors/JoltPhysics/Build)
 
 add_subdirectory(vendors/tomlplusplus)
 add_subdirectory(vendors/tinygltf)
@@ -102,7 +105,7 @@ target_link_libraries(server
         glm::glm
         nlohmann_json::nlohmann_json
         spdlog::spdlog_header_only
-
+        Jolt
         tomlplusplus::tomlplusplus
         tinygltf
 )
