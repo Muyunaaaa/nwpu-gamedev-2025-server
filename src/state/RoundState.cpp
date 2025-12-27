@@ -1,6 +1,7 @@
 #include "state/RoundState.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "flatbuffers/flatbuffer_builder.h"
 #include "protocol/Events_generated.h"
 #include "protocol/Main_generated.h"
@@ -102,12 +103,12 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
         controller->ctWin();
         getWinnerAndBroadcastAndChangeState(controller);
     }
-    if (controller->ct_alive == 0) {
+    if (GameContext::Instance().countLifes(PlayerTeam::T) == 0) {
         controller->tWin();
         spdlog::info("反恐精英全部阵亡，恐怖分子获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
-    if (controller->t_alive == 0) {
+    if (GameContext::Instance().countLifes(PlayerTeam::CT) == 0) {
         controller->ctWin();
         spdlog::info("恐怖分子全部阵亡，反恐精英获胜");
         getWinnerAndBroadcastAndChangeState(controller);

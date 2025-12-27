@@ -68,10 +68,6 @@ public:
     bool c4_defused = false;
     PlantSite c4_plant_site = PlantSite::None;
 
-    int players_alive = 0;
-    int ct_alive = 0;
-    int t_alive = 0;
-
     PlayerTeam winner_team = PlayerTeam::NONE;
 
     void ChangeState(std::unique_ptr<GameState> newState);
@@ -91,8 +87,6 @@ public:
     void tWin();
     void initRound();
     void resetRound();
-    void killACt();
-    void killAT();
 
     // enable
     void enableFire();

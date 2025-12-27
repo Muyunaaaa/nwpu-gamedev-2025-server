@@ -104,9 +104,6 @@ void MatchController::tWin() {
 }
 
 void MatchController::initRound() {
-    players_alive = 4;
-    ct_alive = 2;
-    t_alive = 2;
     c4_plant_site = PlantSite::None;
     c4_defused = false;
     c4_planted = false;
@@ -115,26 +112,11 @@ void MatchController::initRound() {
 }
 
 void MatchController::resetRound() {
-    players_alive = 4;
-    ct_alive = 2;
-    t_alive = 2;
     c4_plant_site = PlantSite::None;
     c4_defused = false;
     c4_planted = false;
     round_running = false;
     winner_team = PlayerTeam::NONE;
-}
-
-void MatchController::killACt() {
-    if (ct_alive > 0) {
-        ct_alive--;
-    }
-}
-
-void MatchController::killAT() {
-    if (t_alive > 0) {
-        t_alive--;
-    }
 }
 
 uint16_t MatchController::checkMatchWin() {

@@ -105,6 +105,7 @@ void GameContext::addPositionHistory(ClientID playerID, const myu::math::Vec3 &p
 
 void GameContext::resetARound() {
     //TODO:重新检查回合重置
+    //TODO:状态机要调用游戏上下文工具函数
     //检测回合数是否到达换边
     for (auto &[id, state]: players_) {
         state.alive = true;
@@ -171,4 +172,25 @@ void GameContext::resetARound() {
         SendPacket purchase_fail_packet = SendPacket(id, CH_RELIABLE, fbb.GetBufferSpan(), true);
         myu::NetWork::getInstance().pushPacket(purchase_fail_packet);
     }
+}
+
+
+int GameContext::countLifes() {
+    int count = 0;
+    for (const auto& [id, state] : players_) {
+        if (state.alive) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int GameContext::countLifes(PlayerTeam team) {
+    int count = 0;
+    for (const auto& [id, state] : players_) {
+        if (state.alive && state.team == team) {
+            count++;
+        }
+    }
+    return count;
 }

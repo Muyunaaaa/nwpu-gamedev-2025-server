@@ -30,6 +30,9 @@ public:
     void addPositionHistory(ClientID playerID, const myu::math::Vec3& position);
     void addPlantAndReward(ClientID playerID);
     void addDefuseAndReward(ClientID playerID);
+    int countLifes();
+    int countLifes(PlayerTeam team);
+
     void resetARound();
     void Reset();          // 游戏结束
 
