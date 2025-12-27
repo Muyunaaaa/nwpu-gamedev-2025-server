@@ -38,7 +38,7 @@ struct PlayerState {
     std::unique_ptr<WeaponInstance> secondary;
 
     //持有武器
-    std::unique_ptr<WeaponInstance> current_weapon;
+    WeaponSlot weapon_slot;
 
     // 经济 & 战绩
     int money = 800;

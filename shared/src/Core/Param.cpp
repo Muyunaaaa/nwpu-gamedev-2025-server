@@ -1,0 +1,138 @@
+#include "Core/Param.hpp"
+
+#include "Core/FileWriter.hpp"
+
+#include <sstream>
+
+namespace game {
+    ParamType ParamItem::getType() const {
+        if (std::holds_alternative<ParamInt>(value)) {
+            return ParamType::Int;
+        } else if (std::holds_alternative<ParamFloat>(value)) {
+            return ParamType::Float;
+        } else if (std::holds_alternative<ParamBool>(value)) {
+            return ParamType::Bool;
+        } else if (std::holds_alternative<ParamString>(value)) {
+            return ParamType::String;
+        } else if (std::holds_alternative<ParamFloat4>(value)) {
+            return ParamType::Float4;
+        } else {
+            MOE_ASSERT(false, "Unknown ParamType");
+            return ParamType::Int;// make linter happy
+        }
+    }
+
+    void BaseParamManager::loadFromFile(const moe::StringView filepath) {
+        m_filepath = filepath.data();
+
+        auto table_ = toml::parse_file(filepath.data());
+        if (table_.failed()) {
+            return;
+        }
+
+        m_table = table_.table();
+
+        initAllParamsFromTable();
+    }
+
+    void BaseParamManager::saveToFile() const {
+        toml::table table;
+
+        for (const auto& [name, paramPtr]: m_params) {
+            const ParamItem& param = *paramPtr;
+            const auto splitNames = splitPath(name);
+            std::visit(
+                    [name = std::ref(name), &table, &splitNames](auto&& arg) {
+                        using T = std::decay_t<decltype(arg)>;
+                        toml::table* currentTable = &table;
+                        for (size_t i = 0; i < splitNames.size() - 1; ++i) {
+                            const auto& part = splitNames[i];
+                            if (!currentTable->contains(part.data())) {
+                                currentTable->insert(part.data(), toml::table{});
+                            }
+                            currentTable = (*currentTable)[part.data()].as_table();
+                        }
+                        const auto& lastPart = splitNames.back();
+                        if constexpr (moe::Meta::IsSameV<T, ParamFloat4>) {
+                            toml::array arr;
+                            arr.push_back(arg.x);
+                            arr.push_back(arg.y);
+                            arr.push_back(arg.z);
+                            arr.push_back(arg.w);
+                            currentTable->insert(lastPart.data(), arr);
+                        } else {
+                            currentTable->insert(lastPart.data(), arg);
+                        }
+                    },
+                    param.value);
+        }
+
+        std::stringstream ss;
+        ss << table;
+        moe::FileWriter::writeToFile(m_filepath.data(), ss.str());
+    }
+
+    void BaseParamManager::registerParam(const moe::StringView name, ParamItem& param) {
+        m_params.emplace(name.data(), &param);
+        m_sortedParams.push_back(name.data());
+    }
+
+    void BaseParamManager::initAllParamsFromTable() {
+        for (auto& [name, param]: m_params) {
+            auto path = toml::path(name.data());
+            if (path.empty()) {
+                return;
+            }
+
+            auto valueInFile = m_table.at_path(path);
+            if (!valueInFile) {
+                return;
+            }
+
+            valueInFile.visit([param = param, name = std::ref(name)](auto&& arg) {
+                using T = std::decay_t<decltype(arg)>;
+                if constexpr (toml::is_integer<T> || toml::is_string<T> || toml::is_boolean<T>) {
+                    param->value = arg.template as<typename T::value_type>()->get();
+                } else if (toml::is_floating_point<T>) {
+                    if constexpr (moe::Meta::IsSameV<float, ParamFloat>) {
+                        // force cast to float
+                        param->value = static_cast<float>(arg.template as<double>()->get());
+                    } else {
+                        param->value = arg.template as<typename T::value_type>()->get();
+                    }
+                } else if (toml::is_array<T>) {
+                    if (auto arr = arg.template as<toml::array>(); arr && arr->size() == 4) {
+                        ParamFloat4 vec4;
+                        vec4.x = static_cast<float>((*arr)[0].template as<double>()->get());
+                        vec4.y = static_cast<float>((*arr)[1].template as<double>()->get());
+                        vec4.z = static_cast<float>((*arr)[2].template as<double>()->get());
+                        vec4.w = static_cast<float>((*arr)[3].template as<double>()->get());
+                        param->value = vec4;
+                    } else {
+                    }
+                } else {
+                    return;
+                }
+            });
+        }
+    }
+
+    moe::Vector<moe::String> BaseParamManager::splitPath(const moe::StringView path) {
+        moe::Vector<moe::String> result;
+        size_t start = 0;
+        size_t end = 0;
+        while ((end = path.find('.', start)) != moe::StringView::npos) {
+            result.push_back(moe::String(path.substr(start, end - start)));
+            start = end + 1;
+        }
+        result.push_back(moe::String(path.substr(start)));
+        return result;
+    }
+
+    void ParamManager::saveToFile() const {
+        if (!m_isDevMode) {
+            return;
+        }
+        BaseParamManager::saveToFile();
+    }
+}// namespace game

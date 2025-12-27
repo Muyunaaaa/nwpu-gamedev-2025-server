@@ -7,7 +7,6 @@
 #include "state/MatchController.h"
 #include "util/getTime.h"
 
-//TODO:检查
 void GameContext::InitFromRoom() {
     players_.clear();
 
@@ -21,6 +20,7 @@ void GameContext::InitFromRoom() {
 
         ps.health = 100;
         ps.money = 800;
+        ps.weapon_slot = WeaponSlot::SECONDARY;
 
         if (ps.team == PlayerTeam::CT) {
             ps.secondary = std::make_unique<WeaponInstance>(
@@ -31,7 +31,7 @@ void GameContext::InitFromRoom() {
                 CreateWeapon(Weapon::GLOCK)
             );
         }
-        ps.current_weapon = std::move(ps.secondary);
+        ps.weapon_slot = WeaponSlot::SECONDARY;
         players_.emplace(id, std::move(ps));
     }
 
@@ -79,14 +79,32 @@ void GameContext::addMoneyToPlayer(ClientID playerID, int amount) {
     }
 }
 
-void GameContext::playerShotted(ClientID Attacker,ClientID Victim,float damage) {
-    //TODO:修改逻辑
-    players_[Victim].health -= damage;
-    addKillAndReward(Victim);
+void GameContext::playerShotted(ClientID Attacker, ClientID Victim, float damage) {
+    //受击者死亡
+    if (players_[Victim].health - damage <= 0) {
+        players_[Victim].health = 0;
+        setPlayerDied(Victim);
+        addKillAndReward(Attacker);
+        players_[Victim].killer = Attacker;
+    } else {
+        players_[Victim].health -= damage;
+    }
+    //添加记录
+    players_[Attacker].shot_records.push_back(PlayerState::ShotRecord{
+        .attacker = Attacker,
+        .victim = Victim,
+        .damage = damage
+    });
+    players_[Victim].damage_records.push_back(PlayerState::ShotRecord{
+        .attacker = Attacker,
+        .victim = Victim,
+        .damage = damage
+    });
 }
 
 void GameContext::setPlayerDied(ClientID playerID) {
     players_[playerID].alive = false;
+    addDeath(playerID);
     players_[playerID].primary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE));
     if (players_[playerID].team == PlayerTeam::CT) {
         players_[playerID].secondary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::USP));
@@ -104,18 +122,29 @@ void GameContext::addPositionHistory(ClientID playerID, const myu::math::Vec3 &p
 }
 
 void GameContext::resetARound() {
-    //TODO:重新检查回合重置
     //TODO:状态机要调用游戏上下文工具函数
-    //检测回合数是否到达换边
+    //TODO:保证每个回合将玩家位置重置
     for (auto &[id, state]: players_) {
         state.alive = true;
         state.health = 100;
         //TODO:检测胜负方给钱，但要保证调用在MatchController里的resetRound之前，才能判断胜负方
         if (MatchController::Instance().winner_team == state.team) {
             addMoneyToPlayer(id, MatchController::WIN_PRIZE);
-        } else{
+        } else {
             addMoneyToPlayer(id, MatchController::LOSE_PRIZE);
         }
+
+        state.killer = 0;
+        state.weapon_slot = WeaponSlot::SECONDARY;
+
+        if (state.team == PlayerTeam::T) {
+            state.position_history.push(PlayerState::PlayerUpdate(MatchController::C4_DEFAULT_PLANT_POSITION_T_SIDE));
+        }else if (state.team == PlayerTeam::CT) {
+            state.position_history.push(PlayerState::PlayerUpdate(MatchController::C4_DEFAULT_PLANT_POSITION_CT_SIDE));
+        }else {
+            spdlog::error("玩家{}无队伍，无法重置位置",state.name);
+        }
+
         //检测所有装备为默认装备的玩家，广播购买事件
         flatbuffers::FlatBufferBuilder fbb;
         flatbuffers::Offset<moe::net::PurchaseEvent> event;
@@ -177,7 +206,7 @@ void GameContext::resetARound() {
 
 int GameContext::countLifes() {
     int count = 0;
-    for (const auto& [id, state] : players_) {
+    for (const auto &[id, state]: players_) {
         if (state.alive) {
             count++;
         }
@@ -187,10 +216,17 @@ int GameContext::countLifes() {
 
 int GameContext::countLifes(PlayerTeam team) {
     int count = 0;
-    for (const auto& [id, state] : players_) {
+    for (const auto &[id, state]: players_) {
         if (state.alive && state.team == team) {
             count++;
         }
     }
     return count;
+}
+
+void GameContext::flushShotRecords() {
+    for (auto &[id, state]: players_) {
+        state.damage_records.clear();
+        state.shot_records.clear();
+    }
 }

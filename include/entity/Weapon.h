@@ -18,6 +18,11 @@ enum class Weapon{
 
 };
 
+enum class WeaponSlot {
+    PRIMARY = 0,
+    SECONDARY = 1,
+};
+
 inline std::string toString(Weapon weapon) {
     switch (weapon) {
         case Weapon::GLOCK:

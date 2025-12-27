@@ -7,6 +7,7 @@
 #include "RoomContext.h"
 #include "game/PlantSite.h"
 #include "game/PlayerTeam.h"
+#include "math/common.h"
 #include "state/GameState.h"
 
 /*
@@ -56,6 +57,9 @@ public:
     static constexpr int PLANT_PRIZE = 200;
     static constexpr int DEFUSE_PRIZE = 200;
     static constexpr int MAX_BALANCE = 6000;
+
+    static constexpr myu::math::Vec3 C4_DEFAULT_PLANT_POSITION_T_SIDE = myu::math::Vec3(0.0f, 0.0f, 0.0f);
+    static constexpr myu::math::Vec3 C4_DEFAULT_PLANT_POSITION_CT_SIDE = myu::math::Vec3(100.0f, 0.0f, 100.0f);
 
     //比赛状态
     int currentRound = 1;
