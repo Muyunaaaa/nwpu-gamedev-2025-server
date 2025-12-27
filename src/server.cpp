@@ -47,7 +47,6 @@ void Server::run() {
     spdlog::info("Server main loop started");
     auto &network = myu::NetWork::getInstance();
     auto &matchController = MatchController::Instance();
-    //FIXME:MEMLEAK
     matchController.ChangeState(std::make_unique<WaitState>());
     spdlog::info("房间已创建，等待玩家加入...");
 
@@ -104,7 +103,6 @@ void Server::run() {
             }
 
             // extremely large lag compensation
-            //todo: 时间漂移以后deltatime会改变，不再是16.7ms
             if (remaining < -step * 5) {
                 nextTick = now;
                 break;

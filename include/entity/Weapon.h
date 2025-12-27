@@ -19,7 +19,8 @@ struct WeaponConfig {
     WeaponID weapon_id;      // 配置中的唯一ID
     std::string name;        // 枪名
     int price;               // 价格
-    int damage;              // 单发伤害
+    float hit_head_damage;
+    float hit_body_damage;
     float fire_rate;         // 射速
     int clip_size;           // 弹夹容量
 };

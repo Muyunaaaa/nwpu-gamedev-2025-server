@@ -33,7 +33,8 @@ void WeaponConfigManager::LoadFromFile(const std::string& path) {
         cfg.weapon_id = w.at("id").get<WeaponID>();
         cfg.name      = w.at("name").get<std::string>();
         cfg.price     = w.at("price").get<int>();
-        cfg.damage    = w.at("damage").get<int>();
+        cfg.hit_head_damage    = w.at("hit_head_damage").get<float>();
+        cfg.hit_body_damage    = w.at("hit_body_damage").get<float>();
         cfg.fire_rate = w.at("fire_rate").get<float>();
         cfg.clip_size = w.at("clip_size").get<int>();
 

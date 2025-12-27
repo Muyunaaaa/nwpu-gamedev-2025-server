@@ -64,6 +64,7 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
     if (roomCtx.getReadyCount() == RoomContext::TARGET_PLAYERS) {
 
         GameContext::Instance().InitFromRoom();
+        spdlog::info("成功将已准备玩家信息拷贝到 GameContext");
         controller->ChangeState(std::make_unique<WarmupState>());
 
         struct PlayerSnapshot {
