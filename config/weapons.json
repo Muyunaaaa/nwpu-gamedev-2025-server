@@ -2,6 +2,7 @@
   "weapons": [
     {
       "id": 1,
+      "type": 1,
       "name": "Glock-18",
       "price": 200,
       "hit_head_damage": 80.0,
@@ -11,6 +12,7 @@
     },
     {
       "id": 2,
+      "type": 1,
       "name": "USP-S",
       "price": 300,
       "hit_head_damage": 100.0,
@@ -20,6 +22,7 @@
     },
     {
       "id": 3,
+      "type": 1,
       "name": "Desert Eagle",
       "price": 700,
       "hit_head_damage": 212.0,
@@ -29,6 +32,7 @@
     },
     {
       "id": 4,
+      "type": 0,
       "name": "AK-47",
       "price": 2700,
       "hit_head_damage": 144.0,
@@ -38,6 +42,7 @@
     },
     {
       "id": 5,
+      "type": 0,
       "name": "M4A1",
       "price": 3100,
       "hit_head_damage": 132.0,

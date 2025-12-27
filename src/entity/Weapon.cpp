@@ -30,7 +30,8 @@ void WeaponConfigManager::LoadFromFile(const std::string& path) {
     for (const auto& w : j["weapons"]) {
         WeaponConfig cfg;
 
-        cfg.weapon_id = w.at("id").get<WeaponID>();
+        cfg.weapon_id = w.at("id").get<Weapon>();
+        cfg.type = w.at("type").get<WeaponType>();
         cfg.name      = w.at("name").get<std::string>();
         cfg.price     = w.at("price").get<int>();
         cfg.hit_head_damage    = w.at("hit_head_damage").get<float>();
@@ -45,9 +46,7 @@ void WeaponConfigManager::LoadFromFile(const std::string& path) {
 }
 
 const WeaponConfig* WeaponConfigManager::Get(Weapon weapon) const {
-    WeaponID id = static_cast<WeaponID>(weapon);
-
-    auto it = configs_.find(id);
+    auto it = configs_.find(weapon);
     if (it == configs_.end()) {
         return nullptr;
     }

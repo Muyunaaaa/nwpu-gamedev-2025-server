@@ -1,6 +1,7 @@
 #include "core/HandlePacket.h"
 
 #include "Server.h"
+#include "core/PurchaseSystem.h"
 #include "protocol/receiveGamingPacket_generated.h"
 #include "state/MatchController.h"
 #include "state/RoomContext.h"
@@ -55,7 +56,16 @@ void HandlePacket::handleMove(ClientID, const myu::net::MovePacket *msg) {
     /*TODO:先对所有数据包进行处理，然后将处理的后的数据包压入环形队列（包括tick信息），做向前舍弃，然后进行计算更新玩家数据存储，然后广播*/
 }
 
-void HandlePacket::handlePurchase(ClientID, const myu::net::PurchaseEvent *msg) {
+void HandlePacket::handlePurchase(ClientID id, const myu::net::PurchaseEvent *msg) {
+    spdlog::info("玩家 {} 请求购买武器 {}", id, toString(parseNetWeaponToLocalWeapon(msg->weapon())));
+    if (!MatchController::Instance().purchase_able()) {
+        return;
+    }
+    if (PurchaseSystem::Instance().processPurchase(id, parseNetWeaponToLocalWeapon(msg->weapon()))) {
+        spdlog::info("玩家 {} 购买了武器 {}", id, toString(parseNetWeaponToLocalWeapon(msg->weapon())));
+    } else {
+        spdlog::info("玩家 {} 购买武器 {} 失败", id, toString(parseNetWeaponToLocalWeapon(msg->weapon())));
+    }
 }
 
 void HandlePacket::handlePlant(ClientID id, const myu::net::PlantBombEvent *msg) {

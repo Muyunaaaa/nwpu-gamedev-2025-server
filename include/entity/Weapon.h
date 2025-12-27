@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+
+#include "protocol/Events_generated.h"
+#include "protocol/receiveGamingPacket_generated.h"
+
 enum class Weapon{
     WEAPON_NONE = 0,
     GLOCK = 1,
@@ -11,12 +15,35 @@ enum class Weapon{
     DEAGLE = 3,
     AK47 = 4,
     M4A1 = 5,
+
 };
 
-using WeaponID = uint32_t;
+inline std::string toString(Weapon weapon) {
+    switch (weapon) {
+        case Weapon::GLOCK:
+            return "GLOCK";
+        case Weapon::USP:
+            return "USP";
+        case Weapon::DEAGLE:
+            return "DEAGLE";
+        case Weapon::AK47:
+            return "AK47";
+        case Weapon::M4A1:
+            return "M4A1";
+        case Weapon::WEAPON_NONE:
+            default:
+                return "WEAPON_NONE";
+    }
+}
+
+enum WeaponType {
+    PRIMARY,
+    SECONDARY,
+};
 
 struct WeaponConfig {
-    WeaponID weapon_id;      // 配置中的唯一ID
+    Weapon weapon_id;      // 配置中的唯一ID
+    WeaponType type;        // 武器类型
     std::string name;        // 枪名
     int price;               // 价格
     float hit_head_damage;
@@ -42,7 +69,7 @@ public:
     const WeaponConfig* Get(Weapon weapon) const;
 
 private:
-    std::unordered_map<WeaponID, WeaponConfig> configs_;
+    std::unordered_map<Weapon, WeaponConfig> configs_;
 };
 
 inline WeaponInstance CreateWeapon(Weapon weapon) {
@@ -58,4 +85,55 @@ inline WeaponInstance CreateWeapon(Weapon weapon) {
         .config = config,
         .ammo_in_clip = config->clip_size
     };
+}
+
+inline moe::net::Weapon parseToNetWeapon(Weapon weapon) {
+    switch (weapon) {
+        case Weapon::GLOCK:
+            return moe::net::Weapon::Weapon_GLOCK;
+        case Weapon::USP:
+            return moe::net::Weapon::Weapon_USP;
+        case Weapon::DEAGLE:
+            return moe::net::Weapon::Weapon_DEAGLE;
+        case Weapon::AK47:
+            return moe::net::Weapon::Weapon_AK47;
+        case Weapon::M4A1:
+            return moe::net::Weapon::Weapon_M4A1;
+        case Weapon::WEAPON_NONE:
+        default:
+            return moe::net::Weapon::Weapon_WEAPON_NONE;
+    }
+}
+
+inline Weapon parseNetWeaponToLocalWeapon(myu::net::Weapon weapon) {
+    switch (weapon) {
+        case myu::net::Weapon::Weapon_GLOCK:
+            return Weapon::GLOCK;
+        case myu::net::Weapon::Weapon_USP:
+            return Weapon::USP;
+        case myu::net::Weapon::Weapon_DEAGLE:
+            return Weapon::DEAGLE;
+        case myu::net::Weapon::Weapon_AK47:
+            return Weapon::AK47;
+        case myu::net::Weapon::Weapon_M4A1:
+            return Weapon::M4A1;
+        case myu::net::Weapon::Weapon_WEAPON_NONE:
+        default:
+            return Weapon::WEAPON_NONE;
+    }
+}
+
+inline WeaponType parseWeaponToType(Weapon weapon) {
+    switch (weapon) {
+        case Weapon::GLOCK:
+        case Weapon::USP:
+        case Weapon::DEAGLE:
+            return WeaponType::SECONDARY;
+        case Weapon::AK47:
+        case Weapon::M4A1:
+            return WeaponType::PRIMARY;
+        case Weapon::WEAPON_NONE:
+        default:
+            return WeaponType::SECONDARY;
+    }
 }
