@@ -37,7 +37,6 @@ bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
     //如果无法购买，则将玩家之前的武器类型传回客户端，告知无法购买
     if (currentMoney < weapon_cost) {
         spdlog::info("玩家{}金钱不足，无法购买武器{}", state->name, new_weapon_instance.config->name);
-        //TODO:发送购买失败消息给客户端
         //获取玩家自身武器的类型
         flatbuffers::FlatBufferBuilder fbb;
         auto event = moe::net::CreatePurchaseEvent(
@@ -90,8 +89,6 @@ bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
     if (state->secondary) {
         net_secondary_weapon = parseToNetWeapon(state->secondary->config->weapon_id);
     }
-
-    //TODO:发送购买成功消息给客户端
     flatbuffers::FlatBufferBuilder fbb;
     auto event = moe::net::CreatePurchaseEvent(
         fbb,

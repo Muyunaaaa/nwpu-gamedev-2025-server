@@ -92,8 +92,8 @@ void HandlePacket::handlePlant(ClientID id, const myu::net::PlantBombEvent *msg)
         spdlog::error("炸弹安放位置为None，逻辑出现错误");
         return;
     }
-    flatbuffers::FlatBufferBuilder fbb;
 
+    flatbuffers::FlatBufferBuilder fbb;
     auto event = moe::net::CreateBombPlantedEvent(
         fbb,
         id,

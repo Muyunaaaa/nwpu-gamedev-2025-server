@@ -1,7 +1,11 @@
 #include "core/GameContext.h"
+
+#include "Server.h"
 #include "state/RoomContext.h"
 #include "entity/PlayerState.h"
 #include "entity/Weapon.h"
+#include "state/MatchController.h"
+#include "util/getTime.h"
 
 //TODO:检查
 void GameContext::InitFromRoom() {
@@ -48,10 +52,123 @@ PlayerState *GameContext::GetPlayer(ClientID id) {
     return it == players_.end() ? nullptr : &it->second;
 }
 
-void GameContext::stateDetection() {
-    for (const auto &[id, state]: players_) {}
+void GameContext::addDefuseAndReward(ClientID playerID) {
+    players_[playerID].defuse++;
+    addMoneyToPlayer(playerID, MatchController::DEFUSE_PRIZE);
 }
 
+void GameContext::addPlantAndReward(ClientID playerID) {
+    players_[playerID].plants++;
+    addMoneyToPlayer(playerID, MatchController::PLANT_PRIZE);
+}
 
+void GameContext::addDeath(ClientID playerID) {
+    players_[playerID].deaths++;
+}
 
+void GameContext::addKillAndReward(ClientID playerID) {
+    players_[playerID].kills++;
+    addMoneyToPlayer(playerID, MatchController::KILL_PRIZE);
+}
 
+void GameContext::addMoneyToPlayer(ClientID playerID, int amount) {
+    if (players_[playerID].money + amount > MatchController::MAX_BALANCE) {
+        players_[playerID].money = MatchController::MAX_BALANCE;
+    } else {
+        players_[playerID].money += amount;
+    }
+}
+
+void GameContext::playerShotted(ClientID Attacker,ClientID Victim,float damage) {
+    //TODO:修改逻辑
+    players_[Victim].health -= damage;
+    addKillAndReward(Victim);
+}
+
+void GameContext::setPlayerDied(ClientID playerID) {
+    players_[playerID].alive = false;
+    players_[playerID].primary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE));
+    if (players_[playerID].team == PlayerTeam::CT) {
+        players_[playerID].secondary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::USP));
+        spdlog::info("玩家{}死亡，将其装备恢复为USP", players_[playerID].name);
+    } else if (players_[playerID].team == PlayerTeam::T) {
+        players_[playerID].secondary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::GLOCK));
+        spdlog::info("玩家{}死亡，将其装备恢复为GLOCK", players_[playerID].name);
+    } else {
+        spdlog::error("玩家死亡时无队伍");
+    }
+}
+
+void GameContext::addPositionHistory(ClientID playerID, const myu::math::Vec3 &position) {
+    players_[playerID].position_history.push(PlayerState::PlayerUpdate(position));
+}
+
+void GameContext::resetARound() {
+    //TODO:重新检查回合重置
+    //检测回合数是否到达换边
+    for (auto &[id, state]: players_) {
+        state.alive = true;
+        state.health = 100;
+        //TODO:检测胜负方给钱，但要保证调用在MatchController里的resetRound之前，才能判断胜负方
+        if (MatchController::Instance().winner_team == state.team) {
+            addMoneyToPlayer(id, MatchController::WIN_PRIZE);
+        } else{
+            addMoneyToPlayer(id, MatchController::LOSE_PRIZE);
+        }
+        //检测所有装备为默认装备的玩家，广播购买事件
+        flatbuffers::FlatBufferBuilder fbb;
+        flatbuffers::Offset<moe::net::PurchaseEvent> event;
+
+        if (state.team == PlayerTeam::CT) {
+            if (state.primary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE))
+                && state.secondary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::USP))
+            ) {
+                //TODO:修改其他所有消息嵌套错误
+                spdlog::info("玩家{}回合开始时装备为默认装备，广播购买事件", state.name);
+                event = moe::net::CreatePurchaseEvent(
+                    fbb,
+                    moe::net::Weapon::Weapon_WEAPON_NONE,
+                    moe::net::Weapon::Weapon_USP,
+                    true
+                );
+            }
+        } else if (state.team == PlayerTeam::T) {
+            if (state.primary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE))
+                && state.secondary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::GLOCK))
+            ) {
+                //TODO:修改其他所有消息嵌套错误
+                spdlog::info("玩家{}回合开始时装备为默认装备，广播购买事件", state.name);
+                event = moe::net::CreatePurchaseEvent(
+                    fbb,
+                    moe::net::Weapon::Weapon_WEAPON_NONE,
+                    moe::net::Weapon::Weapon_GLOCK,
+                    true
+                );
+            }
+        } else {
+            spdlog::error("玩家{}无队伍，无法检测默认装备", state.name);
+        }
+
+        auto header = moe::net::CreateReceivedHeader(
+            fbb,
+            Server::instance().getTick(),
+            myu::time::now_ms()
+        );
+
+        auto eventWrapper = moe::net::CreateGameEvent(
+            fbb,
+            moe::net::EventData::EventData_PurchaseEvent,
+            event.Union()
+        );
+
+        auto _msg = moe::net::CreateReceivedNetMessage(
+            fbb,
+            header,
+            moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+            eventWrapper.Union()
+        );
+        fbb.Finish(_msg);
+        SendPacket purchase_fail_packet = SendPacket(id, CH_RELIABLE, fbb.GetBufferSpan(), true);
+        myu::NetWork::getInstance().pushPacket(purchase_fail_packet);
+    }
+}

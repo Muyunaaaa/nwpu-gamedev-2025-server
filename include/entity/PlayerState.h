@@ -16,7 +16,6 @@ struct PlayerState {
     PlayerTeam team;
 
     // 位置 & 物理
-
     struct PlayerUpdate {
         myu::math::Vec3 position;
     };
@@ -25,6 +24,14 @@ struct PlayerState {
     // 生命
     float health = 100;
     bool alive = true;
+    ClientID killer;
+    struct ShotRecord {
+        ClientID attacker;
+        ClientID victim;
+        float damage;
+    };
+    std::vector<ShotRecord> shot_records;
+    std::vector<ShotRecord> damage_records;
 
     // 拥有武器
     std::unique_ptr<WeaponInstance> primary;

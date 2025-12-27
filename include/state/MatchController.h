@@ -50,6 +50,13 @@ public:
     static constexpr MilliSecDuration END_UNTIL_SERVER_CLOSE_TIMER =
         MilliSecDuration(15.0f * 1000.0f);
 
+    static constexpr int WIN_PRIZE = 2500;
+    static constexpr int LOSE_PRIZE = 2000;
+    static constexpr int KILL_PRIZE = 300;
+    static constexpr int PLANT_PRIZE = 200;
+    static constexpr int DEFUSE_PRIZE = 200;
+    static constexpr int MAX_BALANCE = 6000;
+
     //比赛状态
     int currentRound = 1;
     int ct_win_round = 0;
