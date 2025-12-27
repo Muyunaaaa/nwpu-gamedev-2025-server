@@ -13,8 +13,8 @@ bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
     }
     //获取对应的武器实例
 
-    WeaponInstance new_weapon_instance = CreateWeapon(weapon);;
-    if (!new_weapon_instance.config) {
+    auto new_weapon_instance = CreateWeapon(weapon);
+    if (!new_weapon_instance || !new_weapon_instance->config) {
         spdlog::warn("玩家{}尝试购买不存在的武器", state->name);
         return false;
     }
@@ -31,11 +31,11 @@ bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
 
     //获取玩家金钱和武器价格
     int& currentMoney = state->money;
-    int weapon_cost = new_weapon_instance.config->price;
+    int weapon_cost = new_weapon_instance->config->price;
 
     //如果无法购买，则将玩家之前的武器类型传回客户端，告知无法购买
     if (currentMoney < weapon_cost) {
-        spdlog::info("玩家{}金钱不足，无法购买武器{}", state->name, new_weapon_instance.config->name);
+        spdlog::info("玩家{}金钱不足，无法购买武器{}", state->name, new_weapon_instance->config->name);
         //获取玩家自身武器的类型
         flatbuffers::FlatBufferBuilder fbb;
         auto event = moe::net::CreatePurchaseEvent(
@@ -72,13 +72,13 @@ bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
     //可以购买
     //扣除玩家金钱
     currentMoney -= weapon_cost;
-    WeaponType weapon_type = new_weapon_instance.config->type;
+    WeaponType weapon_type = new_weapon_instance->config->type;
     if (weapon_type == WeaponType::PRIMARY) {
-        state->primary = std::make_unique<WeaponInstance>(std::move(new_weapon_instance));
-        spdlog::info("玩家{}购买主武器{}成功，剩余金钱{}", state->name, new_weapon_instance.config->name, currentMoney);
+        spdlog::info("玩家{}购买主武器{}成功，剩余金钱{}", state->name, new_weapon_instance->config->name, currentMoney);
+        state->primary = std::move(new_weapon_instance);
     } else if (weapon_type == WeaponType::SECONDARY) {
-        state->secondary = std::make_unique<WeaponInstance>(std::move(new_weapon_instance));
-        spdlog::info("玩家{}购买副武器{}成功，剩余金钱{}", state->name, new_weapon_instance.config->name, currentMoney);
+        spdlog::info("玩家{}购买副武器{}成功，剩余金钱{}", state->name, new_weapon_instance->config->name, currentMoney);
+        state->secondary = std::move(new_weapon_instance);
     }
 
     //更新网络武器类型
@@ -93,7 +93,8 @@ bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
         fbb,
         net_primary_weapon,
         net_secondary_weapon,
-        true
+        true,
+        currentMoney
     );
 
     auto header = moe::net::CreateReceivedHeader(

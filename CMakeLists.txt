@@ -76,6 +76,7 @@ file(GLOB_RECURSE SERVER_SOURCES
         include/*.h
         shared/src/*.cpp
         shared/include/*.h
+        config/*.h
 )
 
 target_sources(server PRIVATE ${SERVER_SOURCES})
@@ -93,6 +94,7 @@ target_include_directories(server
         ${PROJECT_SOURCE_DIR}/shared/include
         ${PROJECT_SOURCE_DIR}/vendors/JoltPhysics
         ${PROJECT_SOURCE_DIR}/vendors/tomlplusplus/include
+        ${PROJECT_SOURCE_DIR}/config
 )
 
 # ==============================

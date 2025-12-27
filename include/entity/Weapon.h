@@ -77,19 +77,22 @@ private:
     std::unordered_map<Weapon, WeaponConfig> configs_;
 };
 
-inline WeaponInstance CreateWeapon(Weapon weapon) {
+inline std::unique_ptr<WeaponInstance> CreateWeapon(Weapon weapon) {
     static std::atomic<uint64_t> next_instance_id{1};
 
     const WeaponConfig* config =
         WeaponConfigManager::Instance().Get(weapon);
 
-    assert(config);
+    if (config == nullptr) {
+        return nullptr;
+    }
 
-    return WeaponInstance{
+    WeaponInstance instance = WeaponInstance{
         .instance_id = next_instance_id++,
         .config = config,
         .ammo_in_clip = config->clip_size
     };
+    return std::make_unique<WeaponInstance>(instance);
 }
 
 inline moe::net::Weapon parseToNetWeapon(Weapon weapon) {

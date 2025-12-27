@@ -13,7 +13,7 @@
 
 
 void WarmupState::OnEnter(MatchController *ctrl) {
-    timerMs = MatchController::PURCHASE_TIMER.count();
+    timerMs = Config::match::PURCHASE_TIMER.count();
     for (auto& player : GameContext::Instance().Players()) {
         flatbuffers::FlatBufferBuilder fbb;
         uint16_t round_number = ctrl->currentRound;

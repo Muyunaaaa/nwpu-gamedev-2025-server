@@ -2,6 +2,7 @@
 
 #include <Core/FileWriter.hpp>
 
+#include "config.h"
 #include "Server.h"
 #include "state/RoomContext.h"
 #include "entity/PlayerState.h"
@@ -25,13 +26,9 @@ void GameContext::InitFromRoom() {
         ps.weapon_slot = WeaponSlot::SECONDARY;
 
         if (ps.team == PlayerTeam::CT) {
-            ps.secondary = std::make_unique<WeaponInstance>(
-                CreateWeapon(Weapon::USP)
-            );
+            ps.secondary = CreateWeapon(Weapon::USP);
         } else {
-            ps.secondary = std::make_unique<WeaponInstance>(
-                CreateWeapon(Weapon::GLOCK)
-            );
+            ps.secondary = CreateWeapon(Weapon::GLOCK);
         }
         ps.weapon_slot = WeaponSlot::SECONDARY;
         players_.emplace(id, std::move(ps));
@@ -56,12 +53,12 @@ PlayerState *GameContext::GetPlayer(ClientID id) {
 
 void GameContext::addDefuseAndReward(ClientID playerID) {
     players_[playerID].defuse++;
-    addMoneyToPlayer(playerID, MatchController::DEFUSE_PRIZE);
+    addMoneyToPlayer(playerID, Config::match::DEFUSE_PRIZE);
 }
 
 void GameContext::addPlantAndReward(ClientID playerID) {
     players_[playerID].plants++;
-    addMoneyToPlayer(playerID, MatchController::PLANT_PRIZE);
+    addMoneyToPlayer(playerID, Config::match::PLANT_PRIZE);
 }
 
 void GameContext::addDeath(ClientID playerID) {
@@ -70,12 +67,12 @@ void GameContext::addDeath(ClientID playerID) {
 
 void GameContext::addKillAndReward(ClientID playerID) {
     players_[playerID].kills++;
-    addMoneyToPlayer(playerID, MatchController::KILL_PRIZE);
+    addMoneyToPlayer(playerID, Config::match::KILL_PRIZE);
 }
 
 void GameContext::addMoneyToPlayer(ClientID playerID, int amount) {
-    if (players_[playerID].money + amount > MatchController::MAX_BALANCE) {
-        players_[playerID].money = MatchController::MAX_BALANCE;
+    if (players_[playerID].money + amount > Config::match::MAX_BALANCE) {
+        players_[playerID].money = Config::match::MAX_BALANCE;
     } else {
         players_[playerID].money += amount;
     }
@@ -107,12 +104,12 @@ void GameContext::playerShotted(ClientID Attacker, ClientID Victim, float damage
 void GameContext::setPlayerDied(ClientID playerID) {
     players_[playerID].alive = false;
     addDeath(playerID);
-    players_[playerID].primary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE));
+    players_[playerID].primary = CreateWeapon(Weapon::WEAPON_NONE);
     if (players_[playerID].team == PlayerTeam::CT) {
-        players_[playerID].secondary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::USP));
+        players_[playerID].secondary = CreateWeapon(Weapon::USP);
         spdlog::info("玩家{}死亡，将其装备恢复为USP", players_[playerID].name);
     } else if (players_[playerID].team == PlayerTeam::T) {
-        players_[playerID].secondary = std::make_unique<WeaponInstance>(CreateWeapon(Weapon::GLOCK));
+        players_[playerID].secondary = CreateWeapon(Weapon::GLOCK);
         spdlog::info("玩家{}死亡，将其装备恢复为GLOCK", players_[playerID].name);
     } else {
         spdlog::error("玩家死亡时无队伍");
@@ -127,19 +124,21 @@ void GameContext::resetARound() {
     for (auto &[id, state]: players_) {
         state.alive = true;
         state.health = 100;
-        if (MatchController::Instance().winner_team == state.team) {
-            addMoneyToPlayer(id, MatchController::WIN_PRIZE);
-        } else {
-            addMoneyToPlayer(id, MatchController::LOSE_PRIZE);
+        if (MatchController::Instance().winner_team != PlayerTeam::NONE) {
+            if (MatchController::Instance().winner_team == state.team) {
+                addMoneyToPlayer(id, Config::match::WIN_PRIZE);
+            } else {
+                addMoneyToPlayer(id, Config::match::LOSE_PRIZE);
+            }
         }
 
         state.killer = 0;
         state.weapon_slot = WeaponSlot::SECONDARY;
 
         if (state.team == PlayerTeam::T) {
-            state.position_history.push(PlayerState::PlayerUpdate(MatchController::C4_DEFAULT_PLANT_POSITION_T_SIDE));
+            state.position_history.push(PlayerState::PlayerUpdate(Config::match::C4_DEFAULT_PLANT_POSITION_T_SIDE));
         }else if (state.team == PlayerTeam::CT) {
-            state.position_history.push(PlayerState::PlayerUpdate(MatchController::C4_DEFAULT_PLANT_POSITION_CT_SIDE));
+            state.position_history.push(PlayerState::PlayerUpdate(Config::match::C4_DEFAULT_PLANT_POSITION_CT_SIDE));
         }else {
             spdlog::error("玩家{}无队伍，无法重置位置",state.name);
         }
@@ -149,8 +148,8 @@ void GameContext::resetARound() {
         flatbuffers::Offset<moe::net::PurchaseEvent> event;
 
         if (state.team == PlayerTeam::CT) {
-            if (state.primary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE))
-                && state.secondary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::USP))
+            if (state.primary == CreateWeapon(Weapon::WEAPON_NONE)
+                && state.secondary == CreateWeapon(Weapon::USP)
             ) {
                 spdlog::info("玩家{}回合开始时装备为默认装备，广播购买事件", state.name);
                 event = moe::net::CreatePurchaseEvent(
@@ -161,8 +160,8 @@ void GameContext::resetARound() {
                 );
             }
         } else if (state.team == PlayerTeam::T) {
-            if (state.primary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE))
-                && state.secondary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::GLOCK))
+            if (state.primary == CreateWeapon(Weapon::WEAPON_NONE)
+                && state.secondary == CreateWeapon(Weapon::GLOCK)
             ) {
                 spdlog::info("玩家{}回合开始时装备为默认装备，广播购买事件", state.name);
                 event = moe::net::CreatePurchaseEvent(

@@ -60,7 +60,7 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
 
 //主要实现
 void RoundState::OnEnter(MatchController *controller) {
-    timerMs = MatchController::ROUND_TIMER.count();
+    timerMs = Config::match::ROUND_TIMER.count();
     flatbuffers::FlatBufferBuilder fbb;
     uint16_t round_number = controller->currentRound;
     auto round_start_event = moe::net::CreateRoundPurchaseStartedEvent(fbb, round_number);
@@ -96,7 +96,7 @@ void RoundState::OnEnter(MatchController *controller) {
 void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
         spdlog::info("c4已安放，炸弹计时器开始");
-        timerMs = MatchController::C4_TIMER.count();
+        timerMs = Config::match::C4_TIMER.count();
     }
     if (controller->c4_defused) {
         spdlog::info("C4已拆除，反恐精英获胜");
