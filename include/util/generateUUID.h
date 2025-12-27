@@ -1,16 +1,14 @@
 //
 // Created by Administrator on 25-12-26.
 //
+#pragma once
 
-#ifndef GENERATEUUID_H
-#define GENERATEUUID_H
 #include <random>
 #include <sstream>
 #include <iomanip>
-
 namespace myu {
     namespace util {
-        std::string generate_uuid_v4() {
+        inline std::string generate_uuid_v4() {
             static std::random_device rd;
             static std::mt19937 gen(rd());
             static std::uniform_int_distribution<> dis(0, 15);
@@ -34,4 +32,3 @@ namespace myu {
         }
     }
 }
-#endif //GENERATEUUID_H

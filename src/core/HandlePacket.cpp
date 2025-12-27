@@ -44,16 +44,23 @@ void HandlePacket::handlePlayerReady(ClientID client_id, const myu::net::PlayerI
     }
 }
 
-void HandlePacket::handleFire(ClientID, const myu::net::FirePacket *msg) {
-    /*TODO:先对所有数据包进行处理，然后将处理的后的数据包压入环形队列（包括tick信息），做向前舍弃，然后进行计算更新玩家数据存储，然后广播*/
-    //TODO:考虑是否要做物理判定
+void HandlePacket::handleFire(ClientID id, const myu::net::FirePacket *msg) {
+    if (myu::NetWork::fire_packet_sequence_max > msg->sequence()) {
+        return;
+    }
+    myu::NetWork::fire_packet_sequence_max = msg->sequence();
+    /*调用计算函数进行计算更新玩家状态*/
     //parse
     //calculate
     //update
 }
 
 void HandlePacket::handleMove(ClientID, const myu::net::MovePacket *msg) {
-    /*TODO:先对所有数据包进行处理，然后将处理的后的数据包压入环形队列（包括tick信息），做向前舍弃，然后进行计算更新玩家数据存储，然后广播*/
+    if (myu::NetWork::move_packet_sequence_max > msg->sequence()) {
+        return;
+    }
+    myu::NetWork::move_packet_sequence_max = msg->sequence();
+    //调用计算函数计算位置信息放入环形队列
 }
 
 void HandlePacket::handlePurchase(ClientID id, const myu::net::PurchaseEvent *msg) {

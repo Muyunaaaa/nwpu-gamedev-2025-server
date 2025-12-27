@@ -42,6 +42,7 @@ table MovePacket {
   jump: bool;//reserved
   crouch: bool;//reserved
   sprint: bool;//reserved
+  sequence: uint32;//reserved
 }
 
 table PlantBombEvent{

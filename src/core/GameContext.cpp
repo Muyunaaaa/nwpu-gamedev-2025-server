@@ -1,8 +1,5 @@
 #include "core/GameContext.h"
-
 #include "state/RoomContext.h"
-#include "core/GameContext.h"
-
 #include "entity/PlayerState.h"
 #include "entity/Weapon.h"
 
@@ -50,5 +47,11 @@ PlayerState *GameContext::GetPlayer(ClientID id) {
     auto it = players_.find(id);
     return it == players_.end() ? nullptr : &it->second;
 }
+
+void GameContext::stateDetection() {
+    for (const auto &[id, state]: players_) {}
+}
+
+
 
 
