@@ -123,7 +123,7 @@ void GameContext::addPositionHistory(ClientID playerID, const myu::math::Vec3 &p
 void GameContext::resetARound() {
     for (auto &[id, state]: players_) {
         state.alive = true;
-        state.health = 100;
+        state.health = Config::player::MAX_HEALTH;
         if (MatchController::Instance().winner_team != PlayerTeam::NONE) {
             if (MatchController::Instance().winner_team == state.team) {
                 addMoneyToPlayer(id, Config::match::WIN_PRIZE);

@@ -3,6 +3,7 @@
 #include <string>
 #include <glm/vec3.hpp>
 
+#include "config.h"
 #include "game/PlayerTeam.h"
 #include "entity/Weapon.h"
 #include "math/common.h"
@@ -22,7 +23,7 @@ struct PlayerState {
     RingQueue<PlayerUpdate,300> position_history;
 
     // 生命
-    float health = 100;
+    float health = Config::player::MAX_HEALTH;
     bool alive = true;
     ClientID killer;
     struct ShotRecord {

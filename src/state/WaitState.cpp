@@ -61,7 +61,7 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
     roomCtx.players_just_joined.clear();
 
     // 人数已满，进入 Warmup
-    if (roomCtx.getReadyCount() == RoomContext::TARGET_PLAYERS) {
+    if (roomCtx.getReadyCount() == Config::room::TARGET_PLAYERS) {
 
         controller->ChangeState(std::make_unique<WarmupState>());
 

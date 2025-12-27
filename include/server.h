@@ -24,8 +24,6 @@ public:
     void playerSync();
 
     size_t getTick() const;
-
-    static constexpr size_t MAX_PER_TICK_PACKET_PROCESS = 1024;
 private:
     Server() = default;
     ~Server() = default;

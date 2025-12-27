@@ -50,8 +50,7 @@ void Server::run() {
     matchController.ChangeState(std::make_unique<WaitState>());
     spdlog::info("房间已创建，等待玩家加入...");
 
-    constexpr float TPS = 60.0f; // 60 ticks per second
-    constexpr auto delta_time = std::chrono::duration<float, std::chrono::milliseconds::period>(1000.0 / TPS);
+    constexpr auto delta_time = std::chrono::duration<float, std::chrono::milliseconds::period>(1000.0 / Config::server::TPS);
     const auto step = std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
     auto nextTick = std::chrono::high_resolution_clock::now();
 
@@ -62,7 +61,7 @@ void Server::run() {
         int pkt_count = 0;
         //处理数据包
         while (network.popPacket(pkt)) {
-            if (pkt_count > Server::MAX_PER_TICK_PACKET_PROCESS) {
+            if (pkt_count > Config::server::MAX_PER_TICK_PACKET_PROCESS) {
                 spdlog::warn("本帧处理数据包过多，可能出现死循环，跳过本tick，并清空数据包队列");
                 while (network.popPacket(pkt)){}
                 break;

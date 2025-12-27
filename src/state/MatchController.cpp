@@ -121,7 +121,7 @@ void MatchController::resetRound() {
 }
 
 uint16_t MatchController::checkMatchWin() {
-    int max_rounds = RoomContext::MAX_ROUNDS;
+    int max_rounds = Config::room::MAX_ROUNDS;
     if (max_rounds % 2 != 0) {
         spdlog::error("Max rounds must be even");
     }

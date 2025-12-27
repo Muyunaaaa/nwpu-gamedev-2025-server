@@ -18,8 +18,8 @@ void myu::NetWork::init() {
     }
     host = enet_host_create(
         &address,
-        MAX_CLIENTS,
-        MAX_EACH_CLIENT_CHANNELS,
+        Config::network::MAX_CLIENTS,
+        Config::network::MAX_EACH_CLIENT_CHANNELS,
         0,
         0
     );

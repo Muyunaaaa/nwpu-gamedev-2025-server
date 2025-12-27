@@ -19,7 +19,7 @@ void HandlePacket::handlePlayerReady(ClientID client_id, const myu::net::PlayerI
 
     auto it = room.players.find(client_id);
     if (it == room.players.end()) {
-        if (RoomContext::getInstance().getReadyCount() == RoomContext::TARGET_PLAYERS) {
+        if (RoomContext::getInstance().getReadyCount() == Config::room::TARGET_PLAYERS) {
             spdlog::warn("房间已满，拒绝新玩家 {} (ID: {}) 加入对局", player_name, client_id);
             return;
         }
