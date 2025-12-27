@@ -1,6 +1,7 @@
 #include "core/HandlePacket.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "core/PurchaseSystem.h"
 #include "protocol/receiveGamingPacket_generated.h"
 #include "state/MatchController.h"
@@ -48,7 +49,10 @@ void HandlePacket::handleFire(ClientID id, const myu::net::FirePacket *msg) {
     if (myu::NetWork::fire_packet_sequence_max > msg->sequence()) {
         return;
     }
-    myu::NetWork::fire_packet_sequence_max = msg->sequence();
+    myu::NetWork::fire_packet_sequence_max =
+            myu::NetWork::fire_packet_sequence_max < msg->sequence()
+                ? msg->sequence()
+                : myu::NetWork::fire_packet_sequence_max;
     /*调用计算函数进行计算更新玩家状态*/
     //parse
     //calculate
@@ -59,7 +63,10 @@ void HandlePacket::handleMove(ClientID, const myu::net::MovePacket *msg) {
     if (myu::NetWork::move_packet_sequence_max > msg->sequence()) {
         return;
     }
-    myu::NetWork::move_packet_sequence_max = msg->sequence();
+    myu::NetWork::move_packet_sequence_max =
+            myu::NetWork::move_packet_sequence_max < msg->sequence()
+                ? msg->sequence()
+                : myu::NetWork::move_packet_sequence_max;
     //调用计算函数计算位置信息放入环形队列
 }
 
@@ -81,6 +88,7 @@ void HandlePacket::handlePlant(ClientID id, const myu::net::PlantBombEvent *msg)
     }
     //这里哪怕客户端误发了安放炸弹请求，比如说在非交火阶段发安放炸弹请求，状态机进入交火状态会清空炸弹安放状态
     MatchController::Instance().plantC4(parseNetBombSiteToBombSite(msg->bombSite()));
+    GameContext::Instance().addPlantAndReward(id);
     spdlog::info("炸弹被安放");
     //发送消息
     uint16_t bomb_site = parseToNetBombSite(MatchController::Instance().c4_plant_site);
@@ -105,11 +113,18 @@ void HandlePacket::handlePlant(ClientID id, const myu::net::PlantBombEvent *msg)
         Server::instance().getTick(),
         myu::time::now_ms()
     );
+
+    auto eventWrapper = moe::net::CreateGameEvent(
+            fbb,
+            moe::net::EventData::EventData_BombPlantedEvent,
+            event.Union()
+        );
+
     auto _msg = moe::net::CreateReceivedNetMessage(
         fbb,
         header,
         moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-        event.Union()
+        eventWrapper.Union()
     );
     fbb.Finish(_msg);
     SendPacket bomb_plant_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
@@ -121,6 +136,7 @@ void HandlePacket::handleDefuse(ClientID id, const myu::net::DefuseBombEvent *ms
         return;
     }
     MatchController::Instance().defuseC4();
+    GameContext::Instance().addDefuseAndReward(id);
     spdlog::info("炸弹被拆除");
     //这里哪怕客户端误发了拆弹请求，比如说在非交火阶段发拆弹请求，状态机进入交火状态会清空炸弹安放状态
     //发送消息
@@ -137,11 +153,17 @@ void HandlePacket::handleDefuse(ClientID id, const myu::net::DefuseBombEvent *ms
         myu::time::now_ms()
     );
 
+    auto eventWrapper = moe::net::CreateGameEvent(
+            fbb,
+            moe::net::EventData::EventData_BombDefusedEvent,
+            event.Union()
+        );
+
     auto _msg = moe::net::CreateReceivedNetMessage(
         fbb,
         header,
         moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-        event.Union()
+        eventWrapper.Union()
     );
     fbb.Finish(_msg);
     SendPacket bomb_defused_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);

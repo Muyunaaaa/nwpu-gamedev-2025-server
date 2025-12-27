@@ -129,6 +129,8 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
 
 void RoundState::OnExit(MatchController *controller) {
     spdlog::info("交火阶段结束，第{}回合结束",controller->currentRound);
+    GameContext::Instance().flushShotRecords();
+    GameContext::Instance().resetARound();
     controller->roundEnd();
     controller->resetRound();
     controller->currentRound++;

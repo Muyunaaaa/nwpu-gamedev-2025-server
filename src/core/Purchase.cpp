@@ -6,7 +6,6 @@
 bool PurchaseSystem::processPurchase(ClientID client, Weapon weapon) {
     //先判断是主武器还是副武器，检查对应武器是否已有，已有则覆盖
     //根据client id获取玩家金钱
-    //FIXME:MELECK
     PlayerState *state = GameContext::Instance().GetPlayer(client);
     if (!state) {
         spdlog::error("PurchaseSystem::processPurchase: Player not found for client {}", client);

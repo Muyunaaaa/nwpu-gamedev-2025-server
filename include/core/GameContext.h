@@ -23,10 +23,8 @@ public:
     GameContext(const GameContext&) = delete;
     GameContext& operator=(const GameContext&) = delete;
 
-    void InitFromRoom();   // 从 RoomContext 拷贝
-    //每一局重置状态
+    void InitFromRoom();   //check
     void playerShotted(ClientID Attacker,ClientID Victim,float damage);
-    // void setPlayerAlive(ClientID playerID);
     void addPositionHistory(ClientID playerID, const myu::math::Vec3& position);
     void addPlantAndReward(ClientID playerID);
     void addDefuseAndReward(ClientID playerID);

@@ -25,7 +25,6 @@ Optional<Vector<uint8_t>> DefaultFileReader::readFile(
     buffer.resize(outFileSize);
 
     if (!file.read(reinterpret_cast<char*>(buffer.data()), outFileSize)) {
-        //todo
         //::error("Failed to read file: {}", filename);
         return std::nullopt;
     }

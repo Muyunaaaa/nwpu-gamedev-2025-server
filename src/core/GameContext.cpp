@@ -1,5 +1,7 @@
 #include "core/GameContext.h"
 
+#include <Core/FileWriter.hpp>
+
 #include "Server.h"
 #include "state/RoomContext.h"
 #include "entity/PlayerState.h"
@@ -122,12 +124,9 @@ void GameContext::addPositionHistory(ClientID playerID, const myu::math::Vec3 &p
 }
 
 void GameContext::resetARound() {
-    //TODO:状态机要调用游戏上下文工具函数
-    //TODO:保证每个回合将玩家位置重置
     for (auto &[id, state]: players_) {
         state.alive = true;
         state.health = 100;
-        //TODO:检测胜负方给钱，但要保证调用在MatchController里的resetRound之前，才能判断胜负方
         if (MatchController::Instance().winner_team == state.team) {
             addMoneyToPlayer(id, MatchController::WIN_PRIZE);
         } else {
@@ -153,7 +152,6 @@ void GameContext::resetARound() {
             if (state.primary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE))
                 && state.secondary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::USP))
             ) {
-                //TODO:修改其他所有消息嵌套错误
                 spdlog::info("玩家{}回合开始时装备为默认装备，广播购买事件", state.name);
                 event = moe::net::CreatePurchaseEvent(
                     fbb,
@@ -166,7 +164,6 @@ void GameContext::resetARound() {
             if (state.primary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::WEAPON_NONE))
                 && state.secondary == std::make_unique<WeaponInstance>(CreateWeapon(Weapon::GLOCK))
             ) {
-                //TODO:修改其他所有消息嵌套错误
                 spdlog::info("玩家{}回合开始时装备为默认装备，广播购买事件", state.name);
                 event = moe::net::CreatePurchaseEvent(
                     fbb,
@@ -225,7 +222,25 @@ int GameContext::countLifes(PlayerTeam team) {
 }
 
 void GameContext::flushShotRecords() {
-    for (auto &[id, state]: players_) {
+    std::string filepath = "data/shot_records.txt";
+
+    std::string content;
+    for (auto &[id, state] : players_) {
+        content += std::format("Player ID: {}\n", id);
+        for (const auto& record : state.shot_records) {
+            // 假设 record 有一些可以打印的属性
+            content += std::format("  - Shot at: [x,y,z...]\n");
+        }
+    }
+
+    if (!content.empty()) {
+        bool success = moe::FileWriter::writeToFile(filepath, content);
+        if (!success) {
+            spdlog::warn("无法写入射击记录到文件 {}", filepath);
+        }
+    }
+
+    for (auto &[id, state] : players_) {
         state.damage_records.clear();
         state.shot_records.clear();
     }

@@ -138,7 +138,11 @@ uint16_t MatchController::checkMatchWin() {
 }
 
 bool MatchController::plant_able() const {
-    //TODO:需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    //TODO:后续需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    if (c4_plant_site == PlantSite::None) {
+        spdlog::info("玩家试图在无效位置安放炸弹");
+        return false;
+    }
     //是否在交火阶段
     if (dynamic_cast<RoundState*>(currentState.get()) == nullptr) {
         return false;
@@ -153,7 +157,7 @@ bool MatchController::plant_able() const {
 }
 
 bool MatchController::defuse_able() const {
-    //TODO:需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    //TODO:后续需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
     //是否在交火阶段
     if (dynamic_cast<RoundState*>(currentState.get()) == nullptr) {
         return false;

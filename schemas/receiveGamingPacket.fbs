@@ -41,8 +41,8 @@ table MovePacket {
   move_y: float;
   move_z: float;
 
-  yaw: float;
-  pitch: float;
+  yaw_radian: float;
+  pitch_radian: float;
 
   jump: bool;//reserved
   crouch: bool;//reserved
