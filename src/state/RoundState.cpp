@@ -8,6 +8,7 @@
 #include "state/MatchController.h"
 #include "state/MatchEndState.h"
 #include "state/WaitState.h"
+#include "state/WarmupState.h"
 #include "util/getTime.h"
 
 //工具函数
@@ -40,7 +41,7 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     controller->BroadcastMessage(fbb.GetBufferSpan());
     if (controller->checkMatchWin() == 0) {
         //还未结束
-        controller->ChangeState(std::make_unique<WaitState>());
+        controller->ChangeState(std::make_unique<WarmupState>());
     }else if (controller->checkMatchWin() == 1) {
         //CT胜利
         controller->ChangeState(std::make_unique<MatchEndState>(1));

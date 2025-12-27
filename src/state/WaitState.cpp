@@ -142,8 +142,6 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
 
             fbb.Finish(msg);
 
-
-            //TODO:解决临时id和clientID的对应，这里先不考虑重连的问题
             ClientID client_id = static_cast<ClientID>(self.temp_id);
             SendPacket send_packet(
                 client_id,
@@ -159,4 +157,5 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
 
 void WaitState::OnExit(MatchController *controller) {
     //spdlog::warn("等待阶段不应该从外部退出");
+    //TODO:遍历所有主武器为空，副武器为格洛克的玩家，给客户端发一个purchaseEvent
 }
