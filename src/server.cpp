@@ -47,21 +47,25 @@ void Server::run() {
     spdlog::info("Server main loop started");
     auto &network = myu::NetWork::getInstance();
     auto &matchController = MatchController::Instance();
-    //FIXME:MEMLEAK
     matchController.ChangeState(std::make_unique<WaitState>());
     spdlog::info("房间已创建，等待玩家加入...");
 
-    constexpr float TPS = 60.0f; // 60 ticks per second
-    constexpr auto delta_time = std::chrono::duration<float, std::chrono::milliseconds::period>(1000.0 / TPS);
+    constexpr auto delta_time = std::chrono::duration<float, std::chrono::milliseconds::period>(1000.0 / Config::server::TPS);
     const auto step = std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
     auto nextTick = std::chrono::high_resolution_clock::now();
 
     auto _lastT = std::chrono::high_resolution_clock::now();
+
     while (running) {
         RecvPacket pkt;
-        //TODO:这里要防止一直循环，需要根据实际情况限制获取数据包数量
+        int pkt_count = 0;
         //处理数据包
         while (network.popPacket(pkt)) {
+            if (pkt_count > Config::server::MAX_PER_TICK_PACKET_PROCESS) {
+                spdlog::warn("本帧处理数据包过多，可能出现死循环，跳过本tick，并清空数据包队列");
+                while (network.popPacket(pkt)){}
+                break;
+            }
             switch (pkt.type) {
                 case NetPacketType::Connect:
                     onClientConnect(pkt.client);
@@ -75,6 +79,7 @@ void Server::run() {
                     onClientPacket(pkt);
                     break;
             }
+            pkt_count++;
         }
 
         auto _now = std::chrono::high_resolution_clock::now();
@@ -104,7 +109,6 @@ void Server::run() {
             }
 
             // extremely large lag compensation
-            //todo: 时间漂移以后deltatime会改变，不再是16.7ms
             if (remaining < -step * 5) {
                 nextTick = now;
                 break;

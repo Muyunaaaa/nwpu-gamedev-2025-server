@@ -25,9 +25,6 @@ private:
         spdlog::info("RoomContext Initialized");
     }
 public:
-    static constexpr int TARGET_PLAYERS = 2;
-    static constexpr int MAX_ROUNDS = 2;
-
     std::unordered_map<ClientID, PlayerInfo> players;
     std::vector<ClientID> players_just_joined;
 

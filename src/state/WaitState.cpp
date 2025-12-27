@@ -61,9 +61,8 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
     roomCtx.players_just_joined.clear();
 
     // 人数已满，进入 Warmup
-    if (roomCtx.getReadyCount() == RoomContext::TARGET_PLAYERS) {
+    if (roomCtx.getReadyCount() == Config::room::TARGET_PLAYERS) {
 
-        GameContext::Instance().InitFromRoom();
         controller->ChangeState(std::make_unique<WarmupState>());
 
         struct PlayerSnapshot {
@@ -141,8 +140,6 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
 
             fbb.Finish(msg);
 
-
-            //TODO:解决临时id和clientID的对应，这里先不考虑重连的问题
             ClientID client_id = static_cast<ClientID>(self.temp_id);
             SendPacket send_packet(
                 client_id,
@@ -157,5 +154,7 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
 }
 
 void WaitState::OnExit(MatchController *controller) {
-    //spdlog::warn("等待阶段不应该从外部退出");
+    GameContext::Instance().InitFromRoom();
+    GameContext::Instance().resetARound();
+    spdlog::info("成功将已准备玩家信息拷贝到 GameContext");
 }

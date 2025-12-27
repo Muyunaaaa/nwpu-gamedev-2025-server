@@ -2,11 +2,11 @@
 #include <cstdint>
 #include <memory>
 #include <span>
-#include <string>
 
 #include "RoomContext.h"
 #include "game/PlantSite.h"
 #include "game/PlayerTeam.h"
+#include "math/common.h"
 #include "state/GameState.h"
 
 /*
@@ -37,19 +37,6 @@ public:
     using MilliSecDuration =
         std::chrono::duration<float, std::chrono::milliseconds::period>;
 
-    //TODO:改为配置文件加载
-    static constexpr MilliSecDuration PURCHASE_TIMER =
-        MilliSecDuration(10.0f * 1000.0f);
-
-    static constexpr MilliSecDuration ROUND_TIMER =
-        MilliSecDuration(120.0f * 1000.0f);
-
-    static constexpr MilliSecDuration C4_TIMER =
-        MilliSecDuration(45.0f * 1000.0f);
-
-    static constexpr MilliSecDuration END_UNTIL_SERVER_CLOSE_TIMER =
-        MilliSecDuration(15.0f * 1000.0f);
-
     //比赛状态
     int currentRound = 1;
     int ct_win_round = 0;
@@ -60,10 +47,6 @@ public:
     bool round_running = false;
     bool c4_defused = false;
     PlantSite c4_plant_site = PlantSite::None;
-
-    int players_alive = 0;
-    int ct_alive = 0;
-    int t_alive = 0;
 
     PlayerTeam winner_team = PlayerTeam::NONE;
 
@@ -84,8 +67,6 @@ public:
     void tWin();
     void initRound();
     void resetRound();
-    void killACt();
-    void killAT();
 
     // enable
     void enableFire();

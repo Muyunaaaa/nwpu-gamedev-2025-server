@@ -6,6 +6,7 @@
 #include "state/RoundState.h"
 #include "state/WaitState.h"
 
+
 void MatchController::ChangeState(std::unique_ptr<GameState> newState) {
     if (currentState) {
         currentState->OnExit(this);
@@ -104,9 +105,6 @@ void MatchController::tWin() {
 }
 
 void MatchController::initRound() {
-    players_alive = 4;
-    ct_alive = 2;
-    t_alive = 2;
     c4_plant_site = PlantSite::None;
     c4_defused = false;
     c4_planted = false;
@@ -115,9 +113,6 @@ void MatchController::initRound() {
 }
 
 void MatchController::resetRound() {
-    players_alive = 4;
-    ct_alive = 2;
-    t_alive = 2;
     c4_plant_site = PlantSite::None;
     c4_defused = false;
     c4_planted = false;
@@ -125,20 +120,8 @@ void MatchController::resetRound() {
     winner_team = PlayerTeam::NONE;
 }
 
-void MatchController::killACt() {
-    if (ct_alive > 0) {
-        ct_alive--;
-    }
-}
-
-void MatchController::killAT() {
-    if (t_alive > 0) {
-        t_alive--;
-    }
-}
-
 uint16_t MatchController::checkMatchWin() {
-    int max_rounds = RoomContext::MAX_ROUNDS;
+    int max_rounds = Config::room::MAX_ROUNDS;
     if (max_rounds % 2 != 0) {
         spdlog::error("Max rounds must be even");
     }
@@ -156,7 +139,11 @@ uint16_t MatchController::checkMatchWin() {
 }
 
 bool MatchController::plant_able() const {
-    //TODO:需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    //TODO:后续需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    if (c4_plant_site == PlantSite::None) {
+        spdlog::info("玩家试图在无效位置安放炸弹");
+        return false;
+    }
     //是否在交火阶段
     if (dynamic_cast<RoundState*>(currentState.get()) == nullptr) {
         return false;
@@ -171,7 +158,7 @@ bool MatchController::plant_able() const {
 }
 
 bool MatchController::defuse_able() const {
-    //TODO:需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
+    //TODO:后续需要判断炸弹安放的位置，但我们这里先不管,我们这里认为安放炸弹的位置合理
     //是否在交火阶段
     if (dynamic_cast<RoundState*>(currentState.get()) == nullptr) {
         return false;

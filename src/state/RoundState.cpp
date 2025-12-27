@@ -1,6 +1,7 @@
 #include "state/RoundState.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "flatbuffers/flatbuffer_builder.h"
 #include "protocol/Events_generated.h"
 #include "protocol/Main_generated.h"
@@ -8,6 +9,7 @@
 #include "state/MatchController.h"
 #include "state/MatchEndState.h"
 #include "state/WaitState.h"
+#include "state/WarmupState.h"
 #include "util/getTime.h"
 
 //工具函数
@@ -40,7 +42,7 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     controller->BroadcastMessage(fbb.GetBufferSpan());
     if (controller->checkMatchWin() == 0) {
         //还未结束
-        controller->ChangeState(std::make_unique<WaitState>());
+        controller->ChangeState(std::make_unique<WarmupState>());
     }else if (controller->checkMatchWin() == 1) {
         //CT胜利
         controller->ChangeState(std::make_unique<MatchEndState>(1));
@@ -58,7 +60,7 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
 
 //主要实现
 void RoundState::OnEnter(MatchController *controller) {
-    timerMs = MatchController::ROUND_TIMER.count();
+    timerMs = Config::match::ROUND_TIMER.count();
     flatbuffers::FlatBufferBuilder fbb;
     uint16_t round_number = controller->currentRound;
     auto round_start_event = moe::net::CreateRoundPurchaseStartedEvent(fbb, round_number);
@@ -94,19 +96,19 @@ void RoundState::OnEnter(MatchController *controller) {
 void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
         spdlog::info("c4已安放，炸弹计时器开始");
-        timerMs = MatchController::C4_TIMER.count();
+        timerMs = Config::match::C4_TIMER.count();
     }
     if (controller->c4_defused) {
         spdlog::info("C4已拆除，反恐精英获胜");
         controller->ctWin();
         getWinnerAndBroadcastAndChangeState(controller);
     }
-    if (controller->ct_alive == 0) {
+    if (GameContext::Instance().countLifes(PlayerTeam::T) == 0) {
         controller->tWin();
         spdlog::info("反恐精英全部阵亡，恐怖分子获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
-    if (controller->t_alive == 0) {
+    if (GameContext::Instance().countLifes(PlayerTeam::CT) == 0) {
         controller->ctWin();
         spdlog::info("恐怖分子全部阵亡，反恐精英获胜");
         getWinnerAndBroadcastAndChangeState(controller);
@@ -127,6 +129,8 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
 
 void RoundState::OnExit(MatchController *controller) {
     spdlog::info("交火阶段结束，第{}回合结束",controller->currentRound);
+    GameContext::Instance().flushShotRecords();
+    GameContext::Instance().resetARound();
     controller->roundEnd();
     controller->resetRound();
     controller->currentRound++;

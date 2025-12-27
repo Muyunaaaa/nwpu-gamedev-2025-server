@@ -7,6 +7,7 @@
 
 #include "network/NetPacket.h"
 #include "concurrentqueue.h"
+#include "config.h"
 
 namespace myu {
     struct NetWork {
@@ -28,11 +29,8 @@ namespace myu {
             return instance;
         }
 
-        // --- 以下是原本的成员变量和方法 ---
-        static constexpr int SERVER_PORT = 1234;
-        static constexpr int SERVER_HOST = ENET_HOST_ANY;
-        static constexpr int MAX_CLIENTS = 32;
-        static constexpr int MAX_EACH_CLIENT_CHANNELS = 2;
+        static int move_packet_sequence_max;
+        static int fire_packet_sequence_max;
 
         moodycamel::ConcurrentQueue<RecvPacket> recv_packet_queue;
         moodycamel::ConcurrentQueue<SendPacket> send_packet_queue;
@@ -43,8 +41,8 @@ namespace myu {
         ClientID nextClientId = 1;
 
         ENetAddress address = {
-            .host = SERVER_HOST,
-            .port = SERVER_PORT
+            .host = Config::network::SERVER_HOST,
+            .port = Config::network::SERVER_PORT
         };
         ENetHost *host = nullptr;
 

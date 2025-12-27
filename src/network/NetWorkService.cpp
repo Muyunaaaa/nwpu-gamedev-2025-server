@@ -8,6 +8,8 @@
 #include "network/NetWorkService.h"
 #include "spdlog/spdlog.h"
 
+int myu::NetWork::move_packet_sequence_max = -1;
+int myu::NetWork::fire_packet_sequence_max = -1;
 
 void myu::NetWork::init() {
     if (enet_initialize() != 0) {
@@ -16,8 +18,8 @@ void myu::NetWork::init() {
     }
     host = enet_host_create(
         &address,
-        MAX_CLIENTS,
-        MAX_EACH_CLIENT_CHANNELS,
+        Config::network::MAX_CLIENTS,
+        Config::network::MAX_EACH_CLIENT_CHANNELS,
         0,
         0
     );

@@ -3,6 +3,7 @@
 #include "state/WarmupState.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "protocol/Events_generated.h"
 #include "protocol/Main_generated.h"
 #include "spdlog/spdlog.h"
@@ -12,29 +13,36 @@
 
 
 void WarmupState::OnEnter(MatchController *ctrl) {
-    timerMs = MatchController::PURCHASE_TIMER.count();
+    timerMs = Config::match::PURCHASE_TIMER.count();
+    for (auto& player : GameContext::Instance().Players()) {
+        flatbuffers::FlatBufferBuilder fbb;
+        uint16_t round_number = ctrl->currentRound;
+        auto purchase_event = moe::net::CreateRoundPurchaseStartedEvent(
+            fbb,
+            round_number,
+            player.second.money
+            );
+        auto event = moe::net::CreateGameEvent(
+            fbb,
+            moe::net::EventData::EventData_RoundPurchaseStartedEvent,
+            purchase_event.Union()
+        );
+        auto header = moe::net::CreateReceivedHeader(
+            fbb,
+            Server::instance().getTick(),
+            myu::time::now_ms()
+        );
+        auto msg = moe::net::CreateReceivedNetMessage(
+            fbb,
+            header,
+            moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+            event.Union()
+        );
+        fbb.Finish(msg);
+        SendPacket packet = SendPacket(player.first, CH_RELIABLE, fbb.GetBufferSpan(), true);
+        myu::NetWork::getInstance().pushPacket(packet);
+    }
 
-    flatbuffers::FlatBufferBuilder fbb;
-    uint16_t round_number = ctrl->currentRound;
-    auto purchase_event = moe::net::CreateRoundPurchaseStartedEvent(fbb, round_number);
-    auto event = moe::net::CreateGameEvent(
-        fbb,
-        moe::net::EventData::EventData_RoundPurchaseStartedEvent,
-        purchase_event.Union()
-    );
-    auto header = moe::net::CreateReceivedHeader(
-        fbb,
-        Server::instance().getTick(),
-        myu::time::now_ms()
-    );
-    auto msg = moe::net::CreateReceivedNetMessage(
-        fbb,
-        header,
-        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-        event.Union()
-    );
-    fbb.Finish(msg);
-    ctrl->BroadcastMessage(fbb.GetBufferSpan());
     spdlog::info("第{}局",ctrl->currentRound);
     spdlog::info("游戏开始，进入购买阶段(10s)");
     ctrl->enablePurchase();

@@ -1,5 +1,6 @@
 #include "state/MatchEndState.h"
 
+#include "config.h"
 #include "Server.h"
 #include "core/GameContext.h"
 #include "protocol/Main_generated.h"
@@ -7,7 +8,7 @@
 
 void MatchEndState::OnEnter(MatchController *controller) {
     //校验是否应该在该阶段
-    timerMs = MatchController::END_UNTIL_SERVER_CLOSE_TIMER.count();
+    timerMs = Config::match::END_UNTIL_SERVER_CLOSE_TIMER.count();
     GameContext::Instance().Reset();
     moe::net::PlayerTeam winner_team;
     switch (winner) {

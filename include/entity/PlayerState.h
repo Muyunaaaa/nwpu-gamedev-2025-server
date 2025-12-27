@@ -3,9 +3,12 @@
 #include <string>
 #include <glm/vec3.hpp>
 
+#include "config.h"
 #include "game/PlayerTeam.h"
 #include "entity/Weapon.h"
+#include "math/common.h"
 #include "network/NetPacket.h"
+#include "util/RingQueue.h"
 
 struct PlayerState {
     // 身份
@@ -14,23 +17,34 @@ struct PlayerState {
     PlayerTeam team;
 
     // 位置 & 物理
-    glm::vec3 position{0, 0, 0};
-    glm::vec3 velocity{0, 0, 0};
-    bool on_ground = false;
+    struct PlayerUpdate {
+        myu::math::Vec3 position;
+    };
+    RingQueue<PlayerUpdate,300> position_history;
 
     // 生命
-    int health = 100;
+    float health = Config::player::MAX_HEALTH;
     bool alive = true;
+    ClientID killer;
+    struct ShotRecord {
+        ClientID attacker;
+        ClientID victim;
+        float damage;
+    };
+    std::vector<ShotRecord> shot_records;
+    std::vector<ShotRecord> damage_records;
 
     // 拥有武器
     std::unique_ptr<WeaponInstance> primary;
     std::unique_ptr<WeaponInstance> secondary;
 
     //持有武器
-    std::unique_ptr<WeaponInstance> current_weapon;
+    WeaponSlot weapon_slot;
 
     // 经济 & 战绩
     int money = 800;
     uint32_t kills = 0;
     uint32_t deaths = 0;
+    uint32_t plants = 0;
+    uint32_t defuse = 0;
 };

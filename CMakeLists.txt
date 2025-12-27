@@ -22,7 +22,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
     add_compile_options(/W4 /utf-8)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic)
+    # add_compile_options(-Wall -Wextra -Wpedantic)
+    # allow warnings or joltphysics will not compile
 endif()
 
 # ==============================
@@ -47,6 +48,11 @@ add_subdirectory(vendors/flatbuffers)
 
 add_subdirectory(vendors/concurrentqueue)
 
+add_subdirectory(vendors/JoltPhysics/Build)
+
+add_subdirectory(vendors/tomlplusplus)
+add_subdirectory(vendors/tinygltf)
+
 # spdlog（header-only 或 static）
 set(SPDLOG_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(SPDLOG_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -68,6 +74,9 @@ add_executable(server)
 file(GLOB_RECURSE SERVER_SOURCES
         src/*.cpp
         include/*.h
+        shared/src/*.cpp
+        shared/include/*.h
+        config/*.h
 )
 
 target_sources(server PRIVATE ${SERVER_SOURCES})
@@ -82,6 +91,10 @@ target_include_directories(server
         ${PROJECT_SOURCE_DIR}/generated
         ${PROJECT_SOURCE_DIR}/vendors/enet/include
         ${PROJECT_SOURCE_DIR}/vendors/concurrentqueue
+        ${PROJECT_SOURCE_DIR}/shared/include
+        ${PROJECT_SOURCE_DIR}/vendors/JoltPhysics
+        ${PROJECT_SOURCE_DIR}/vendors/tomlplusplus/include
+        ${PROJECT_SOURCE_DIR}/config
 )
 
 # ==============================
@@ -94,6 +107,9 @@ target_link_libraries(server
         glm::glm
         nlohmann_json::nlohmann_json
         spdlog::spdlog_header_only
+        Jolt
+        tomlplusplus::tomlplusplus
+        tinygltf
 )
 
 # ==============================

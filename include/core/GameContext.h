@@ -10,6 +10,10 @@ private:
         spdlog::info("GameContext Initialized");
     }
 
+    void setPlayerDied(ClientID playerID);
+    void addMoneyToPlayer(ClientID playerID, int amount);
+    void addKillAndReward(ClientID playerID);
+    void addDeath(ClientID playerID);
 public:
     static GameContext& Instance() {
         static GameContext instance;
@@ -19,7 +23,16 @@ public:
     GameContext(const GameContext&) = delete;
     GameContext& operator=(const GameContext&) = delete;
 
-    void InitFromRoom();   // 从 RoomContext 拷贝
+    void InitFromRoom();   //check
+    void playerShotted(ClientID Attacker,ClientID Victim,float damage);
+    void addPositionHistory(ClientID playerID, const myu::math::Vec3& position);
+    void addPlantAndReward(ClientID playerID);
+    void addDefuseAndReward(ClientID playerID);
+    void flushShotRecords();
+    int countLifes();
+    int countLifes(PlayerTeam team);
+
+    void resetARound();
     void Reset();          // 游戏结束
 
     PlayerState* GetPlayer(ClientID id);

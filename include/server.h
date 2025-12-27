@@ -24,7 +24,6 @@ public:
     void playerSync();
 
     size_t getTick() const;
-
 private:
     Server() = default;
     ~Server() = default;
@@ -33,7 +32,7 @@ private:
     Server(Server&&) = delete;
     Server& operator=(Server&&) = delete;
 
-private:
+
     std::atomic<bool> running{false};
     std::atomic<size_t> tick{0};
 };
