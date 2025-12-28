@@ -6,6 +6,7 @@
 #include "math/common.h"
 #include "network/NetPacket.h"
 
+//每个玩家有一个PhysicsCharacterController实例，负责处理玩家的物理行为
 struct PhysicsCharacterController {
 private:
     JPH::Ref<JPH::CharacterVirtual> m_character;
@@ -18,6 +19,10 @@ public:
     void destroyCharacter();
 
     void updateCharacterPhysics(float deltaTime, const InputIntent &intent);
+
+    auto getCharacter() const {
+        return m_character;
+    }
 
     PhysicsCharacterController(ClientID id): m_clientID(id) {}
 };

@@ -46,28 +46,54 @@ void HandlePacket::handlePlayerReady(ClientID client_id, const myu::net::PlayerI
 }
 
 void HandlePacket::handleFire(ClientID id, const myu::net::FirePacket *msg) {
-    if (myu::NetWork::fire_packet_sequence_max > msg->sequence()) {
-        return;
-    }
-    myu::NetWork::fire_packet_sequence_max =
-            myu::NetWork::fire_packet_sequence_max < msg->sequence()
-                ? msg->sequence()
-                : myu::NetWork::fire_packet_sequence_max;
-    /*调用计算函数进行计算更新玩家状态*/
-    //parse
-    //calculate
-    //update
+    // if (myu::NetWork::fire_packet_sequence_max > msg->sequence()) {
+    //     return;
+    // }
+    // myu::NetWork::fire_packet_sequence_max =
+    //         myu::NetWork::fire_packet_sequence_max < msg->sequence()
+    //             ? msg->sequence()
+    //             : myu::NetWork::fire_packet_sequence_max;
+    // /*调用计算函数进行计算更新玩家状态*/
+    // //parse
+    // //calculate
+    // //update
 }
 
-void HandlePacket::handleMove(ClientID, const myu::net::MovePacket *msg) {
-    if (myu::NetWork::move_packet_sequence_max > msg->sequence()) {
+void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
+    ClientID client_id = msg->tempId();
+    auto& seq = GameContext::Instance().GetPlayer(client_id)->sequence_number;
+    if (seq > msg->sequence()) {
+        spdlog::error("Received out-of-order MovePacket from Client {}: sequence={}, expected greater than {}",
+                      id,
+                      msg->sequence(),
+                      seq);
         return;
     }
-    myu::NetWork::move_packet_sequence_max =
-            myu::NetWork::move_packet_sequence_max < msg->sequence()
-                ? msg->sequence()
-                : myu::NetWork::move_packet_sequence_max;
+    seq = std::max(seq, msg->sequence());
     //调用计算函数计算位置信息放入环形队列
+    myu::math::Vec3 move_dir = myu::math::Vec3(
+        msg->moveX(),
+        msg->moveY(),
+        msg->moveZ()
+    );
+    float yaw_radian = msg->yawRadian();
+    float pitch_radian = msg->pitchRadian();
+    auto delta_time = std::chrono::duration<float, std::chrono::seconds::period>(1.0 / Config::server::TPS);
+    InputIntent input_interface = InputIntent(
+        move_dir.ToGLMVec3(),
+        yaw_radian,
+        pitch_radian
+    );
+    //TODO:测试成功后注释
+    spdlog::info("Received MovePacket from Client {}: move_dir=({}, {}, {}), yaw={}, pitch={}",
+                 client_id,
+                 move_dir.x, move_dir.y, move_dir.z,
+                 yaw_radian,
+                 pitch_radian);
+    GameContext::Instance().GetPlayer(client_id)->physics_controller->updateCharacterPhysics(
+        delta_time.count(),
+        input_interface
+    );
 }
 
 void HandlePacket::handlePurchase(ClientID id, const myu::net::PurchaseEvent *msg) {
@@ -115,10 +141,10 @@ void HandlePacket::handlePlant(ClientID id, const myu::net::PlantBombEvent *msg)
     );
 
     auto eventWrapper = moe::net::CreateGameEvent(
-            fbb,
-            moe::net::EventData::EventData_BombPlantedEvent,
-            event.Union()
-        );
+        fbb,
+        moe::net::EventData::EventData_BombPlantedEvent,
+        event.Union()
+    );
 
     auto _msg = moe::net::CreateReceivedNetMessage(
         fbb,
@@ -154,10 +180,10 @@ void HandlePacket::handleDefuse(ClientID id, const myu::net::DefuseBombEvent *ms
     );
 
     auto eventWrapper = moe::net::CreateGameEvent(
-            fbb,
-            moe::net::EventData::EventData_BombDefusedEvent,
-            event.Union()
-        );
+        fbb,
+        moe::net::EventData::EventData_BombDefusedEvent,
+        event.Union()
+    );
 
     auto _msg = moe::net::CreateReceivedNetMessage(
         fbb,

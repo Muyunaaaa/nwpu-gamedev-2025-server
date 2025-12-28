@@ -8,6 +8,7 @@
 #include "math/common.h"
 #include "network/NetPacket.h"
 #include "util/RingQueue.h"
+#include "physics/PhysicsCharacterController.h"
 
 struct PlayerState {
     // 身份
@@ -15,8 +16,11 @@ struct PlayerState {
     std::string name;
     PlayerTeam team;
 
+    uint32_t sequence_number = 0;
+
     // 位置 & 物理
     struct PlayerUpdate {
+        uint32_t tick = 0;
         myu::math::Vec3 position;
         myu::math::Vec3 velocity;
         myu::math::Vec3 head;
@@ -38,6 +42,8 @@ struct PlayerState {
     };
     std::vector<ShotRecord> shot_records;
     std::vector<ShotRecord> damage_records;
+
+    std::unique_ptr<PhysicsCharacterController> physics_controller;
 
     // 拥有武器
     std::unique_ptr<WeaponInstance> primary;
@@ -61,5 +67,24 @@ struct PlayerState {
         } else {
             return Weapon::WEAPON_NONE;
         }
+    }
+
+    //TODO:Test
+    const PlayerUpdate* getHistoryAtTick(uint32_t targetTick) const {
+        if (position_history.empty()) return nullptr;
+
+        size_t count = position_history.size();
+        for (int i = static_cast<int>(count) - 1; i >= 0; --i) {
+            const auto& record = position_history[i];
+
+            if (record.tick == targetTick) {
+                return &record;
+            }
+
+            if (record.tick < targetTick) {
+                break;
+            }
+        }
+        return nullptr;
     }
 };

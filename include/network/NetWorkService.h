@@ -29,9 +29,6 @@ namespace myu {
             return instance;
         }
 
-        static int move_packet_sequence_max;
-        static int fire_packet_sequence_max;
-
         moodycamel::ConcurrentQueue<RecvPacket> recv_packet_queue;
         moodycamel::ConcurrentQueue<SendPacket> send_packet_queue;
 

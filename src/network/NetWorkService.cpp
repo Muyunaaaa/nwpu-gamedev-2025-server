@@ -8,9 +8,6 @@
 #include "network/NetWorkService.h"
 #include "spdlog/spdlog.h"
 
-int myu::NetWork::move_packet_sequence_max = -1;
-int myu::NetWork::fire_packet_sequence_max = -1;
-
 void myu::NetWork::init() {
     if (enet_initialize() != 0) {
         spdlog::error("无法初始化 ENet！");

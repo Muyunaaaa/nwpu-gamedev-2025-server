@@ -1,6 +1,7 @@
 #include "physics/PhysicsCharacterController.h"
 
 #include "config.h"
+#include "Server.h"
 #include "core/GameContext.h"
 #include "Jolt/Physics/Collision/Shape/CapsuleShape.h"
 #include "physics/PhysicsEnginee.h"
@@ -131,12 +132,14 @@ void PhysicsCharacterController::updateCharacterPhysics(float deltaTime, const I
     auto real_position = character->GetPosition();
     auto real_vel = character->GetLinearVelocity();
     auto head_rot = intent.getHeadDirection();
+    PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
+        myu::math::Vec3::JPHToMyuVec3(real_position),
+        myu::math::Vec3::JPHToMyuVec3(real_vel),
+        head_rot
+    );
+    update.tick = Server::instance().getTick();
     GameContext::Instance().addPlayerUpdateHistory(
         m_clientID,
-        PlayerState::PlayerUpdate(
-            myu::math::Vec3::JPHToMyuVec3(real_position),
-            myu::math::Vec3::JPHToMyuVec3(real_vel),
-            head_rot
-        )
+        update
     );
 }

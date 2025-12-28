@@ -62,6 +62,9 @@ add_subdirectory(vendors/spdlog)
 file(COPY ${CMAKE_SOURCE_DIR}/config
         DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
+file(COPY ${CMAKE_SOURCE_DIR}/assets
+        DESTINATION ${CMAKE_BINARY_DIR}/bin)
+
 # ==============================
 # 服务器可执行程序
 # ==============================

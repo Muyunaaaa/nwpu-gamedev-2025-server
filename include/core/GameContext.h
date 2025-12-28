@@ -26,7 +26,7 @@ public:
     void InitFromRoom();   //check
     void playerShotted(ClientID Attacker,ClientID Victim,float damage);
     void addPlayerUpdateHistory(ClientID playerID, const PlayerState::PlayerUpdate update);
-    void playerSnyc();//TODO:添加到
+    void playerSnyc();
     void addPlantAndReward(ClientID playerID);
     void addDefuseAndReward(ClientID playerID);
     void flushShotRecords();

@@ -1,4 +1,5 @@
 #pragma once
+#include "glm/vec3.hpp"
 #include "protocol/Main_generated.h"
 #include "Physics/JoltIncludes.hpp"
 
@@ -18,8 +19,14 @@ namespace myu {
             inline moe::net::Vec3 ToMOEVec3() const {
                 return moe::net::Vec3(x, y, z);
             }
+            inline glm::vec3 ToGLMVec3() const {
+                return glm::vec3(x, y, z);
+            }
             inline static myu::math::Vec3 JPHToMyuVec3(const JPH::RVec3& vec){
                 return myu::math::Vec3(vec.GetX(), vec.GetY(), vec.GetZ());
+            }
+            JPH::RVec3 ToJPHVec3() const {
+                return JPH::RVec3(x, y, z);
             }
         };
     }

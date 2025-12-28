@@ -9,11 +9,16 @@
 #include "entity/Weapon.h"
 #include "state/MatchController.h"
 #include "util/getTime.h"
+#include "util/SpawnSets.h"
 
 void GameContext::InitFromRoom() {
     players_.clear();
 
     const auto &room = RoomContext::getInstance();
+
+    auto spawnSets = SpawnUtils::generateRandomSpawnSets();
+    int ct_idx = 0;
+    int t_idx = 0;
 
     for (const auto &[id, info]: room.players) {
         PlayerState ps;
@@ -24,6 +29,20 @@ void GameContext::InitFromRoom() {
         ps.health = 100;
         ps.money = 800;
         ps.weapon_slot = WeaponSlot::SECONDARY;
+
+        myu::math::Vec3 targetPos;
+        if (ps.team == PlayerTeam::CT) {
+            targetPos = spawnSets.ct_spawns[ct_idx++];
+        } else if (ps.team == PlayerTeam::T) {
+            targetPos = spawnSets.t_spawns[t_idx++];
+        }
+
+        ps.physics_controller = std::make_unique<PhysicsCharacterController>(id);
+        ps.physics_controller->createCharacter(targetPos);
+        spdlog::info("Created physics character {}, team {}, spawnpoint {}",
+            id ,
+            toString(ps.team),
+            std::to_string(targetPos.x) + "," + std::to_string(targetPos.y) + "," + std::to_string(targetPos.z));
 
         if (ps.team == PlayerTeam::CT) {
             ps.secondary = CreateWeapon(Weapon::USP);
@@ -48,7 +67,12 @@ const std::unordered_map<ClientID, PlayerState> &GameContext::Players() const {
 
 PlayerState *GameContext::GetPlayer(ClientID id) {
     auto it = players_.find(id);
-    return it == players_.end() ? nullptr : &it->second;
+    if (it != players_.end()) {
+        return &(it->second); // 返回原始对象的地址，允许外部修改
+    }
+
+    spdlog::warn("Attempted to get non-existent player state for ClientID: {}", id);
+    return nullptr;
 }
 
 void GameContext::addDefuseAndReward(ClientID playerID) {
@@ -121,6 +145,10 @@ void GameContext::addPlayerUpdateHistory(ClientID playerID, const PlayerState::P
 }
 
 void GameContext::resetARound() {
+    auto spawnSets = SpawnUtils::generateRandomSpawnSets();
+    int ct_idx = 0;
+    int t_idx = 0;
+
     for (auto &[id, state]: players_) {
         state.alive = true;
         state.health = Config::player::MAX_HEALTH;
@@ -135,20 +163,41 @@ void GameContext::resetARound() {
         state.killer = 0;
         state.weapon_slot = WeaponSlot::SECONDARY;
 
+        myu::math::Vec3 targetPos;
+        if (state.team == PlayerTeam::CT) {
+            targetPos = spawnSets.ct_spawns[ct_idx++];
+        } else if (state.team == PlayerTeam::T) {
+            targetPos = spawnSets.t_spawns[t_idx++];
+        }
+
         if (state.team == PlayerTeam::T) {
-            state.position_history.push(PlayerState::PlayerUpdate(
-                    Config::match::C4_DEFAULT_PLANT_POSITION_T_SIDE,
-                    myu::math::Vec3(0, 0, 0),
-                    Config::match::DEFULAT_T_HEAD_ROTATION
-                )
-            );
+            // PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
+            //                     targetPos,
+            //                     myu::math::Vec3(0, 0, 0),
+            //                     Config::match::DEFULAT_T_HEAD_ROTATION
+            //                 );
+            // update.tick = Server::instance().getTick();
+            // state.position_history.push(update);
+            GameContext::Instance()
+                .GetPlayer(id)
+                ->physics_controller
+                ->getCharacter()
+                ->SetPosition(targetPos.ToJPHVec3());
+
         } else if (state.team == PlayerTeam::CT) {
-            state.position_history.push(PlayerState::PlayerUpdate(
-                    Config::match::C4_DEFAULT_PLANT_POSITION_CT_SIDE,
-                    myu::math::Vec3(0, 0, 0),
-                    Config::match::DEFULAT_CT_HEAD_ROTATION
-                )
-            );
+            // PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
+            //                     targetPos,
+            //                     myu::math::Vec3(0, 0, 0),
+            //                     Config::match::DEFULAT_CT_HEAD_ROTATION
+            //                 );
+            // update.tick = Server::instance().getTick();
+            // state.position_history.push(update);
+
+            GameContext::Instance()
+                .GetPlayer(id)
+                ->physics_controller
+                ->getCharacter()
+                ->SetPosition(targetPos.ToJPHVec3());
         } else {
             spdlog::error("玩家{}无队伍，无法重置位置", state.name);
         }
@@ -267,7 +316,12 @@ void GameContext::playerSnyc() {
         moe::net::Vec3 pos = history.position.ToMOEVec3();
         moe::net::Vec3 vel = history.velocity.ToMOEVec3();
         moe::net::Vec3 head = history.head.ToMOEVec3();
-        //todo:提醒lzm重新编译
+        spdlog::info("同步玩家 {} 位置: pos=({}, {}, {}), vel=({}, {}, {}), head=({}, {}, {})",
+            id,
+            pos.x(), pos.y(), pos.z(),
+            vel.x(), vel.y(), vel.z(),
+            head.x(), head.y(), head.z()
+        );
         auto new_update = moe::net::CreatePlayerUpdate(
             fbb,
             id,

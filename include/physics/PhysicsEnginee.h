@@ -135,6 +135,8 @@ namespace myu {
         JPH::BodyInterface& getBodyInterface() { return m_physicsSystem->GetBodyInterface(); }
         JPH::TempAllocator& getTempAllocator() { return *m_tempAllocator; }
 
+        void RemoveAllBodies();
+
     private:
         PhysicsEngine() = default;
         ~PhysicsEngine() = default;

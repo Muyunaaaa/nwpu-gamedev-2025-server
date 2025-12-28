@@ -15,4 +15,16 @@ struct InputIntent {
         float vz = std::cos(yaw_radian);
         return myu::math::Vec3(vx, 0.0f, vz);
     }
+    InputIntent(
+        const glm::vec3& move_dir,
+        float yaw_rad,
+        float pitch_rad
+    )
+        : dir(move_dir),
+          // jump(jump_request),
+          // crouch(crouch_request),
+          // sprint(sprint_request),
+          yaw_radian(yaw_rad),
+          pitch_radian(pitch_rad)
+    {}
 };

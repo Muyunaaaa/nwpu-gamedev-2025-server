@@ -1,5 +1,8 @@
-//todo:完成物理引擎，能够根据传入的物体状态进行物理计算，返回新的物体状态
 #include "physics/PhysicsEnginee.h"
+
+#include "core/GameContext.h"
+#include "physics/PhysicsMapController.h"
+
 void myu::PhysicsEngine::init() {
     spdlog::info("Initializing physics engine...");
 
@@ -21,38 +24,45 @@ void myu::PhysicsEngine::init() {
     m_objectLayerFilter = std::make_unique<Physics::Details::ObjectLayerFilterImpl>();
     m_tempAllocator = std::make_unique<JPH::TempAllocatorImpl>(1024 * 1024);
     m_jobSystem = std::make_unique<JPH::JobSystemThreadPool>(
-            JPH::cMaxPhysicsJobs,
-            JPH::cMaxPhysicsBarriers);
+        JPH::cMaxPhysicsJobs,
+        JPH::cMaxPhysicsBarriers);
 
     spdlog::info("Initializing physics system...");
     m_physicsSystem = std::make_unique<JPH::PhysicsSystem>();
     m_physicsSystem->Init(
-            MAX_BODIES, NUM_BODY_MUTEXES,
-            MAX_BODY_PAIRS, MAX_CONTACT_CONSTRAINTS,
-            *m_broadPhaseLayerInterface,
-            *m_objectVsBroadPhaseLayerFilter,
-            *m_objectLayerFilter);
+        MAX_BODIES, NUM_BODY_MUTEXES,
+        MAX_BODY_PAIRS, MAX_CONTACT_CONSTRAINTS,
+        *m_broadPhaseLayerInterface,
+        *m_objectVsBroadPhaseLayerFilter,
+        *m_objectLayerFilter);
 
     spdlog::info("Physics system initialized with {} max bodies, {} max body pairs, {} max contact constraints",
                  MAX_BODIES, MAX_BODY_PAIRS, MAX_CONTACT_CONSTRAINTS);
     m_initialized = true;
 
+    spdlog::info("Map loading...");
+    PhysicsMapController::Instance().createMapBody();
     spdlog::info("Physics engine initialized");
-
-    //TODO: 初始化物理世界,载入模型
 }
 
 void myu::PhysicsEngine::destroy() {
-    if (!m_initialized){
+    if (!m_initialized) {
         spdlog::warn("Physics engine not initialized, skipping destroy");
         return;
     }
     spdlog::info("Shutting down physics engine...");
-
+    RemoveAllBodies();
     JPH::UnregisterTypes();
     delete JPH::Factory::sInstance;
     JPH::Factory::sInstance = nullptr;
-
+    PhysicsMapController::Instance().destroyMapBody();
     spdlog::info("Physics engine shut down");
     m_initialized = false;
+}
+
+void myu::PhysicsEngine::RemoveAllBodies() {
+    for (auto &player: GameContext::Instance().Players()) {
+        auto &controller = player.second.physics_controller;
+        controller->destroyCharacter();
+    }
 }

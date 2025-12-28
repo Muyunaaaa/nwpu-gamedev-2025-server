@@ -82,6 +82,16 @@ public:
         size_ = 0;
     }
 
+    T& operator[](size_t logicalIndex) {
+        size_t physicalIndex = (tail_ + logicalIndex) % Capacity;
+        return buffer_[physicalIndex];
+    }
+
+    const T& operator[](size_t logicalIndex) const {
+        size_t physicalIndex = (tail_ + logicalIndex) % Capacity;
+        return buffer_[physicalIndex];
+    }
+
 private:
     void advance() {
         head_ = (head_ + 1) % Capacity;
