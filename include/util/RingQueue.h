@@ -8,7 +8,6 @@
  * - 超出容量时，自动覆盖最旧元素
  * - 非线程安全（适合单线程 / 已加锁 / 单生产者单消费者）
  */
-//TODO:Test!!!
 template <typename T, size_t Capacity>
 class RingQueue {
     static_assert(Capacity > 0, "RingQueue Capacity must be > 0");

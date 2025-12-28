@@ -113,7 +113,6 @@ namespace Config {
         static constexpr float PLAYER_STICK_TO_FLOOR_STEP_DOWN = -0.4f;
         static constexpr float PLAYER_WALK_STAIRS_STEP_UP = 0.4f;
 
-        //todo:CMAKE复制
         static constexpr std::string_view DUST2_ROOT = DUST2_BASE;
         static constexpr std::string_view DUST2_CONFIG = DUST2_BASE "dust2.config";
         static constexpr std::string_view DUST2_GLTF = DUST2_BASE "dust2.glb";
