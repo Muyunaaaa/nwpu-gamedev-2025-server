@@ -1,8 +1,9 @@
 {
-    "Events.fbs": "b92fa24623b021848bccdb0c8efbfc6debef5ce9dedd6f750c34e360933e50dd",
-    "Main.fbs": "b944cbfd468b8f1925673d98d7bd1c469da2223b4c34a61d83a916be26fe506a",
+    "Events.fbs": "99604757f4e431c16aacb165a814acbf9de02af1b34f9d4c0562f1cdc65e6f89",
+    "Main.fbs": "4f32fc2535c6ca0a94678045263ac623d0e1910cb050fc976501323dde1cb550",
     "PlayerInfo.fbs": "892f4c8490735af2d9fb9bf3bfef78ff9c3dd286ea25d7232674157a30f59386",
     "PlayerTeam.fbs": "4f7471fc1d712ce97fc25b3f4aa63aafea690487419ecb52626c4dc9221f753e",
-    "PlayerUpdate.fbs": "e4b98f2af1d3cd6c1014c0a14d64720ae87edfe5718457223a63752c4a6ec561",
-    "receiveGamingPacket.fbs": "1bc0214f4aa3b70d72c52790bdd79d1c7595e37d0c30ba447e509353a00b6cce"
+    "PlayerUpdate.fbs": "e3a7c49ed8da72d28ad882101411b91ed96c0a3faf1780ca4795082f9b7c1543",
+    "receiveGamingPacket.fbs": "1bc0214f4aa3b70d72c52790bdd79d1c7595e37d0c30ba447e509353a00b6cce",
+    "Weapon.fbs": "4ca546015c0c03ebe1e1f583f9bbadfbb95646f55686a7a5a47dac47f68fa2e5"
 }

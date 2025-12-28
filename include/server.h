@@ -21,8 +21,6 @@ public:
     void onClientPacket(const RecvPacket &pkt);
     void dispatchNetMessage(ClientID client, const myu::net::NetMessage *msg);
 
-    void playerSync();
-
     size_t getTick() const;
 private:
     Server() = default;

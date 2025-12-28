@@ -1,3 +1,5 @@
+include "Weapon.fbs";
+
 namespace moe.net;
 
 enum PlayerMotionState : byte {
@@ -20,12 +22,11 @@ table PlayerUpdate {
     head: Vec3;
 
     motion_state: PlayerMotionState;
-    weapon_id: uint16;
+    weapon: Weapon;
 }
 
 table AllPlayerUpdate {
     updates: [PlayerUpdate];
-    my_update: PlayerUpdate;
 }
 
 root_type AllPlayerUpdate;

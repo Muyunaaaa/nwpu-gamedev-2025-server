@@ -7,6 +7,7 @@
 
 #include "protocol/Events_generated.h"
 #include "protocol/receiveGamingPacket_generated.h"
+#include "protocol//Weapon_generated.h"
 
 enum class Weapon{
     WEAPON_NONE = 0,

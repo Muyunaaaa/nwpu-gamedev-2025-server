@@ -15,27 +15,21 @@
 #include "core/HandlePacket.h"
 #include "entity/Weapon.h"
 #include "entity//Weapon.h"
+#include "physics/PhysicsEnginee.h"
 #include "protocol/Main_generated.h"
 #include "util/getTime.h"
 
 void init_logging() {
-    // 1. 初始化线程池：队列大小 8192，后端 1 个工作线程
-    // 队列大小必须是 2 的幂
     spdlog::init_thread_pool(8192, 1);
-
-    // 2. 创建异步 Logger（控制台颜色输出）
     auto logger = spdlog::stdout_color_mt<spdlog::async_factory>("async_logger");
-
-    // 3. 设置为全局默认 Logger（这样你代码里的 spdlog::info 就会走异步了）
     spdlog::set_default_logger(logger);
-
-    // 4. (可选) 设置刷新策略：每 3 秒刷新一次磁盘，或遇到 Warn 级别立即刷新
     spdlog::flush_every(std::chrono::seconds(3));
 }
 
 
 void Server::start() {
     auto &network = myu::NetWork::getInstance();
+    myu::PhysicsEngine::getInstance().init();
     WeaponConfigManager::Instance().LoadFromFile("./config/weapons.json");
     network.init();
     network.startNetworkThread();
@@ -123,6 +117,7 @@ void Server::run() {
 void Server::stop() {
     running = false;
     auto &network = myu::NetWork::getInstance();
+    myu::PhysicsEngine::getInstance().destroy();
     network.stopNetworkThread();
 }
 
@@ -214,41 +209,3 @@ size_t Server::getTick() const {
     return tick;
 }
 
-void Server::playerSync() {
-    //TODO:替换为正确的数据加载逻辑
-    flatbuffers::FlatBufferBuilder fbb;
-
-    moe::net::Vec3 pos{0.0f, 0.0f, 0.0f};
-    moe::net::Vec3 vel{0.0f, 0.0f, 0.0f};
-    moe::net::Vec3 head{0.0f, 0.0f, 0.0f};
-    auto my_update = moe::net::CreatePlayerUpdate(
-        fbb,
-        -1,
-        &pos,
-        &vel,
-        &head,
-        moe::net::PlayerMotionState::PlayerMotionState_NORMAL,
-        -1
-    );
-    auto player_updates = std::vector<flatbuffers::Offset<moe::net::PlayerUpdate> >();
-    player_updates.push_back(my_update);
-    auto event = moe::net::CreateAllPlayerUpdate(
-        fbb,
-        fbb.CreateVector(player_updates),
-        my_update
-    );
-    auto header = moe::net::CreateReceivedHeader(
-        fbb,
-        Server::instance().getTick(),
-        myu::time::now_ms()
-    );
-    auto msg = moe::net::CreateReceivedNetMessage(
-        fbb,
-        header,
-        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_AllPlayerUpdate,
-        event.Union()
-    );
-    fbb.Finish(msg);
-    SendPacket player_update_packet = SendPacket(-1, CH_STATE, fbb.GetBufferSpan(), false);
-    myu::NetWork::getInstance().broadcast(player_update_packet);
-}

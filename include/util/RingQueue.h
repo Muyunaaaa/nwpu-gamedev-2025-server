@@ -8,7 +8,6 @@
  * - 超出容量时，自动覆盖最旧元素
  * - 非线程安全（适合单线程 / 已加锁 / 单生产者单消费者）
  */
-//TODO:Test!!!
 template <typename T, size_t Capacity>
 class RingQueue {
     static_assert(Capacity > 0, "RingQueue Capacity must be > 0");
@@ -80,6 +79,16 @@ public:
         head_ = 0;
         tail_ = 0;
         size_ = 0;
+    }
+
+    T& operator[](size_t logicalIndex) {
+        size_t physicalIndex = (tail_ + logicalIndex) % Capacity;
+        return buffer_[physicalIndex];
+    }
+
+    const T& operator[](size_t logicalIndex) const {
+        size_t physicalIndex = (tail_ + logicalIndex) % Capacity;
+        return buffer_[physicalIndex];
     }
 
 private:
