@@ -25,7 +25,8 @@ public:
 
     void InitFromRoom();   //check
     void playerShotted(ClientID Attacker,ClientID Victim,float damage);
-    void addPositionHistory(ClientID playerID, const myu::math::Vec3& position);
+    void addPlayerUpdateHistory(ClientID playerID, const PlayerState::PlayerUpdate update);
+    void playerSnyc();//TODO:添加到
     void addPlantAndReward(ClientID playerID);
     void addDefuseAndReward(ClientID playerID);
     void flushShotRecords();

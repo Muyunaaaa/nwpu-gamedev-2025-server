@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 #include <string>
-#include <glm/vec3.hpp>
 
 #include "config.h"
 #include "game/PlayerTeam.h"
@@ -19,7 +18,13 @@ struct PlayerState {
     // 位置 & 物理
     struct PlayerUpdate {
         myu::math::Vec3 position;
+        myu::math::Vec3 velocity;
+        myu::math::Vec3 head;
+        PlayerUpdate() = default;
+        PlayerUpdate(const myu::math::Vec3& pos, const myu::math::Vec3& vel, const myu::math::Vec3& head_)
+            : position(pos), velocity(vel), head(head_) {}
     };
+
     RingQueue<PlayerUpdate,300> position_history;
 
     // 生命
@@ -47,4 +52,14 @@ struct PlayerState {
     uint32_t deaths = 0;
     uint32_t plants = 0;
     uint32_t defuse = 0;
+
+    Weapon getCurrentWeapon() const {
+        if (weapon_slot == WeaponSlot::PRIMARY && primary) {
+            return primary->config->weapon_id;
+        } else if (weapon_slot == WeaponSlot::SECONDARY && secondary) {
+            return secondary->config->weapon_id;
+        } else {
+            return Weapon::WEAPON_NONE;
+        }
+    }
 };

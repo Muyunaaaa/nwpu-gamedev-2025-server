@@ -1,6 +1,7 @@
 #include "state/MatchController.h"
 
 #include "Server.h"
+#include "core/GameContext.h"
 #include "network/NetWorkService.h"
 #include "protocol/receiveGamingPacket_generated.h"
 #include "state/RoundState.h"
@@ -23,11 +24,11 @@ void MatchController::BroadcastMessage(std::span<const uint8_t> msg) {
 }
 
 void MatchController::Tick(float deltaTime) {
-    if (currentState!= nullptr && dynamic_cast<WaitState*>(currentState.get()) == nullptr) {
-        Server::instance().playerSync();
-    }
     if (currentState) {
         currentState->Update(this, deltaTime);
+    }
+    if (currentState!= nullptr && dynamic_cast<WaitState*>(currentState.get()) == nullptr) {
+        GameContext::Instance().playerSnyc();
     }
 }
 

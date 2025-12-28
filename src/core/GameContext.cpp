@@ -116,8 +116,8 @@ void GameContext::setPlayerDied(ClientID playerID) {
     }
 }
 
-void GameContext::addPositionHistory(ClientID playerID, const myu::math::Vec3 &position) {
-    players_[playerID].position_history.push(PlayerState::PlayerUpdate(position));
+void GameContext::addPlayerUpdateHistory(ClientID playerID, const PlayerState::PlayerUpdate update) {
+    players_[playerID].position_history.push(update);
 }
 
 void GameContext::resetARound() {
@@ -136,11 +136,21 @@ void GameContext::resetARound() {
         state.weapon_slot = WeaponSlot::SECONDARY;
 
         if (state.team == PlayerTeam::T) {
-            state.position_history.push(PlayerState::PlayerUpdate(Config::match::C4_DEFAULT_PLANT_POSITION_T_SIDE));
-        }else if (state.team == PlayerTeam::CT) {
-            state.position_history.push(PlayerState::PlayerUpdate(Config::match::C4_DEFAULT_PLANT_POSITION_CT_SIDE));
-        }else {
-            spdlog::error("玩家{}无队伍，无法重置位置",state.name);
+            state.position_history.push(PlayerState::PlayerUpdate(
+                    Config::match::C4_DEFAULT_PLANT_POSITION_T_SIDE,
+                    myu::math::Vec3(0, 0, 0),
+                    Config::match::DEFULAT_T_HEAD_ROTATION
+                )
+            );
+        } else if (state.team == PlayerTeam::CT) {
+            state.position_history.push(PlayerState::PlayerUpdate(
+                    Config::match::C4_DEFAULT_PLANT_POSITION_CT_SIDE,
+                    myu::math::Vec3(0, 0, 0),
+                    Config::match::DEFULAT_CT_HEAD_ROTATION
+                )
+            );
+        } else {
+            spdlog::error("玩家{}无队伍，无法重置位置", state.name);
         }
 
         //检测所有装备为默认装备的玩家，广播购买事件
@@ -224,9 +234,9 @@ void GameContext::flushShotRecords() {
     std::string filepath = "data/shot_records.txt";
 
     std::string content;
-    for (auto &[id, state] : players_) {
+    for (auto &[id, state]: players_) {
         content += std::format("Player ID: {}\n", id);
-        for (const auto& record : state.shot_records) {
+        for (const auto &record: state.shot_records) {
             // 假设 record 有一些可以打印的属性
             content += std::format("  - Shot at: [x,y,z...]\n");
         }
@@ -239,8 +249,52 @@ void GameContext::flushShotRecords() {
         }
     }
 
-    for (auto &[id, state] : players_) {
+    for (auto &[id, state]: players_) {
         state.damage_records.clear();
         state.shot_records.clear();
     }
+}
+
+void GameContext::playerSnyc() {
+    flatbuffers::FlatBufferBuilder fbb;
+    auto player_updates = std::vector<flatbuffers::Offset<moe::net::PlayerUpdate>>();
+    for (const auto &[id, state]: players_) {
+        if (state.position_history.empty()) {
+            spdlog::warn("出现了玩家 {} 无位置历史记录的情况，跳过同步", id);
+            continue;
+        }
+        auto& history = state.position_history.back();
+        moe::net::Vec3 pos = history.position.ToMOEVec3();
+        moe::net::Vec3 vel = history.velocity.ToMOEVec3();
+        moe::net::Vec3 head = history.head.ToMOEVec3();
+        //todo:提醒lzm重新编译
+        auto new_update = moe::net::CreatePlayerUpdate(
+            fbb,
+            id,
+            &pos,
+            &vel,
+            &head,
+            moe::net::PlayerMotionState::PlayerMotionState_NORMAL,
+            parseToNetWeapon(state.getCurrentWeapon())
+        );
+        player_updates.push_back(new_update);
+    }
+    auto event = moe::net::CreateAllPlayerUpdate(
+        fbb,
+        fbb.CreateVector(player_updates)
+    );
+    auto header = moe::net::CreateReceivedHeader(
+        fbb,
+        Server::instance().getTick(),
+        myu::time::now_ms()
+    );
+    auto msg = moe::net::CreateReceivedNetMessage(
+        fbb,
+        header,
+        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_AllPlayerUpdate,
+        event.Union()
+    );
+    fbb.Finish(msg);
+    SendPacket player_update_packet = SendPacket(-1, CH_STATE, fbb.GetBufferSpan(), false);
+    myu::NetWork::getInstance().broadcast(player_update_packet);
 }

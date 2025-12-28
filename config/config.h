@@ -27,8 +27,13 @@ namespace Config {
         static constexpr int DEFUSE_PRIZE = 200;
         static constexpr int MAX_BALANCE = 6000;
 
+        //todo:根据实际地图调整
         static constexpr myu::math::Vec3 C4_DEFAULT_PLANT_POSITION_T_SIDE = myu::math::Vec3(0.0f, 0.0f, 0.0f);
         static constexpr myu::math::Vec3 C4_DEFAULT_PLANT_POSITION_CT_SIDE = myu::math::Vec3(100.0f, 0.0f, 100.0f);
+
+        //todo:根据实际地图调整
+        static constexpr myu::math::Vec3 DEFULAT_CT_HEAD_ROTATION = myu::math::Vec3(0.0f, 0.0f, 0.0f);
+        static constexpr myu::math::Vec3 DEFULAT_T_HEAD_ROTATION = myu::math::Vec3(0.0f, 0.0f, 0.0f);
     }
     namespace server {
         static constexpr size_t MAX_PER_TICK_PACKET_PROCESS = 1024;
@@ -50,5 +55,21 @@ namespace Config {
     namespace room {
         static constexpr int TARGET_PLAYERS = 2;
         static constexpr int MAX_ROUNDS = 2;
+    }
+    namespace physics {
+        static constexpr float PLAYER_SPEED = 3.0f;
+        static constexpr float PLAYER_JUMP_VELOCITY = 5.0f;
+
+        static constexpr float PLAYER_HALF_HEIGHT = 0.8f;
+        static constexpr float PLAYER_RADIUS =  0.4f;
+
+        // offset from mass center (half height) to camera position (eye level)
+        static constexpr float PLAYER_CAMERA_OFFSET_ = 0.6f;
+
+        static constexpr float PLAYER_SUPPORTING_VOLUME_CONSTANT = -0.5f;
+        static constexpr float PLAYER_MAX_SLOPE_ANGLE_DEGREES = 45.0f;
+
+        static constexpr float PLAYER_STICK_TO_FLOOR_STEP_DOWN = -0.4f;
+        static constexpr float PLAYER_WALK_STAIRS_STEP_UP = 0.4f;
     }
 }
