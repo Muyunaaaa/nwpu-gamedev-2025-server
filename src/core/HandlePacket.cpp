@@ -61,7 +61,13 @@ void HandlePacket::handleFire(ClientID id, const myu::net::FirePacket *msg) {
 
 void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
     ClientID client_id = msg->tempId();
-    auto& seq = GameContext::Instance().GetPlayer(client_id)->sequence_number;
+    auto player = GameContext::Instance().GetPlayer(client_id);
+    if (!player) {
+        spdlog::error("Received MovePacket for unknown Client ID {}", client_id);
+        return;
+    }
+
+    auto& seq = player->sequence_number;
     if (seq > msg->sequence()) {
         spdlog::error("Received out-of-order MovePacket from Client {}: sequence={}, expected greater than {}",
                       id,
