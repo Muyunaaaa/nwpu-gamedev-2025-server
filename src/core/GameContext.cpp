@@ -102,9 +102,9 @@ void GameContext::addMoneyToPlayer(ClientID playerID, int amount) {
     }
 }
 
-void GameContext::playerShotted(ClientID Attacker, ClientID Victim, float damage) {
+float GameContext::playerShotted(ClientID Attacker, ClientID Victim, float damage) {
     //受击者死亡
-    if (players_[Victim].health - damage <= 0) {
+    if (players_[Victim].health - damage <= 0.01) {
         players_[Victim].health = 0;
         setPlayerDied(Victim);
         addKillAndReward(Attacker);
@@ -123,6 +123,7 @@ void GameContext::playerShotted(ClientID Attacker, ClientID Victim, float damage
         .victim = Victim,
         .damage = damage
     });
+    return damage;
 }
 
 void GameContext::setPlayerDied(ClientID playerID) {
@@ -203,6 +204,7 @@ void GameContext::resetARound() {
         }
 
         //检测所有装备为默认装备的玩家，广播购买事件
+        //todo:回合结束reset的时候会返回一个购买事件，需优化，实在不行就只在购买结束阶段后重置
         flatbuffers::FlatBufferBuilder fbb;
         flatbuffers::Offset<moe::net::PurchaseEvent> event;
 
@@ -280,7 +282,7 @@ int GameContext::countLifes(PlayerTeam team) {
 }
 
 void GameContext::flushShotRecords() {
-    std::string filepath = "data/shot_records.txt";
+    // std::string filepath = "data/shot_records.txt";
 
     std::string content;
     for (auto &[id, state]: players_) {
@@ -288,13 +290,6 @@ void GameContext::flushShotRecords() {
         for (const auto &record: state.shot_records) {
             // 假设 record 有一些可以打印的属性
             content += std::format("  - Shot at: [x,y,z...]\n");
-        }
-    }
-
-    if (!content.empty()) {
-        bool success = moe::FileWriter::writeToFile(filepath, content);
-        if (!success) {
-            spdlog::warn("无法写入射击记录到文件 {}", filepath);
         }
     }
 
@@ -316,7 +311,7 @@ void GameContext::playerSnyc() {
         moe::net::Vec3 pos = history.position.ToMOEVec3();
         moe::net::Vec3 vel = history.velocity.ToMOEVec3();
         moe::net::Vec3 head = history.head.ToMOEVec3();
-        spdlog::info("同步玩家 {} 位置: pos=({}, {}, {}), vel=({}, {}, {}), head=({}, {}, {})",
+        Server::instance().move_logger->info("同步玩家 {} 位置: pos=({}, {}, {}), vel=({}, {}, {}), head=({}, {}, {})",
             id,
             pos.x(), pos.y(), pos.z(),
             vel.x(), vel.y(), vel.z(),
@@ -329,7 +324,8 @@ void GameContext::playerSnyc() {
             &vel,
             &head,
             moe::net::PlayerMotionState::PlayerMotionState_NORMAL,
-            parseToNetWeapon(state.getCurrentWeapon())
+            parseToNetWeapon(state.getCurrentWeapon()),
+            state.health
         );
         player_updates.push_back(new_update);
     }

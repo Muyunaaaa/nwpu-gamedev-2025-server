@@ -17,7 +17,7 @@ namespace Config {
                 MilliSecDuration(10.0f * 1000.0f);
 
         static constexpr MilliSecDuration ROUND_TIMER =
-                MilliSecDuration(10.0f * 1000.0f);
+                MilliSecDuration(30.0f * 1000.0f);
 
         static constexpr MilliSecDuration C4_TIMER =
                 MilliSecDuration(45.0f * 1000.0f);

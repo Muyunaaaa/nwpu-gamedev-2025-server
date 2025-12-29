@@ -24,7 +24,7 @@ public:
     GameContext& operator=(const GameContext&) = delete;
 
     void InitFromRoom();   //check
-    void playerShotted(ClientID Attacker,ClientID Victim,float damage);
+    float playerShotted(ClientID Attacker,ClientID Victim,float damage);
     void addPlayerUpdateHistory(ClientID playerID, const PlayerState::PlayerUpdate update);
     void playerSnyc();
     void addPlantAndReward(ClientID playerID);

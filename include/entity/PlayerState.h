@@ -16,7 +16,8 @@ struct PlayerState {
     std::string name;
     PlayerTeam team;
 
-    uint32_t sequence_number = 0;
+    uint32_t fire_sequence_number = 0;
+    uint32_t move_sequence_number = 0;
 
     // 位置 & 物理
     struct PlayerUpdate {

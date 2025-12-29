@@ -169,7 +169,7 @@ void Server::dispatchNetMessage(
         }
 
         case myu::net::PacketUnion::PacketUnion_FirePacket: {
-            HandlePacket::handleFire(client, msg->packet_as_FirePacket());
+            HandlePacket::handleFire(client, msg->header(), msg->packet_as_FirePacket());
             break;
         }
 

@@ -4,6 +4,8 @@
 #include <atomic>
 
 #include "protocol/receiveGamingPacket_generated.h"
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 class Server {
 public:
@@ -22,6 +24,9 @@ public:
     void dispatchNetMessage(ClientID client, const myu::net::NetMessage *msg);
 
     size_t getTick() const;
+    std::shared_ptr<spdlog::logger> move_logger = spdlog::basic_logger_mt("move_records", "logs/move_records.log");
+    std::shared_ptr<spdlog::logger> fire_logger = spdlog::basic_logger_mt("fire_records", "logs/fire_records.log");
+    std::shared_ptr<spdlog::logger> console_logger = spdlog::stdout_color_mt("console");
 private:
     Server() = default;
     ~Server() = default;

@@ -11,8 +11,8 @@ struct InputIntent {
     float yaw_radian;
     float pitch_radian;
     myu::math::Vec3 getHeadDirection() const {
-        float vx = std::sin(yaw_radian);
-        float vz = std::cos(yaw_radian);
+        float vx = std::cos(yaw_radian);
+        float vz = std::sin(yaw_radian);
         return myu::math::Vec3(vx, 0.0f, vz);
     }
     InputIntent(

@@ -8,7 +8,6 @@
 #include "spdlog/spdlog.h"
 #include "state/MatchController.h"
 #include "state/MatchEndState.h"
-#include "state/WaitState.h"
 #include "state/WarmupState.h"
 #include "util/getTime.h"
 

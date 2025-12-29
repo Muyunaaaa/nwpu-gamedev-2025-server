@@ -41,7 +41,7 @@ void myu::NetWork::pollAllPackets() {
                     event.packet->data + event.packet->dataLength
                 );
 
-                spdlog::info("收到来自客户端 {} 的数据包，长度为 {} 字节", id, pkt.payload.size());
+                // spdlog::info("收到来自客户端 {} 的数据包，长度为 {} 字节", id, pkt.payload.size());
                 recv_packet_queue.enqueue(std::move(pkt));
 
                 enet_packet_destroy(event.packet);

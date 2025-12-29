@@ -4,7 +4,7 @@
 
 struct HandlePacket {
     static void handleMove(ClientID, const myu::net::MovePacket* msg);
-    static void handleFire(ClientID, const myu::net::FirePacket* msg);
+    static void handleFire(ClientID, const myu::net::PacketHeader* header, const myu::net::FirePacket* msg);
     static void handlePurchase(ClientID, const myu::net::PurchaseEvent* msg);
     static void handleDefuse(ClientID, const myu::net::DefuseBombEvent* msg);
     static void handlePlant(ClientID, const myu::net::PlantBombEvent* msg);

@@ -3,6 +3,7 @@
 #include "Server.h"
 #include "core/GameContext.h"
 #include "core/PurchaseSystem.h"
+#include "physics/EvalPhysDamage.h"
 #include "protocol/receiveGamingPacket_generated.h"
 #include "state/MatchController.h"
 #include "state/RoomContext.h"
@@ -45,18 +46,96 @@ void HandlePacket::handlePlayerReady(ClientID client_id, const myu::net::PlayerI
     }
 }
 
-void HandlePacket::handleFire(ClientID id, const myu::net::FirePacket *msg) {
-    // if (myu::NetWork::fire_packet_sequence_max > msg->sequence()) {
-    //     return;
-    // }
-    // myu::NetWork::fire_packet_sequence_max =
-    //         myu::NetWork::fire_packet_sequence_max < msg->sequence()
-    //             ? msg->sequence()
-    //             : myu::NetWork::fire_packet_sequence_max;
-    // /*调用计算函数进行计算更新玩家状态*/
-    // //parse
-    // //calculate
-    // //update
+void HandlePacket::handleFire(ClientID id, const myu::net::PacketHeader *header, const myu::net::FirePacket *msg) {
+    ClientID client_id = msg->tempId();
+    auto player = GameContext::Instance().GetPlayer(client_id);
+    if (!player) {
+        spdlog::error("Received FirePacket for unknown Client ID {}", client_id);
+        return;
+    }
+
+    auto &seq = player->fire_sequence_number;
+    if (seq > msg->sequence()) {
+        spdlog::error("Received out-of-order FirePacket from Client {}: sequence={}, expected greater than {}",
+                      id,
+                      msg->sequence(),
+                      seq);
+        return;
+    }
+    seq = std::max(seq, msg->sequence());
+    myu::math::Vec3 fire_point = myu::math::Vec3(
+        msg->originX(),
+        msg->originY(),
+        msg->originZ()
+    );
+    //注意这里是归一化向量，但在物理的recast中，需要的是非归一化向量，需要带上射程
+    myu::math::Vec3 fire_dir = myu::math::Vec3(
+        msg->dirX(),
+        msg->dirY(),
+        msg->dirZ()
+    );
+    WeaponSlot weapon_slot = parseNetWeaponSlotToLocalWeaponSlot(msg->weaponSlot());
+    ClientID shooter_id = msg->tempId();
+    uint64_t shot_tick = header->clientTick();
+    PhysRaycastHit raycast_hit = PhysRaycastHit(
+        fire_point,
+        fire_dir,
+        shooter_id
+    );
+    int shot_result = raycast_hit.isHit(shot_tick);
+    if (shot_result == -1) {
+        spdlog::info("玩家 {} 开火，未击中任何玩家", shooter_id);
+        return;
+    } else {
+        GameContext::Instance().GetPlayer(shooter_id)->weapon_slot = weapon_slot;
+        Weapon current_weapon = GameContext::Instance().GetPlayer(shooter_id)->getCurrentWeapon();
+        if (current_weapon == Weapon::WEAPON_NONE) {
+            spdlog::error("玩家 {} 开火时未持有任何武器", shooter_id);
+            return;
+        }
+        float damage = GameContext::Instance().
+                playerShotted(
+                    shooter_id,
+                    shot_result,
+                    CreateWeapon(current_weapon).get()->config->hit_body_damage
+                );
+        //todo:测试完后注释掉并写入文件
+        Server::instance().fire_logger->info("玩家 {} 开火，击中玩家 {}，造成 {} 点伤害", shooter_id, shot_result, damage);
+        Server::instance().fire_logger->info("玩家 {} 当前生命值 {}", shot_result,
+                     GameContext::Instance().GetPlayer(shot_result)->health);
+        if (GameContext::Instance().GetPlayer(shot_result)->health == 0) {
+            flatbuffers::FlatBufferBuilder fbb;
+            auto event = moe::net::CreatePlayerKilledEvent(
+                fbb,
+                shot_result,
+                shooter_id,
+                parseToNetWeapon(current_weapon)
+            );
+
+            auto header = moe::net::CreateReceivedHeader(
+                fbb,
+                Server::instance().getTick(),
+                myu::time::now_ms()
+            );
+
+            auto eventWrapper = moe::net::CreateGameEvent(
+                fbb,
+                moe::net::EventData::EventData_PlayerKilledEvent,
+                event.Union()
+            );
+
+            auto _msg = moe::net::CreateReceivedNetMessage(
+                fbb,
+                header,
+                moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+                eventWrapper.Union()
+            );
+            fbb.Finish(_msg);
+            SendPacket bomb_plant_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
+            //todo:发布死亡事件
+            //myu::NetWork::getInstance().broadcast(bomb_plant_packet);
+        }
+    }
 }
 
 void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
@@ -67,7 +146,7 @@ void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
         return;
     }
 
-    auto& seq = player->sequence_number;
+    auto &seq = player->move_sequence_number;
     if (seq > msg->sequence()) {
         spdlog::error("Received out-of-order MovePacket from Client {}: sequence={}, expected greater than {}",
                       id,
@@ -91,7 +170,7 @@ void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
         pitch_radian
     );
     //TODO:测试成功后注释
-    spdlog::info("Received MovePacket from Client {}: move_dir=({}, {}, {}), yaw={}, pitch={}",
+    Server::instance().move_logger->info("Received MovePacket from Client {}: move_dir=({}, {}, {}), yaw={}, pitch={}",
                  client_id,
                  move_dir.x, move_dir.y, move_dir.z,
                  yaw_radian,
