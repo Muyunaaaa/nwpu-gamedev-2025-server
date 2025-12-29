@@ -90,10 +90,10 @@ namespace Config {
     }
 
     namespace physics {
-        static constexpr float PLAYER_SPEED = 3.0f;
-        static constexpr float PLAYER_JUMP_VELOCITY = 5.0f;
+        static constexpr float PLAYER_SPEED = 6.0f;
+        static constexpr float PLAYER_JUMP_VELOCITY = 3.0f;
 
-        static constexpr float PLAYER_HALF_HEIGHT = 0.8f;
+        static constexpr float PLAYER_HALF_HEIGHT = 0.4f;
         static constexpr float PLAYER_RADIUS = 0.4f;
 
         // offset from mass center (half height) to camera position (eye level)

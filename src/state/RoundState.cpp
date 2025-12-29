@@ -103,12 +103,12 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
         getWinnerAndBroadcastAndChangeState(controller);
     }
     if (GameContext::Instance().countLifes(PlayerTeam::T) == 0) {
-        controller->tWin();
+        controller->ctWin();
         spdlog::info("反恐精英全部阵亡，恐怖分子获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
     if (GameContext::Instance().countLifes(PlayerTeam::CT) == 0) {
-        controller->ctWin();
+        controller->tWin();
         spdlog::info("恐怖分子全部阵亡，反恐精英获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
