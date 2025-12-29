@@ -94,8 +94,11 @@ void RoundState::OnEnter(MatchController *controller) {
 
 void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
+        if (!controller->c4_planted_and_counting) {
         spdlog::info("c4已安放，炸弹计时器开始");
-        timerMs = Config::match::C4_TIMER.count();
+            timerMs = Config::match::C4_TIMER.count();
+            controller->c4_planted_and_counting = true;
+        }
     }
     if (controller->c4_defused) {
         spdlog::info("C4已拆除，反恐精英获胜");

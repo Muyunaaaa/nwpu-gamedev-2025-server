@@ -17,13 +17,13 @@ namespace Config {
                 MilliSecDuration(10.0f * 1000.0f);
 
         static constexpr MilliSecDuration ROUND_TIMER =
-                MilliSecDuration(30.0f * 1000.0f);
+                MilliSecDuration(120.0f * 1000.0f);
 
         static constexpr MilliSecDuration C4_TIMER =
                 MilliSecDuration(45.0f * 1000.0f);
 
         static constexpr MilliSecDuration END_UNTIL_SERVER_CLOSE_TIMER =
-                MilliSecDuration(15.0f * 1000.0f);
+                MilliSecDuration(5.0f * 1000.0f);
 
         static constexpr int WIN_PRIZE = 3000;
         static constexpr int LOSE_PRIZE = 2000;
@@ -70,7 +70,7 @@ namespace Config {
 
     namespace room {
         static constexpr int TARGET_PLAYERS = 2;
-        static constexpr int MAX_ROUNDS = 2;
+        static constexpr int MAX_ROUNDS = 4;
 
         static constexpr myu::math::Vec3 DUST2_CT_SPAWNS[] = {
             {23.194490f, -6.605331f, 16.552546f},
