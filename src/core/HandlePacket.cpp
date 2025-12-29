@@ -99,10 +99,47 @@ void HandlePacket::handleFire(ClientID id, const myu::net::PacketHeader *header,
                     shot_result,
                     CreateWeapon(current_weapon).get()->config->hit_body_damage
                 );
-        //todo:测试完后注释掉并写入文件
         Server::instance().fire_logger->info("玩家 {} 开火，击中玩家 {}，造成 {} 点伤害", shooter_id, shot_result, damage);
         Server::instance().fire_logger->info("玩家 {} 当前生命值 {}", shot_result,
-                     GameContext::Instance().GetPlayer(shot_result)->health);
+                                             GameContext::Instance().GetPlayer(shot_result)->health);
+
+        flatbuffers::FlatBufferBuilder fbb;
+        if (GameContext::Instance().GetPlayer(shot_result)->position_history.empty()) {
+            spdlog::warn("出现了玩家 {} 无位置历史记录的情况，跳过开火事件发布", shot_result);
+        } else {
+            myu::math::Vec3 shotter_pos = GameContext::Instance().GetPlayer(shot_result)->position_history.back().
+                    position;
+            auto event = moe::net::CreatePlayerOpenFireEvent(
+                fbb,
+                shooter_id,
+                shotter_pos.x,
+                shotter_pos.y,
+                shotter_pos.z
+            );
+
+            auto header = moe::net::CreateReceivedHeader(
+                fbb,
+                Server::instance().getTick(),
+                myu::time::now_ms()
+            );
+
+            auto eventWrapper = moe::net::CreateGameEvent(
+                fbb,
+                moe::net::EventData::EventData_PlayerOpenFireEvent,
+                event.Union()
+            );
+
+            auto _msg = moe::net::CreateReceivedNetMessage(
+                fbb,
+                header,
+                moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+                eventWrapper.Union()
+            );
+            fbb.Finish(_msg);
+            SendPacket shotter_fire_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
+            myu::NetWork::getInstance().broadcast(shotter_fire_packet);
+        }
+
         if (GameContext::Instance().GetPlayer(shot_result)->health == 0) {
             flatbuffers::FlatBufferBuilder fbb;
             auto event = moe::net::CreatePlayerKilledEvent(
@@ -131,9 +168,8 @@ void HandlePacket::handleFire(ClientID id, const myu::net::PacketHeader *header,
                 eventWrapper.Union()
             );
             fbb.Finish(_msg);
-            SendPacket bomb_plant_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
-            //todo:发布死亡事件
-            //myu::NetWork::getInstance().broadcast(bomb_plant_packet);
+            SendPacket player_killed_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
+            myu::NetWork::getInstance().broadcast(player_killed_packet);
         }
     }
 }
@@ -171,10 +207,10 @@ void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
     );
     //TODO:测试成功后注释
     Server::instance().move_logger->info("Received MovePacket from Client {}: move_dir=({}, {}, {}), yaw={}, pitch={}",
-                 client_id,
-                 move_dir.x, move_dir.y, move_dir.z,
-                 yaw_radian,
-                 pitch_radian);
+                                         client_id,
+                                         move_dir.x, move_dir.y, move_dir.z,
+                                         yaw_radian,
+                                         pitch_radian);
     GameContext::Instance().GetPlayer(client_id)->physics_controller->updateCharacterPhysics(
         delta_time.count(),
         input_interface

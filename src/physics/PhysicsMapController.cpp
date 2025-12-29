@@ -7,7 +7,7 @@
 
 void PhysicsMapController::createMapBody() {
     auto collider=
-        moe::Physics::GltfColliderFactory::shapeFromGltf(Config::physics::PLAYGROUND_GLTF);
+        moe::Physics::GltfColliderFactory::shapeFromGltf(Config::physics::DUST2_GLTF);
     JPH::BodyCreationSettings settings = JPH::BodyCreationSettings(
             collider,
             JPH::RVec3(0.0f, 0.0f, 0.0f),

@@ -172,13 +172,13 @@ void GameContext::resetARound() {
         }
 
         if (state.team == PlayerTeam::T) {
-            // PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
-            //                     targetPos,
-            //                     myu::math::Vec3(0, 0, 0),
-            //                     Config::match::DEFULAT_T_HEAD_ROTATION
-            //                 );
-            // update.tick = Server::instance().getTick();
-            // state.position_history.push(update);
+            PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
+                                targetPos,
+                                myu::math::Vec3(0, 0, 0),
+                                Config::match::DEFULAT_T_HEAD_ROTATION
+                            );
+            update.tick = Server::instance().getTick();
+            state.position_history.push(update);
             GameContext::Instance()
                 .GetPlayer(id)
                 ->physics_controller
@@ -186,13 +186,13 @@ void GameContext::resetARound() {
                 ->SetPosition(targetPos.ToJPHVec3());
 
         } else if (state.team == PlayerTeam::CT) {
-            // PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
-            //                     targetPos,
-            //                     myu::math::Vec3(0, 0, 0),
-            //                     Config::match::DEFULAT_CT_HEAD_ROTATION
-            //                 );
-            // update.tick = Server::instance().getTick();
-            // state.position_history.push(update);
+            PlayerState::PlayerUpdate update = PlayerState::PlayerUpdate(
+                                targetPos,
+                                myu::math::Vec3(0, 0, 0),
+                                Config::match::DEFULAT_CT_HEAD_ROTATION
+                            );
+            update.tick = Server::instance().getTick();
+            state.position_history.push(update);
 
             GameContext::Instance()
                 .GetPlayer(id)
