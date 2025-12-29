@@ -78,7 +78,7 @@ void WaitState::Update(MatchController *controller, float deltaTime) {
             snapshots.push_back(PlayerSnapshot{
                 static_cast<uint16_t>(id),
                 p.name,
-                static_cast<moe::net::PlayerTeam>(p.team)
+                parseToNetPlayerTeam(p.team)
             });
         }
 

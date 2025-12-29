@@ -1,0 +1,2 @@
+$dirs = "vendors,cmake-build-debug,.git,shared,schemas,assets,include,protocol"
+E:\@DEVTools\cloc-2.06.exe --exclude-dir=$dirs .

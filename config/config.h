@@ -17,13 +17,13 @@ namespace Config {
                 MilliSecDuration(10.0f * 1000.0f);
 
         static constexpr MilliSecDuration ROUND_TIMER =
-                MilliSecDuration(30.0f * 1000.0f);
+                MilliSecDuration(120.0f * 1000.0f);
 
         static constexpr MilliSecDuration C4_TIMER =
                 MilliSecDuration(45.0f * 1000.0f);
 
         static constexpr MilliSecDuration END_UNTIL_SERVER_CLOSE_TIMER =
-                MilliSecDuration(15.0f * 1000.0f);
+                MilliSecDuration(5.0f * 1000.0f);
 
         static constexpr int WIN_PRIZE = 3000;
         static constexpr int LOSE_PRIZE = 2000;
@@ -70,43 +70,30 @@ namespace Config {
 
     namespace room {
         static constexpr int TARGET_PLAYERS = 2;
-        static constexpr int MAX_ROUNDS = 2;
+        static constexpr int MAX_ROUNDS = 4;
 
         static constexpr myu::math::Vec3 DUST2_CT_SPAWNS[] = {
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            // {2.0f, 1.0f, 0.0f},
-            // {4.0f, 1.0f, 0.0f},
-            // {0.0f, 1.0f, 2.0f},
-            // {2.0f, 1.0f, 2.0f}
+            {23.194490f, -6.605331f, 16.552546f},
+            {23.194490f, -6.605331f, 11.714236f},
+            {23.194490f, -6.605331f, 14.133350f},
+            {20.032581f, -6.605331f, 11.714236f},
+            {20.326876f, -6.922765f, 17.384354f}
         };
 
         static constexpr myu::math::Vec3 DUST2_T_SPAWNS[] = {
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            {0.0f, 1.0f, 0.0f},
-            // {0.0f, 20.0f, 0.0f},
-            // {0.0f, 20.0f, 0.0f},
-            // {0.0f, 20.0f, 0.0f},
-            // {0.0f, 20.0f, 0.0f},
-            // {0.0f, 20.0f, 0.0f},
-            // {102.0f, 1.0f, 100.0f},
-            // {104.0f, 1.0f, 100.0f},
-            // {100.0f, 1.0f, 102.0f},
-            // {102.0f, 1.0f, 102.0f}
+            {-34.308010f, -0.583404f, -2.000000f},
+            {-34.308010f, -0.583404f, -0.820000f},
+            {-34.854240f, -2.000000f, 3.245000f},
+            {-34.854240f, -1.374268f, 0.442785f},
+            {-34.089184f, -2.442827f, 6.057330f}
         };
     }
 
     namespace physics {
-        static constexpr float PLAYER_SPEED = 3.0f;
-        static constexpr float PLAYER_JUMP_VELOCITY = 5.0f;
+        static constexpr float PLAYER_SPEED = 6.0f;
+        static constexpr float PLAYER_JUMP_VELOCITY = 3.0f;
 
-        static constexpr float PLAYER_HALF_HEIGHT = 0.8f;
+        static constexpr float PLAYER_HALF_HEIGHT = 0.4f;
         static constexpr float PLAYER_RADIUS = 0.4f;
 
         // offset from mass center (half height) to camera position (eye level)
@@ -120,7 +107,7 @@ namespace Config {
 
         static constexpr std::string_view DUST2_ROOT = DUST2_BASE;
         static constexpr std::string_view DUST2_CONFIG = DUST2_BASE "dust2.config";
-        static constexpr std::string_view DUST2_GLTF = DUST2_BASE "dust2.glb";
+        static constexpr std::string_view DUST2_GLTF = DUST2_BASE "de_dust2.glb";
 
         static constexpr std::string_view PLAYGROUND_GLTF = PLAYGROUND_BASE "playground.glb";
     }

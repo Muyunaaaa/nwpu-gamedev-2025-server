@@ -44,6 +44,7 @@ public:
 
     //回合状态
     bool c4_planted = false;
+    bool c4_planted_and_counting = false;//炸弹计时器开始
     bool round_running = false;
     bool c4_defused = false;
     PlantSite c4_plant_site = PlantSite::None;

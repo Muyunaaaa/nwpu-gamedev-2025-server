@@ -94,8 +94,11 @@ void RoundState::OnEnter(MatchController *controller) {
 
 void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
+        if (!controller->c4_planted_and_counting) {
         spdlog::info("c4已安放，炸弹计时器开始");
-        timerMs = Config::match::C4_TIMER.count();
+            timerMs = Config::match::C4_TIMER.count();
+            controller->c4_planted_and_counting = true;
+        }
     }
     if (controller->c4_defused) {
         spdlog::info("C4已拆除，反恐精英获胜");
@@ -103,12 +106,12 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
         getWinnerAndBroadcastAndChangeState(controller);
     }
     if (GameContext::Instance().countLifes(PlayerTeam::T) == 0) {
-        controller->tWin();
+        controller->ctWin();
         spdlog::info("反恐精英全部阵亡，恐怖分子获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
     if (GameContext::Instance().countLifes(PlayerTeam::CT) == 0) {
-        controller->ctWin();
+        controller->tWin();
         spdlog::info("恐怖分子全部阵亡，反恐精英获胜");
         getWinnerAndBroadcastAndChangeState(controller);
     }
