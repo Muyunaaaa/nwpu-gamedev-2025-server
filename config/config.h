@@ -17,7 +17,7 @@ namespace Config {
                 MilliSecDuration(10.0f * 1000.0f);
 
         static constexpr MilliSecDuration ROUND_TIMER =
-                MilliSecDuration(10.0f * 1000.0f);
+                MilliSecDuration(30.0f * 1000.0f);
 
         static constexpr MilliSecDuration C4_TIMER =
                 MilliSecDuration(45.0f * 1000.0f);
@@ -85,11 +85,16 @@ namespace Config {
         };
 
         static constexpr myu::math::Vec3 DUST2_T_SPAWNS[] = {
-            {0.0f, 20.0f, 0.0f},
-            {0.0f, 20.0f, 0.0f},
-            {0.0f, 20.0f, 0.0f},
-            {0.0f, 20.0f, 0.0f},
-            {0.0f, 20.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f},
+            // {0.0f, 20.0f, 0.0f},
+            // {0.0f, 20.0f, 0.0f},
+            // {0.0f, 20.0f, 0.0f},
+            // {0.0f, 20.0f, 0.0f},
+            // {0.0f, 20.0f, 0.0f},
             // {102.0f, 1.0f, 100.0f},
             // {104.0f, 1.0f, 100.0f},
             // {100.0f, 1.0f, 102.0f},

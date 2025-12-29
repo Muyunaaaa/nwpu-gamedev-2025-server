@@ -137,6 +137,7 @@ void PhysicsCharacterController::updateCharacterPhysics(float deltaTime, const I
         myu::math::Vec3::JPHToMyuVec3(real_vel),
         head_rot
     );
+    assert(real_position.Length() < 20000.0f); // prevent insane position
     update.tick = Server::instance().getTick();
     GameContext::Instance().addPlayerUpdateHistory(
         m_clientID,

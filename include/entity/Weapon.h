@@ -132,6 +132,17 @@ inline Weapon parseNetWeaponToLocalWeapon(myu::net::Weapon weapon) {
     }
 }
 
+inline WeaponSlot parseNetWeaponSlotToLocalWeaponSlot(myu::net::WeaponSlot slot) {
+    switch (slot) {
+        case myu::net::WeaponSlot::WeaponSlot_SLOT_PRIMARY:
+            return WeaponSlot::PRIMARY;
+        case myu::net::WeaponSlot::WeaponSlot_SLOT_SECONDARY:
+            return WeaponSlot::SECONDARY;
+        default:
+            return WeaponSlot::SECONDARY;
+    }
+}
+
 inline WeaponType parseWeaponToType(Weapon weapon) {
     switch (weapon) {
         case Weapon::GLOCK:
