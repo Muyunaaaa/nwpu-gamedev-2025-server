@@ -7,6 +7,7 @@
 #include "util/getTime.h"
 #include "network/NetWorkService.h"
 #include "spdlog/spdlog.h"
+#include "state/RoomContext.h"
 
 void myu::NetWork::init() {
     if (enet_initialize() != 0) {
@@ -67,6 +68,7 @@ void myu::NetWork::pollAllPackets() {
                     .client = id,
                     .recv_time_ns = time::now_ns()
                 });
+                RoomContext::getInstance().players[id].isReady = false;
                 peerToId.erase(event.peer);
                 idToPeer.erase(id);
                 event.peer->data = nullptr;
