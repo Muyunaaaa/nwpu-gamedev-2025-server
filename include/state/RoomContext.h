@@ -36,7 +36,7 @@ public:
     RoomContext(const RoomContext&) = delete;
     RoomContext& operator=(const RoomContext&) = delete;
 
+    //todo:解决玩家在准备阶段进入退出后依旧是准备状态的问题
     int getReadyCount();
-    int getTotalPlayerCount();
     PlayerTeam getTeamWithLessPlayers();
 };

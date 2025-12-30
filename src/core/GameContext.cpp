@@ -317,6 +317,7 @@ void GameContext::playerSnyc() {
             vel.x(), vel.y(), vel.z(),
             head.x(), head.y(), head.z()
         );
+        spdlog::debug("玩家 {} 血量: {}", id, state.health);
         auto new_update = moe::net::CreatePlayerUpdate(
             fbb,
             id,

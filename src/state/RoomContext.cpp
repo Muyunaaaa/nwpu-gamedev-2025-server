@@ -7,10 +7,6 @@ int RoomContext::getReadyCount() {
     return count;
 }
 
-int RoomContext::getTotalPlayerCount() {
-    return players.size();
-}
-
 PlayerTeam RoomContext::getTeamWithLessPlayers() {
     int countT = 0;
     int countCT = 0;
