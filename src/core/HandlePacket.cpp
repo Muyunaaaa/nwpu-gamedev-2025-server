@@ -208,12 +208,11 @@ void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
         yaw_radian,
         pitch_radian
     );
-    //TODO:测试成功后注释
-    Server::instance().move_logger->info("Received MovePacket from Client {}: move_dir=({}, {}, {}), yaw={}, pitch={}",
-                                         client_id,
-                                         move_dir.x, move_dir.y, move_dir.z,
-                                         yaw_radian,
-                                         pitch_radian);
+    // Server::instance().move_logger->info("Received MovePacket from Client {}: move_dir=({}, {}, {}), yaw={}, pitch={}",
+    //                                      client_id,
+    //                                      move_dir.x, move_dir.y, move_dir.z,
+    //                                      yaw_radian,
+    //                                      pitch_radian);
     GameContext::Instance().GetPlayer(client_id)->physics_controller->updateCharacterPhysics(
         delta_time.count(),
         input_interface

@@ -42,9 +42,8 @@ namespace Config {
         //     myu::math::Vec3(110.0f, 5.0f, 110.0f) // Max
         // };
 
-        //todo:根据实际地图调整
-        static constexpr myu::math::Vec3 DEFULAT_CT_HEAD_ROTATION = myu::math::Vec3(0.0f, 0.0f, 0.0f);
-        static constexpr myu::math::Vec3 DEFULAT_T_HEAD_ROTATION = myu::math::Vec3(0.0f, 0.0f, 0.0f);
+        static constexpr myu::math::Vec3 DEFULAT_CT_HEAD_ROTATION = myu::math::Vec3(-1.0f, 0.0f, 0.0f);
+        static constexpr myu::math::Vec3 DEFULAT_T_HEAD_ROTATION = myu::math::Vec3(1.0f, 0.0f, 0.0f);
     }
 
     namespace server {
