@@ -26,7 +26,7 @@
       "name": "Desert Eagle",
       "price": 700,
       "hit_head_damage": 212.0,
-      "hit_body_damage": 53.0,
+      "hit_body_damage": 40.0,
       "fire_rate": 2.0,
       "clip_size": 7
     },

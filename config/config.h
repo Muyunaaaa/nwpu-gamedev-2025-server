@@ -25,23 +25,23 @@ namespace Config {
         static constexpr MilliSecDuration END_UNTIL_SERVER_CLOSE_TIMER =
                 MilliSecDuration(15.0f * 1000.0f);
 
-        static constexpr int WIN_PRIZE = 3000;
-        static constexpr int LOSE_PRIZE = 2000;
-        static constexpr int KILL_PRIZE = 300;
-        static constexpr int PLANT_PRIZE = 200;
-        static constexpr int DEFUSE_PRIZE = 200;
-        static constexpr int MAX_BALANCE = 6000;
+        extern int WIN_PRIZE;
+        extern int LOSE_PRIZE;
+        extern int KILL_PRIZE;
+        extern int PLANT_PRIZE;
+        extern int DEFUSE_PRIZE;
+        extern int MAX_BALANCE;
 
-        static constexpr PlantZone BOMB_ZONE_A = {
-            myu::math::Vec3(-10.0f, 0.0f, -10.0f), // Min
-            myu::math::Vec3(10.0f, 5.0f, 10.0f) // Max (高度给了5米，防止跳起来不能下包)
-        };
-
-        // B 包点区域
-        static constexpr PlantZone BOMB_ZONE_B = {
-            myu::math::Vec3(90.0f, 0.0f, 90.0f), // Min
-            myu::math::Vec3(110.0f, 5.0f, 110.0f) // Max
-        };
+        // static constexpr PlantZone BOMB_ZONE_A = {
+        //     myu::math::Vec3(-10.0f, 0.0f, -10.0f), // Min
+        //     myu::math::Vec3(10.0f, 5.0f, 10.0f) // Max (高度给了5米，防止跳起来不能下包)
+        // };
+        //
+        // // B 包点区域
+        // static constexpr PlantZone BOMB_ZONE_B = {
+        //     myu::math::Vec3(90.0f, 0.0f, 90.0f), // Min
+        //     myu::math::Vec3(110.0f, 5.0f, 110.0f) // Max
+        // };
 
         //todo:根据实际地图调整
         static constexpr myu::math::Vec3 DEFULAT_CT_HEAD_ROTATION = myu::math::Vec3(0.0f, 0.0f, 0.0f);
@@ -58,19 +58,19 @@ namespace Config {
         // static constexpr float RUN_SPEED = 5.0f;       // m/s
         // static constexpr float CROUCH_SPEED = 1.5f;    // m/s
         // static constexpr float JUMP_VELOCITY = 5.0f;   // m/s
-        static constexpr float MAX_HEALTH = 100.0f;
+        extern float MAX_HEALTH;
     }
 
     namespace network {
-        static constexpr int SERVER_PORT = 1234;
+        extern int SERVER_PORT;
         static constexpr int SERVER_HOST = ENET_HOST_ANY;
-        static constexpr int MAX_CLIENTS = 32;
+        extern int MAX_CLIENTS;
         static constexpr int MAX_EACH_CLIENT_CHANNELS = 2;
     }
 
     namespace room {
-        static constexpr int TARGET_PLAYERS = 2;
-        static constexpr int MAX_ROUNDS = 2;
+        extern int TARGET_PLAYERS;
+        extern int MAX_ROUNDS;
 
         static constexpr myu::math::Vec3 DUST2_CT_SPAWNS[] = {
             {23.194490f, -6.605331f, 16.552546f},
@@ -111,4 +111,6 @@ namespace Config {
 
         static constexpr std::string_view PLAYGROUND_GLTF = PLAYGROUND_BASE "playground.glb";
     }
+
+    void LoadFromToml(const std::string& path);
 }
