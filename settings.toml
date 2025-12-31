@@ -1,0 +1,19 @@
+[match]
+win_prize = 3000
+lose_prize = 2000
+kill_prize = 300
+plant_prize = 200
+defuse_prize = 200
+max_balance = 6000
+
+[player]
+max_health = 100.0
+
+[network]
+server_port = 1234
+
+max_clients = 32
+
+[room]
+target_players = 2
+max_rounds = 2

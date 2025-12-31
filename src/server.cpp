@@ -28,6 +28,7 @@ void init_logging() {
 
 
 void Server::start() {
+    Config::LoadFromToml("settings.toml");
     auto &network = myu::NetWork::getInstance();
     myu::PhysicsEngine::getInstance().init();
     WeaponConfigManager::Instance().LoadFromFile("./config/weapons.json");
