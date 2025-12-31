@@ -1,5 +1,5 @@
 #include "Config.h"
-#include <toml++/toml.h>
+#include "TomlImpl.hpp"
 #include <iostream>
 
 namespace Config {
@@ -26,10 +26,6 @@ namespace Config {
         int TARGET_PLAYERS = 2;
         int MAX_ROUNDS = 2;
     }
-
-    // ===============================
-    // 配置加载函数
-    // ===============================
 
     static void LoadMatchConfig(const toml::table& tbl) {
         if (auto v = tbl["win_prize"].value<int>())
@@ -65,29 +61,29 @@ namespace Config {
             room::MAX_ROUNDS = *v;
     }
 
-    // ===============================
-    // 对外统一入口
-    // ===============================
     void LoadFromToml(const std::string& path) {
-        try {
-            toml::table tbl = toml::parse_file(path);
+        toml::parse_result result = toml::parse_file(path);
 
-            if (auto t = tbl["match"].as_table())
-                LoadMatchConfig(*t);
-
-            if (auto t = tbl["player"].as_table())
-                LoadPlayerConfig(*t);
-
-            if (auto t = tbl["network"].as_table())
-                LoadNetworkConfig(*t);
-
-            if (auto t = tbl["room"].as_table())
-                LoadRoomConfig(*t);
-
-        } catch (const toml::parse_error& err) {
-            std::cerr << "[Config] Failed to load " << path << "\n"
-                      << err.description() << "\n";
+        if (!result) {
+            std::cerr << "[Config] TOML parse error in " << path << "\n"
+                      << result.error().description() << "\n";
+            return;
         }
+
+        const toml::table& tbl = result.table();
+
+        if (auto t = tbl["match"].as_table())
+            LoadMatchConfig(*t);
+
+        if (auto t = tbl["player"].as_table())
+            LoadPlayerConfig(*t);
+
+        if (auto t = tbl["network"].as_table())
+            LoadNetworkConfig(*t);
+
+        if (auto t = tbl["room"].as_table())
+            LoadRoomConfig(*t);
     }
+
 
 } // namespace Config

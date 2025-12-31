@@ -2,7 +2,6 @@
 #include <chrono>
 
 #include "enet/enet.h"
-#include "entity/PlantZone.h"
 #include "math/common.h"
 
 #define MAP_ROOT "assets/maps/"

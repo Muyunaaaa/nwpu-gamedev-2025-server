@@ -66,7 +66,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/assets
         DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 file(COPY ${CMAKE_SOURCE_DIR}/settings.toml
-        DESTINATION ${CMAKE_BINARY_DIR}/settings.toml)
+        DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # ==============================
 # 服务器可执行程序
@@ -83,6 +83,8 @@ file(GLOB_RECURSE SERVER_SOURCES
         shared/src/*.cpp
         shared/include/*.h
         config/*.h
+        config/*.cpp
+        config/TomlImpl.hpp
 )
 
 target_sources(server PRIVATE ${SERVER_SOURCES})
@@ -99,13 +101,9 @@ target_include_directories(server
         ${PROJECT_SOURCE_DIR}/vendors/concurrentqueue
         ${PROJECT_SOURCE_DIR}/shared/include
         ${PROJECT_SOURCE_DIR}/vendors/JoltPhysics
-        ${PROJECT_SOURCE_DIR}/vendors/tomlplusplus/include
         ${PROJECT_SOURCE_DIR}/config
 )
 
-# ==============================
-# 链接第三方库
-# ==============================
 target_link_libraries(server
         PRIVATE
         enet
