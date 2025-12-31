@@ -65,6 +65,9 @@ file(COPY ${CMAKE_SOURCE_DIR}/config
 file(COPY ${CMAKE_SOURCE_DIR}/assets
         DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
+file(COPY ${CMAKE_SOURCE_DIR}/settings.toml
+        DESTINATION ${CMAKE_BINARY_DIR}/settings.toml)
+
 # ==============================
 # 服务器可执行程序
 # ==============================
