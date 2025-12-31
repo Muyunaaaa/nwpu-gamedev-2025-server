@@ -24,9 +24,9 @@
       "id": 3,
       "type": 1,
       "name": "Desert Eagle",
-      "price": 700,
+      "price": 1200,
       "hit_head_damage": 212.0,
-      "hit_body_damage": 40.0,
+      "hit_body_damage": 30.0,
       "fire_rate": 2.0,
       "clip_size": 7
     },
@@ -44,9 +44,9 @@
       "id": 5,
       "type": 0,
       "name": "M4A1",
-      "price": 3100,
+      "price": 2900,
       "hit_head_damage": 132.0,
-      "hit_body_damage": 33.0,
+      "hit_body_damage": 34.0,
       "fire_rate": 11.0,
       "clip_size": 30
     }
