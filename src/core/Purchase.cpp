@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "core/PurchaseSystem.h"
 #include "util/getTime.h"

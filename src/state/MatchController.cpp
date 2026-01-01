@@ -1,6 +1,6 @@
 #include "state/MatchController.h"
 
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "network/NetWorkService.h"
 #include "protocol/receiveGamingPacket_generated.h"

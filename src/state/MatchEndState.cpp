@@ -1,7 +1,7 @@
 #include "state/MatchEndState.h"
 
 #include "config.h"
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "protocol/Main_generated.h"
 #include "util/getTime.h"

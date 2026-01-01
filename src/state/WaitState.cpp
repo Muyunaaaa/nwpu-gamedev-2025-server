@@ -1,6 +1,6 @@
 #include "state/WaitState.h"
 
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "state/GameState.h"
 #include "state/MatchController.h"

@@ -1,7 +1,7 @@
 #include "physics/PhysicsCharacterController.h"
 
 #include "config.h"
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "Jolt/Physics/Collision/Shape/CapsuleShape.h"
 #include "physics/PhysicsEnginee.h"
