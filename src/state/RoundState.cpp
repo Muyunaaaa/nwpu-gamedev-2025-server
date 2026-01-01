@@ -104,17 +104,20 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
         spdlog::info("C4已拆除，反恐精英获胜");
         controller->ctWin();
         getWinnerAndBroadcastAndChangeState(controller);
+        return;
     }
     if (GameContext::Instance().countLifes(PlayerTeam::T) == 0
         && controller->c4_planted == false) {
         controller->ctWin();
         spdlog::info("恐怖分子全部阵亡，反恐精英获胜");
         getWinnerAndBroadcastAndChangeState(controller);
+        return;
     }
     if (GameContext::Instance().countLifes(PlayerTeam::CT) == 0) {
         controller->tWin();
         spdlog::info("反恐精英全部阵亡，恐怖分子获胜");
         getWinnerAndBroadcastAndChangeState(controller);
+        return;
     }
     timerMs -= deltaTime;
     if (timerMs <= 0) {
