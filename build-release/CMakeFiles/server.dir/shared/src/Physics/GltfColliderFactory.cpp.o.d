@@ -122,6 +122,7 @@ CMakeFiles/server.dir/shared/src/Physics/GltfColliderFactory.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/bits/std_abs.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/memory \
@@ -189,6 +190,7 @@ CMakeFiles/server.dir/shared/src/Physics/GltfColliderFactory.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/cerrno \
   /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
   /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
@@ -436,6 +438,7 @@ CMakeFiles/server.dir/shared/src/Physics/GltfColliderFactory.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/chrono \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/NonCopyable.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/TickCounter.h \
+  /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/Profiler.inl \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/JobSystem.inl \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/Semaphore.h \
   /usr/include/semaphore.h \
@@ -805,6 +808,8 @@ CMakeFiles/server.dir/shared/src/Physics/GltfColliderFactory.cpp.o: \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Physics/Collision/Shape/MeshShape.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/ByteBuffer.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/STLAlignedAllocator.h \
+  /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Renderer/DebugRenderer.h \
+  /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Math/Float2.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Physics/Collision/Shape/ScaledShape.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Physics/Collision/Shape/DecoratedShape.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/filesystem \

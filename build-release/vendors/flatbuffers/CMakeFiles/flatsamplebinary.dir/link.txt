@@ -1,1 +1,1 @@
-/usr/bin/clang++-15 -Wno-c++11-narrowing CMakeFiles/flatsamplebinary.dir/samples/sample_binary.cpp.o -o flatsamplebinary 
+/usr/bin/clang++-15 -Wno-c++11-narrowing -O3 -DNDEBUG CMakeFiles/flatsamplebinary.dir/samples/sample_binary.cpp.o -o flatsamplebinary 

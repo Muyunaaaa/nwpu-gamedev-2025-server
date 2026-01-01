@@ -1,42 +1,20 @@
-[2026-01-01 18:55:31.212] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 20 点伤害
-[2026-01-01 18:55:31.212] [fire_records] [info] 玩家 发呆的暮云 当前生命值 80
-[2026-01-01 18:55:31.379] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 20 点伤害
-[2026-01-01 18:55:31.379] [fire_records] [info] 玩家 发呆的暮云 当前生命值 60
-[2026-01-01 18:55:31.529] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 20 点伤害
-[2026-01-01 18:55:31.529] [fire_records] [info] 玩家 发呆的暮云 当前生命值 40
-[2026-01-01 18:55:31.979] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 20 点伤害
-[2026-01-01 18:55:31.979] [fire_records] [info] 玩家 发呆的暮云 当前生命值 20
-[2026-01-01 18:55:32.129] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 20 点伤害
-[2026-01-01 18:55:32.129] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
-[2026-01-01 18:56:20.845] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 36 点伤害
-[2026-01-01 18:56:20.845] [fire_records] [info] 玩家 发呆的暮云 当前生命值 64
-[2026-01-01 18:56:20.962] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 36 点伤害
-[2026-01-01 18:56:20.962] [fire_records] [info] 玩家 发呆的暮云 当前生命值 28
-[2026-01-01 18:56:21.079] [fire_records] [info] 玩家 李梓萌 开火，击中玩家 发呆的暮云，造成 36 点伤害
-[2026-01-01 18:56:21.079] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
-[2026-01-01 19:03:18.570] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 25 点伤害
-[2026-01-01 19:03:18.570] [fire_records] [info] 玩家 发呆的暮云 当前生命值 75
-[2026-01-01 19:03:18.786] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 25 点伤害
-[2026-01-01 19:03:18.786] [fire_records] [info] 玩家 发呆的暮云 当前生命值 50
-[2026-01-01 19:03:19.753] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 25 点伤害
-[2026-01-01 19:03:19.753] [fire_records] [info] 玩家 发呆的暮云 当前生命值 25
-[2026-01-01 19:03:19.986] [fire_records] [info] 玩家 发呆的暮云 开火，击中玩家 default_player，造成 25 点伤害
-[2026-01-01 19:03:19.986] [fire_records] [info] 玩家 default_player 当前生命值 75
-[2026-01-01 19:03:20.019] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 25 点伤害
-[2026-01-01 19:03:20.019] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
-[2026-01-01 19:03:20.370] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 25 点伤害
-[2026-01-01 19:03:20.370] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
-[2026-01-01 19:03:20.687] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 25 点伤害
-[2026-01-01 19:03:20.687] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
-[2026-01-01 19:04:17.520] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 34 点伤害
-[2026-01-01 19:04:17.520] [fire_records] [info] 玩家 发呆的暮云 当前生命值 66
-[2026-01-01 19:04:17.603] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 34 点伤害
-[2026-01-01 19:04:17.603] [fire_records] [info] 玩家 发呆的暮云 当前生命值 32
-[2026-01-01 19:04:18.153] [fire_records] [info] 玩家 发呆的暮云 开火，击中玩家 default_player，造成 36 点伤害
-[2026-01-01 19:04:18.153] [fire_records] [info] 玩家 default_player 当前生命值 64
-[2026-01-01 19:04:18.253] [fire_records] [info] 玩家 发呆的暮云 开火，击中玩家 default_player，造成 36 点伤害
-[2026-01-01 19:04:18.253] [fire_records] [info] 玩家 default_player 当前生命值 28
-[2026-01-01 19:04:18.270] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 34 点伤害
-[2026-01-01 19:04:18.270] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
-[2026-01-01 19:04:18.370] [fire_records] [info] 玩家 default_player 开火，击中玩家 发呆的暮云，造成 34 点伤害
-[2026-01-01 19:04:18.370] [fire_records] [info] 玩家 发呆的暮云 当前生命值 0
+[2026-01-01 21:09:55.159] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 25 点伤害
+[2026-01-01 21:09:55.159] [fire_records] [info] 玩家 lizimeng 当前生命值 75
+[2026-01-01 21:09:55.476] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 25 点伤害
+[2026-01-01 21:09:55.476] [fire_records] [info] 玩家 lizimeng 当前生命值 50
+[2026-01-01 21:09:55.759] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 25 点伤害
+[2026-01-01 21:09:55.759] [fire_records] [info] 玩家 lizimeng 当前生命值 25
+[2026-01-01 21:09:56.009] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 25 点伤害
+[2026-01-01 21:09:56.009] [fire_records] [info] 玩家 lizimeng 当前生命值 0
+[2026-01-01 21:10:23.609] [fire_records] [info] 玩家 lizimeng 开火，击中玩家 mu_yunaaaa，造成 30 点伤害
+[2026-01-01 21:10:23.609] [fire_records] [info] 玩家 mu_yunaaaa 当前生命值 70
+[2026-01-01 21:10:24.043] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 36 点伤害
+[2026-01-01 21:10:24.043] [fire_records] [info] 玩家 lizimeng 当前生命值 64
+[2026-01-01 21:10:25.359] [fire_records] [info] 玩家 lizimeng 开火，击中玩家 mu_yunaaaa，造成 30 点伤害
+[2026-01-01 21:10:25.359] [fire_records] [info] 玩家 mu_yunaaaa 当前生命值 40
+[2026-01-01 21:10:25.459] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 36 点伤害
+[2026-01-01 21:10:25.459] [fire_records] [info] 玩家 lizimeng 当前生命值 28
+[2026-01-01 21:10:25.959] [fire_records] [info] 玩家 lizimeng 开火，击中玩家 mu_yunaaaa，造成 30 点伤害
+[2026-01-01 21:10:25.959] [fire_records] [info] 玩家 mu_yunaaaa 当前生命值 10
+[2026-01-01 21:10:26.259] [fire_records] [info] 玩家 mu_yunaaaa 开火，击中玩家 lizimeng，造成 36 点伤害
+[2026-01-01 21:10:26.259] [fire_records] [info] 玩家 lizimeng 当前生命值 0

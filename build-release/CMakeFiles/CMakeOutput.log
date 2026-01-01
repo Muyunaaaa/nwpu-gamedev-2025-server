@@ -1,4 +1,4 @@
-The system is: Linux - 6.1.0-37-amd64 - x86_64
+The system is: Linux - 6.1.0-41-amd64 - x86_64
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/clang++-15 
 Build flags: -Wno-c++11-narrowing
@@ -13,12 +13,12 @@ Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" p
 The CXX compiler identification is Clang, found in "/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/3.25.1/CompilerIdCXX/a.out"
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_cfe36/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_cfe36.dir/build.make CMakeFiles/cmTC_cfe36.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m'
-Building CXX object CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/clang++-15   -Wno-c++11-narrowing    -v -MD -MT CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_8343b/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_8343b.dir/build.make CMakeFiles/cmTC_8343b.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN'
+Building CXX object CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/clang++-15   -Wno-c++11-narrowing    -v -MD -MT CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp
 Debian clang version 15.0.6
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -28,7 +28,7 @@ Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/12
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
  (in-process)
- "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/x86_64-linux-gnu/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/backward -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -Wno-c++11-narrowing -fdeprecated-macro -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp
+ "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/x86_64-linux-gnu/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/backward -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -Wno-c++11-narrowing -fdeprecated-macro -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp
 clang -cc1 version 15.0.6 based upon LLVM 15.0.6 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include"
 ignoring nonexistent directory "/include"
@@ -42,9 +42,9 @@ ignoring nonexistent directory "/include"
  /usr/include/x86_64-linux-gnu
  /usr/include
 End of search list.
-Linking CXX executable cmTC_cfe36
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cfe36.dir/link.txt --verbose=1
-/usr/bin/clang++-15 -Wno-c++11-narrowing   -v CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_cfe36 
+Linking CXX executable cmTC_8343b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8343b.dir/link.txt --verbose=1
+/usr/bin/clang++-15 -Wno-c++11-narrowing   -v CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_8343b 
 Debian clang version 15.0.6
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -53,8 +53,8 @@ Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/12
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/12
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_cfe36 /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m'
+ "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_8343b /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN'
 
 
 
@@ -81,12 +81,12 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m]
+  ignore line: [Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_cfe36/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_cfe36.dir/build.make CMakeFiles/cmTC_cfe36.dir/build]
-  ignore line: [gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m']
-  ignore line: [Building CXX object CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/clang++-15   -Wno-c++11-narrowing    -v -MD -MT CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_8343b/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_8343b.dir/build.make CMakeFiles/cmTC_8343b.dir/build]
+  ignore line: [gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN']
+  ignore line: [Building CXX object CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/clang++-15   -Wno-c++11-narrowing    -v -MD -MT CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Debian clang version 15.0.6]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -98,7 +98,7 @@ Parsed CXX implicit link information from above output:
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
   ignore line: [ (in-process)]
-  ignore line: [ "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/x86_64-linux-gnu/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/backward -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -Wno-c++11-narrowing -fdeprecated-macro -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-RQA47m -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [ "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/x86_64-linux-gnu/c++/12 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/backward -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -Wno-c++11-narrowing -fdeprecated-macro -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-7x8BdN -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [clang -cc1 version 15.0.6 based upon LLVM 15.0.6 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include"]
   ignore line: [ignoring nonexistent directory "/include"]
@@ -112,9 +112,9 @@ Parsed CXX implicit link information from above output:
   ignore line: [ /usr/include/x86_64-linux-gnu]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [Linking CXX executable cmTC_cfe36]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cfe36.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/clang++-15 -Wno-c++11-narrowing   -v CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_cfe36 ]
+  ignore line: [Linking CXX executable cmTC_8343b]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8343b.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/clang++-15 -Wno-c++11-narrowing   -v CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_8343b ]
   ignore line: [Debian clang version 15.0.6]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -125,7 +125,7 @@ Parsed CXX implicit link information from above output:
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_cfe36 /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o]
+  link line: [ "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_8343b /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o]
     arg [/usr/bin/ld] ==> ignore
     arg [-pie] ==> ignore
     arg [--hash-style=both] ==> ignore
@@ -136,7 +136,7 @@ Parsed CXX implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_cfe36] ==> ignore
+    arg [cmTC_8343b] ==> ignore
     arg [/lib/x86_64-linux-gnu/Scrt1.o] ==> obj [/lib/x86_64-linux-gnu/Scrt1.o]
     arg [/lib/x86_64-linux-gnu/crti.o] ==> obj [/lib/x86_64-linux-gnu/crti.o]
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o]
@@ -148,7 +148,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
     arg [-L/lib] ==> dir [/lib]
     arg [-L/usr/lib] ==> dir [/usr/lib]
-    arg [CMakeFiles/cmTC_cfe36.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_8343b.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -188,12 +188,12 @@ Compilation of the C compiler identification source "CMakeCCompilerId.c" produce
 The C compiler identification is Clang, found in "/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/3.25.1/CompilerIdC/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5fa15/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5fa15.dir/build.make CMakeFiles/cmTC_5fa15.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7'
-Building C object CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o
-/usr/bin/clang-15   -v -MD -MT CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_d96ba/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_d96ba.dir/build.make CMakeFiles/cmTC_d96ba.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE'
+Building C object CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o
+/usr/bin/clang-15   -v -MD -MT CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c
 Debian clang version 15.0.6
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -203,7 +203,7 @@ Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/12
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
  (in-process)
- "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7 -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7 -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c
+ "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c
 clang -cc1 version 15.0.6 based upon LLVM 15.0.6 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include"
 ignoring nonexistent directory "/include"
@@ -214,9 +214,9 @@ ignoring nonexistent directory "/include"
  /usr/include/x86_64-linux-gnu
  /usr/include
 End of search list.
-Linking C executable cmTC_5fa15
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5fa15.dir/link.txt --verbose=1
-/usr/bin/clang-15  -v CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -o cmTC_5fa15 
+Linking C executable cmTC_d96ba
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d96ba.dir/link.txt --verbose=1
+/usr/bin/clang-15  -v CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -o cmTC_d96ba 
 Debian clang version 15.0.6
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -225,8 +225,8 @@ Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/12
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/12
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_5fa15 /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7'
+ "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_d96ba /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE'
 
 
 
@@ -247,12 +247,12 @@ Parsed C implicit include dir info from above output: rv=done
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7]
+  ignore line: [Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5fa15/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5fa15.dir/build.make CMakeFiles/cmTC_5fa15.dir/build]
-  ignore line: [gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7']
-  ignore line: [Building C object CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/clang-15   -v -MD -MT CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c]
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_d96ba/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_d96ba.dir/build.make CMakeFiles/cmTC_d96ba.dir/build]
+  ignore line: [gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE']
+  ignore line: [Building C object CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/clang-15   -v -MD -MT CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c]
   ignore line: [Debian clang version 15.0.6]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -264,7 +264,7 @@ Parsed C implicit link information from above output:
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
   ignore line: [ (in-process)]
-  ignore line: [ "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7 -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-cg4zr7 -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c]
+  ignore line: [ "/usr/lib/llvm-15/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=gdb -v -fcoverage-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE -resource-dir /usr/lib/llvm-15/lib/clang/15.0.6 -dependency-file CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/llvm-15/lib/clang/15.0.6/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir=/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-gOcOaE -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.25/Modules/CMakeCCompilerABI.c]
   ignore line: [clang -cc1 version 15.0.6 based upon LLVM 15.0.6 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../x86_64-linux-gnu/include"]
   ignore line: [ignoring nonexistent directory "/include"]
@@ -275,9 +275,9 @@ Parsed C implicit link information from above output:
   ignore line: [ /usr/include/x86_64-linux-gnu]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [Linking C executable cmTC_5fa15]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5fa15.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/clang-15  -v CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -o cmTC_5fa15 ]
+  ignore line: [Linking C executable cmTC_d96ba]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d96ba.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/clang-15  -v CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -o cmTC_d96ba ]
   ignore line: [Debian clang version 15.0.6]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -288,7 +288,7 @@ Parsed C implicit link information from above output:
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_5fa15 /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o]
+  link line: [ "/usr/bin/ld" -pie --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_d96ba /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtendS.o /lib/x86_64-linux-gnu/crtn.o]
     arg [/usr/bin/ld] ==> ignore
     arg [-pie] ==> ignore
     arg [--hash-style=both] ==> ignore
@@ -299,7 +299,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_5fa15] ==> ignore
+    arg [cmTC_d96ba] ==> ignore
     arg [/lib/x86_64-linux-gnu/Scrt1.o] ==> obj [/lib/x86_64-linux-gnu/Scrt1.o]
     arg [/lib/x86_64-linux-gnu/crti.o] ==> obj [/lib/x86_64-linux-gnu/crti.o]
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/12/crtbeginS.o]
@@ -311,7 +311,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
     arg [-L/lib] ==> dir [/lib]
     arg [-L/usr/lib] ==> dir [/usr/lib]
-    arg [CMakeFiles/cmTC_5fa15.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_d96ba.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -340,16 +340,16 @@ Parsed C implicit link information from above output:
 
 
 Determining if the strtof_l exist passed with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-MrISeU
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Pwg3X6
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_ae024/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_ae024.dir/build.make CMakeFiles/cmTC_ae024.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-MrISeU'
-Building CXX object CMakeFiles/cmTC_ae024.dir/CheckSymbolExists.cxx.o
-/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_ae024.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_ae024.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_ae024.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-MrISeU/CheckSymbolExists.cxx
-Linking CXX executable cmTC_ae024
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ae024.dir/link.txt --verbose=1
-/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_ae024.dir/CheckSymbolExists.cxx.o -o cmTC_ae024 
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-MrISeU'
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_cfb0e/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_cfb0e.dir/build.make CMakeFiles/cmTC_cfb0e.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Pwg3X6'
+Building CXX object CMakeFiles/cmTC_cfb0e.dir/CheckSymbolExists.cxx.o
+/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_cfb0e.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_cfb0e.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_cfb0e.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Pwg3X6/CheckSymbolExists.cxx
+Linking CXX executable cmTC_cfb0e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cfb0e.dir/link.txt --verbose=1
+/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_cfb0e.dir/CheckSymbolExists.cxx.o -o cmTC_cfb0e 
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Pwg3X6'
 
 
 File CheckSymbolExists.cxx:
@@ -367,16 +367,16 @@ int main(int argc, char** argv)
 #endif
 }
 Determining if the strtoull_l exist passed with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-W5MdPb
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Gt8t7w
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5fd00/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5fd00.dir/build.make CMakeFiles/cmTC_5fd00.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-W5MdPb'
-Building CXX object CMakeFiles/cmTC_5fd00.dir/CheckSymbolExists.cxx.o
-/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_5fd00.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_5fd00.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_5fd00.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-W5MdPb/CheckSymbolExists.cxx
-Linking CXX executable cmTC_5fd00
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5fd00.dir/link.txt --verbose=1
-/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_5fd00.dir/CheckSymbolExists.cxx.o -o cmTC_5fd00 
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-W5MdPb'
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_89d46/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_89d46.dir/build.make CMakeFiles/cmTC_89d46.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Gt8t7w'
+Building CXX object CMakeFiles/cmTC_89d46.dir/CheckSymbolExists.cxx.o
+/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_89d46.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_89d46.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_89d46.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Gt8t7w/CheckSymbolExists.cxx
+Linking CXX executable cmTC_89d46
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_89d46.dir/link.txt --verbose=1
+/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_89d46.dir/CheckSymbolExists.cxx.o -o cmTC_89d46 
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-Gt8t7w'
 
 
 File CheckSymbolExists.cxx:
@@ -394,16 +394,16 @@ int main(int argc, char** argv)
 #endif
 }
 Determining if the realpath exist passed with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-VTx8lz
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-NElnVZ
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_422ad/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_422ad.dir/build.make CMakeFiles/cmTC_422ad.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-VTx8lz'
-Building CXX object CMakeFiles/cmTC_422ad.dir/CheckSymbolExists.cxx.o
-/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_422ad.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_422ad.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_422ad.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-VTx8lz/CheckSymbolExists.cxx
-Linking CXX executable cmTC_422ad
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_422ad.dir/link.txt --verbose=1
-/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_422ad.dir/CheckSymbolExists.cxx.o -o cmTC_422ad 
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-VTx8lz'
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_64d0c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_64d0c.dir/build.make CMakeFiles/cmTC_64d0c.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-NElnVZ'
+Building CXX object CMakeFiles/cmTC_64d0c.dir/CheckSymbolExists.cxx.o
+/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_64d0c.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_64d0c.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_64d0c.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-NElnVZ/CheckSymbolExists.cxx
+Linking CXX executable cmTC_64d0c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_64d0c.dir/link.txt --verbose=1
+/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_64d0c.dir/CheckSymbolExists.cxx.o -o cmTC_64d0c 
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-NElnVZ'
 
 
 File CheckSymbolExists.cxx:
@@ -421,16 +421,16 @@ int main(int argc, char** argv)
 #endif
 }
 Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-ZXmtzn
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-0G2AUm
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_85587/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_85587.dir/build.make CMakeFiles/cmTC_85587.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-ZXmtzn'
-Building CXX object CMakeFiles/cmTC_85587.dir/src.cxx.o
-/usr/bin/clang++-15 -DCMAKE_HAVE_LIBC_PTHREAD  -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_85587.dir/src.cxx.o -MF CMakeFiles/cmTC_85587.dir/src.cxx.o.d -o CMakeFiles/cmTC_85587.dir/src.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-ZXmtzn/src.cxx
-Linking CXX executable cmTC_85587
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85587.dir/link.txt --verbose=1
-/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_85587.dir/src.cxx.o -o cmTC_85587 
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-ZXmtzn'
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_e4dbf/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_e4dbf.dir/build.make CMakeFiles/cmTC_e4dbf.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-0G2AUm'
+Building CXX object CMakeFiles/cmTC_e4dbf.dir/src.cxx.o
+/usr/bin/clang++-15 -DCMAKE_HAVE_LIBC_PTHREAD  -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_e4dbf.dir/src.cxx.o -MF CMakeFiles/cmTC_e4dbf.dir/src.cxx.o.d -o CMakeFiles/cmTC_e4dbf.dir/src.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-0G2AUm/src.cxx
+Linking CXX executable cmTC_e4dbf
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e4dbf.dir/link.txt --verbose=1
+/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_e4dbf.dir/src.cxx.o -o cmTC_e4dbf 
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-0G2AUm'
 
 
 Source file was:
@@ -456,16 +456,16 @@ int main(void)
 
 
 Determining if the fwrite_unlocked exist passed with the following output:
-Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-dgisBl
+Change Dir: /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-GzQswQ
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_d10f0/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_d10f0.dir/build.make CMakeFiles/cmTC_d10f0.dir/build
-gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-dgisBl'
-Building CXX object CMakeFiles/cmTC_d10f0.dir/CheckSymbolExists.cxx.o
-/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_d10f0.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_d10f0.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_d10f0.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-dgisBl/CheckSymbolExists.cxx
-Linking CXX executable cmTC_d10f0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d10f0.dir/link.txt --verbose=1
-/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_d10f0.dir/CheckSymbolExists.cxx.o -o cmTC_d10f0 
-gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-dgisBl'
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5bf62/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5bf62.dir/build.make CMakeFiles/cmTC_5bf62.dir/build
+gmake[1]: Entering directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-GzQswQ'
+Building CXX object CMakeFiles/cmTC_5bf62.dir/CheckSymbolExists.cxx.o
+/usr/bin/clang++-15   -Wno-c++11-narrowing  -std=c++20 -MD -MT CMakeFiles/cmTC_5bf62.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_5bf62.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_5bf62.dir/CheckSymbolExists.cxx.o -c /srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-GzQswQ/CheckSymbolExists.cxx
+Linking CXX executable cmTC_5bf62
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5bf62.dir/link.txt --verbose=1
+/usr/bin/clang++-15 -Wno-c++11-narrowing  CMakeFiles/cmTC_5bf62.dir/CheckSymbolExists.cxx.o -o cmTC_5bf62 
+gmake[1]: Leaving directory '/srv/thetaforce/nwpu-gamedev-2025-server/build-release/CMakeFiles/CMakeScratch/TryCompile-GzQswQ'
 
 
 File CheckSymbolExists.cxx:

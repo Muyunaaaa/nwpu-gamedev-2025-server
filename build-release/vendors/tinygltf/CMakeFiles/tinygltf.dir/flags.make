@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = 
 
-CXX_FLAGS = -Wno-c++11-narrowing -std=c++11
+CXX_FLAGS = -Wno-c++11-narrowing -O3 -DNDEBUG -std=c++11
 

@@ -182,6 +182,7 @@ CMakeFiles/server.dir/src/core/GameContext.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/select.h \
   /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
   /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/bits/std_abs.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/cstdio \
@@ -191,6 +192,7 @@ CMakeFiles/server.dir/src/core/GameContext.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/bits/charconv.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/bits/basic_string.tcc \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/12/../../../../include/c++/12/utility \
@@ -571,6 +573,7 @@ CMakeFiles/server.dir/src/core/GameContext.cpp.o: \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/Profiler.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/NonCopyable.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/TickCounter.h \
+  /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/Profiler.inl \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/JobSystem.inl \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/Semaphore.h \
   /srv/thetaforce/nwpu-gamedev-2025-server/vendors/JoltPhysics/Jolt/Core/FixedSizeFreeList.h \

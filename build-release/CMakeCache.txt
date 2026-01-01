@@ -25,7 +25,7 @@ CMAKE_AR:FILEPATH=/usr/bin/llvm-ar-15
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -278,7 +278,7 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 CPP_EXCEPTIONS_ENABLED:BOOL=OFF
 
 //Enable C++ RTTI
-CPP_RTTI_ENABLED:BOOL=OFF
+CPP_RTTI_ENABLED:BOOL=ON
 
 //Cross compile to the CROSS_COMPILE_ARM_TARGET architecture
 CROSS_COMPILE_ARM:BOOL=OFF

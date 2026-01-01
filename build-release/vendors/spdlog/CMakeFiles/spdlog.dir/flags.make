@@ -6,5 +6,5 @@ CXX_DEFINES = -DSPDLOG_COMPILED_LIB -DSPDLOG_FWRITE_UNLOCKED
 
 CXX_INCLUDES = -I/srv/thetaforce/nwpu-gamedev-2025-server/vendors/spdlog/include
 
-CXX_FLAGS = -Wno-c++11-narrowing -std=c++20
+CXX_FLAGS = -Wno-c++11-narrowing -O3 -DNDEBUG -std=c++20
 
