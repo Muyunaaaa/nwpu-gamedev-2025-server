@@ -10,6 +10,8 @@
 #include "state/MatchController.h"
 #include "util/getTime.h"
 #include "util/SpawnSets.h"
+#include <fmt/format.h>
+namespace std { using namespace fmt; }
 
 void GameContext::InitFromRoom() {
     players_.clear();

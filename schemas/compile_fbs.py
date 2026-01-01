@@ -9,7 +9,7 @@ import argparse
 FBS_SOURCE_DIR = "./"
 CPP_OUTPUT_DIR = "../include/protocol"
 CACHE_FILE = ".fbs_cache.json"
-FLATC_PATH = "C:\\@DevTools\\flatc.exe"
+FLATC_PATH = "../build-release/vendors/flatbuffers/flatc"
 
 def get_file_hash(filepath):
     hasher = hashlib.sha256()

@@ -1,0 +1,11 @@
+# Hashes of file build rules.
+1f89cc234be9891ff88b5b80713ced81 vendors/flatbuffers/samples/monster_generated.h
+ec72b58e598e203403741087fb0295d3 vendors/flatbuffers/tests/64bit/evolution/v1_generated.h
+69c3ed9fd79104611033144ee99a0316 vendors/flatbuffers/tests/64bit/evolution/v2_generated.h
+2af02946a37693e77927a9edd3ee4ae3 vendors/flatbuffers/tests/64bit/test_64bit_generated.h
+6c1ca8dd6f7cb447b50a6a504efd958f vendors/flatbuffers/tests/alignment_test_generated.h
+dd8b5d456c27ba313c2ef8a0385dd836 vendors/flatbuffers/tests/arrays_test_generated.h
+28b979736526cb56addef7e5d7222ae0 vendors/flatbuffers/tests/key_field/key_field_sample_generated.h
+6fc1b68b846757fe6649a19fbb959495 vendors/flatbuffers/tests/native_inline_table_test_generated.h
+c0f575cb8b34bf8acfb8ec8213846f03 vendors/flatbuffers/tests/native_type_test_generated.h
+ebee8f0b089c8dff8319af3cc5b365d3 vendors/flatbuffers/tests/union_underlying_type_test_generated.h

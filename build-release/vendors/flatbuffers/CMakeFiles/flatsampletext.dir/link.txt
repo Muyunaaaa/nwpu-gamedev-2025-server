@@ -1,0 +1,1 @@
+/usr/bin/clang++-15 -Wno-c++11-narrowing CMakeFiles/flatsampletext.dir/src/idl_parser.cpp.o CMakeFiles/flatsampletext.dir/src/idl_gen_text.cpp.o CMakeFiles/flatsampletext.dir/src/reflection.cpp.o CMakeFiles/flatsampletext.dir/src/util.cpp.o CMakeFiles/flatsampletext.dir/samples/sample_text.cpp.o -o flatsampletext 
