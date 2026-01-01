@@ -59,3 +59,12 @@ void WarmupState::Update(MatchController *ctrl, float deltaTime) {
 
 void WarmupState::OnExit(MatchController *ctrl) {
 }
+
+//todolist:
+//todo:
+//must
+//1. 购买结束回合开始发所有玩家持有武器的包
+//2. 解决所有包点均可拆包的问题
+//recommand
+//1. 分数显示
+//2. 尸体拉走
