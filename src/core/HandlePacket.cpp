@@ -1,6 +1,6 @@
 #include "core/HandlePacket.h"
 
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "core/PurchaseSystem.h"
 #include "physics/EvalPhysDamage.h"
@@ -82,6 +82,47 @@ void HandlePacket::handleFire(ClientID id, const myu::net::PacketHeader *header,
         fire_dir,
         shooter_id
     );
+
+    // 不管是否击中玩家，都广播开火事件
+    auto current_fire_client = GameContext::Instance().GetPlayer(client_id);
+    flatbuffers::FlatBufferBuilder fbb;
+    if (GameContext::Instance().GetPlayer(client_id)->position_history.empty()) {
+        spdlog::warn("出现了玩家 {} 无位置历史记录的情况，跳过开火事件发布", current_fire_client->name);
+    } else {
+        spdlog::info("广播玩家 {} 开火事件", current_fire_client->name);
+        myu::math::Vec3 shotter_pos = current_fire_client->position_history.back().
+                position;
+        auto event = moe::net::CreatePlayerOpenFireEvent(
+            fbb,
+            shooter_id,
+            shotter_pos.x,
+            shotter_pos.y,
+            shotter_pos.z
+        );
+
+        auto header = moe::net::CreateReceivedHeader(
+            fbb,
+            Server::instance().getTick(),
+            myu::time::now_ms()
+        );
+
+        auto eventWrapper = moe::net::CreateGameEvent(
+            fbb,
+            moe::net::EventData::EventData_PlayerOpenFireEvent,
+            event.Union()
+        );
+
+        auto _msg = moe::net::CreateReceivedNetMessage(
+            fbb,
+            header,
+            moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+            eventWrapper.Union()
+        );
+        fbb.Finish(_msg);
+        SendPacket shotter_fire_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
+        myu::NetWork::getInstance().broadcast(shotter_fire_packet);
+    }
+
     int shot_result = raycast_hit.isHit(shot_tick);
     if (shot_result == -1) {
         spdlog::info("玩家 {} 开火，未击中任何玩家", GameContext::Instance().GetPlayer(shooter_id)->name);
@@ -105,43 +146,6 @@ void HandlePacket::handleFire(ClientID id, const myu::net::PacketHeader *header,
             damage);
         Server::instance().fire_logger->info("玩家 {} 当前生命值 {}", GameContext::Instance().GetPlayer(shot_result)->name,
                                              GameContext::Instance().GetPlayer(shot_result)->health);
-
-        flatbuffers::FlatBufferBuilder fbb;
-        if (GameContext::Instance().GetPlayer(shot_result)->position_history.empty()) {
-            spdlog::warn("出现了玩家 {} 无位置历史记录的情况，跳过开火事件发布", GameContext::Instance().GetPlayer(shot_result)->name);
-        } else {
-            myu::math::Vec3 shotter_pos = GameContext::Instance().GetPlayer(shot_result)->position_history.back().
-                    position;
-            auto event = moe::net::CreatePlayerOpenFireEvent(
-                fbb,
-                shooter_id,
-                shotter_pos.x,
-                shotter_pos.y,
-                shotter_pos.z
-            );
-
-            auto header = moe::net::CreateReceivedHeader(
-                fbb,
-                Server::instance().getTick(),
-                myu::time::now_ms()
-            );
-
-            auto eventWrapper = moe::net::CreateGameEvent(
-                fbb,
-                moe::net::EventData::EventData_PlayerOpenFireEvent,
-                event.Union()
-            );
-
-            auto _msg = moe::net::CreateReceivedNetMessage(
-                fbb,
-                header,
-                moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-                eventWrapper.Union()
-            );
-            fbb.Finish(_msg);
-            SendPacket shotter_fire_packet = SendPacket(-1, CH_RELIABLE, fbb.GetBufferSpan(), true);
-            myu::NetWork::getInstance().broadcast(shotter_fire_packet);
-        }
 
         if (GameContext::Instance().GetPlayer(shot_result)->health == 0) {
             flatbuffers::FlatBufferBuilder fbb;

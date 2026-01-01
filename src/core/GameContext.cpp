@@ -3,7 +3,7 @@
 #include <Core/FileWriter.hpp>
 
 #include "config.h"
-#include "Server.h"
+#include "server.h"
 #include "state/RoomContext.h"
 #include "entity/PlayerState.h"
 #include "entity/Weapon.h"

@@ -1,6 +1,6 @@
 #include "state/RoundState.h"
 
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "flatbuffers/flatbuffer_builder.h"
 #include "protocol/Events_generated.h"

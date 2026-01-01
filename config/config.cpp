@@ -1,4 +1,4 @@
-#include "Config.h"
+#include "config.h"
 #include "TomlImpl.hpp"
 #include <iostream>
 

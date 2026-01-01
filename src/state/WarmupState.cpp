@@ -2,7 +2,7 @@
 #include "state/MatchController.h"
 #include "state/WarmupState.h"
 
-#include "Server.h"
+#include "server.h"
 #include "core/GameContext.h"
 #include "protocol/Events_generated.h"
 #include "protocol/Main_generated.h"
