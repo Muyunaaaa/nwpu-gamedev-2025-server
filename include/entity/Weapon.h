@@ -109,6 +109,7 @@ inline moe::net::Weapon parseToNetWeapon(Weapon weapon) {
         case Weapon::M4A1:
             return moe::net::Weapon::Weapon_M4A1;
         case Weapon::WEAPON_NONE:
+            return moe::net::Weapon::Weapon_WEAPON_NONE;
         default:
             return moe::net::Weapon::Weapon_WEAPON_NONE;
     }
