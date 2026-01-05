@@ -14,14 +14,28 @@
 
 void WarmupState::OnEnter(MatchController *ctrl) {
     timerMs = Config::match::PURCHASE_TIMER.count();
-    for (auto& player : GameContext::Instance().Players()) {
+    for (auto &player: GameContext::Instance().Players()) {
         flatbuffers::FlatBufferBuilder fbb;
         uint16_t round_number = ctrl->currentRound;
+        moe::net::Weapon primary_weapon = moe::net::Weapon::Weapon_WEAPON_NONE;
+        moe::net::Weapon secondary_weapon = moe::net::Weapon::Weapon_WEAPON_NONE;
+        WeaponInstance *primary = player.second.primary.get();
+        WeaponInstance *secondary = player.second.secondary.get();
+        spdlog::info("购买阶段开始，玩家{}有{}金币", player.second.name, player.second.money);
+        if (primary) {
+            primary_weapon = parseToNetWeapon(player.second.primary->config->weapon_id);
+        }
+        if (secondary) {
+            secondary_weapon = parseToNetWeapon(player.second.secondary->config->weapon_id);
+        }
         auto purchase_event = moe::net::CreateRoundPurchaseStartedEvent(
             fbb,
+            primary_weapon,
+            secondary_weapon,
             round_number,
             player.second.money
-            );
+        );
+        // spdlog::info("玩家{}有{}金币", player.second.name, player.second.money);
         auto event = moe::net::CreateGameEvent(
             fbb,
             moe::net::EventData::EventData_RoundPurchaseStartedEvent,
@@ -43,7 +57,7 @@ void WarmupState::OnEnter(MatchController *ctrl) {
         myu::NetWork::getInstance().pushPacket(packet);
     }
 
-    spdlog::info("第{}局",ctrl->currentRound);
+    spdlog::info("第{}局", ctrl->currentRound);
     spdlog::info("游戏开始，进入购买阶段(10s)");
     ctrl->enablePurchase();
     ctrl->disableFire();
@@ -53,9 +67,18 @@ void WarmupState::OnEnter(MatchController *ctrl) {
 void WarmupState::Update(MatchController *ctrl, float deltaTime) {
     timerMs -= deltaTime;
     if (timerMs <= 0) {
-         ctrl->ChangeState(std::make_unique<RoundState>()); // 切换到战斗状态
+        ctrl->ChangeState(std::make_unique<RoundState>()); // 切换到战斗状态
     }
 }
 
 void WarmupState::OnExit(MatchController *ctrl) {
 }
+
+//todolist:
+//todo:
+//must
+//1. 购买结束回合开始发所有玩家持有武器的包
+//2. 解决所有包点均可拆包的问题
+//recommand
+//1. 分数显示
+//2. 尸体拉走
