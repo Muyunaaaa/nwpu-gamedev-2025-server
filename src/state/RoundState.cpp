@@ -42,45 +42,62 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
     if (controller->checkMatchWin() == 0) {
         //还未结束
         controller->ChangeState(std::make_unique<WarmupState>());
-    }else if (controller->checkMatchWin() == 1) {
+    } else if (controller->checkMatchWin() == 1) {
         //CT胜利
         controller->ChangeState(std::make_unique<MatchEndState>(1));
-    }else if (controller->checkMatchWin() == 2) {
+    } else if (controller->checkMatchWin() == 2) {
         //T胜利
         controller->ChangeState(std::make_unique<MatchEndState>(2));
-    }else if (controller->checkMatchWin() == 3) {
+    } else if (controller->checkMatchWin() == 3) {
         //T平局
         controller->ChangeState(std::make_unique<MatchEndState>(3));
-    }else {
+    } else {
         spdlog::error("比赛胜负判断出现错误");
     }
-
 }
 
 //主要实现
 void RoundState::OnEnter(MatchController *controller) {
     timerMs = Config::match::ROUND_TIMER.count();
-    flatbuffers::FlatBufferBuilder fbb;
     uint16_t round_number = controller->currentRound;
-    auto round_start_event = moe::net::CreateRoundPurchaseStartedEvent(fbb, round_number);
-    auto event = moe::net::CreateGameEvent(
-        fbb,
-        moe::net::EventData::EventData_RoundStartedEvent,
-        round_start_event.Union()
-    );
-    auto header = moe::net::CreateReceivedHeader(
-        fbb,
-        Server::instance().getTick(),
-        myu::time::now_ms()
-    );
-    auto msg = moe::net::CreateReceivedNetMessage(
-        fbb,
-        header,
-        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
-        event.Union()
-    );
-    fbb.Finish(msg);
-    controller->BroadcastMessage(fbb.GetBufferSpan());
+    for (auto &player: GameContext::Instance().Players()) {
+        flatbuffers::FlatBufferBuilder fbb;
+        moe::net::Weapon primary_weapon = moe::net::Weapon::Weapon_WEAPON_NONE;
+        moe::net::Weapon secondary_weapon = moe::net::Weapon::Weapon_WEAPON_NONE;
+        WeaponInstance *primary = player.second.primary.get();
+        WeaponInstance *secondary = player.second.secondary.get();
+        if (primary) {
+            primary_weapon = parseToNetWeapon(player.second.primary->config->weapon_id);
+        }
+        if (secondary) {
+            secondary_weapon = parseToNetWeapon(player.second.secondary->config->weapon_id);
+        }
+        auto round_start_event = moe::net::CreateRoundStartedEvent(
+            fbb,
+            primary_weapon,
+            secondary_weapon,
+            round_number
+        );
+        auto event = moe::net::CreateGameEvent(
+            fbb,
+            moe::net::EventData::EventData_RoundStartedEvent,
+            round_start_event.Union()
+        );
+        auto header = moe::net::CreateReceivedHeader(
+            fbb,
+            Server::instance().getTick(),
+            myu::time::now_ms()
+        );
+        auto msg = moe::net::CreateReceivedNetMessage(
+            fbb,
+            header,
+            moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+            event.Union()
+        );
+        fbb.Finish(msg);
+        SendPacket packet = SendPacket(player.first, CH_RELIABLE, fbb.GetBufferSpan(), true);
+        myu::NetWork::getInstance().pushPacket(packet);
+    }
     spdlog::info("购买阶段结束，进入交火阶段");
     //权限控制
     controller->disablePurchase();
@@ -95,7 +112,7 @@ void RoundState::OnEnter(MatchController *controller) {
 void RoundState::Update(MatchController *controller, float deltaTime) {
     if (controller->c4_planted) {
         if (!controller->c4_planted_and_counting) {
-        spdlog::info("c4已安放，炸弹计时器开始");
+            spdlog::info("c4已安放，炸弹计时器开始");
             timerMs = Config::match::C4_TIMER.count();
             controller->c4_planted_and_counting = true;
         }
@@ -134,7 +151,7 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
 }
 
 void RoundState::OnExit(MatchController *controller) {
-    spdlog::info("交火阶段结束，第{}回合结束",controller->currentRound);
+    spdlog::info("交火阶段结束，第{}回合结束", controller->currentRound);
     GameContext::Instance().flushShotRecords();
     GameContext::Instance().resetARound();
     controller->roundEnd();
