@@ -59,7 +59,33 @@ void getWinnerAndBroadcastAndChangeState(MatchController *controller) {
 //主要实现
 void RoundState::OnEnter(MatchController *controller) {
     timerMs = Config::match::ROUND_TIMER.count();
+    //广播倒计时事件
+    flatbuffers::FlatBufferBuilder count_down_fbb;
+    auto count_down_event = moe::net::CreateCountDownEvent(
+            count_down_fbb,
+            static_cast<uint32_t>(timerMs)
+        );
+    auto event = moe::net::CreateGameEvent(
+        count_down_fbb,
+        moe::net::EventData::EventData_CountDownEvent,
+        count_down_event.Union()
+    );
+    auto header = moe::net::CreateReceivedHeader(
+        count_down_fbb,
+        Server::instance().getTick(),
+        myu::time::now_ms()
+    );
+    auto msg = moe::net::CreateReceivedNetMessage(
+        count_down_fbb,
+        header,
+        moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+        event.Union()
+    );
+    count_down_fbb.Finish(msg);
+    controller->BroadcastMessage(count_down_fbb.GetBufferSpan());
+
     uint16_t round_number = controller->currentRound;
+    //给每个玩家发送枪械配置
     for (auto &player: GameContext::Instance().Players()) {
         flatbuffers::FlatBufferBuilder fbb;
         moe::net::Weapon primary_weapon = moe::net::Weapon::Weapon_WEAPON_NONE;
@@ -99,6 +125,7 @@ void RoundState::OnEnter(MatchController *controller) {
         myu::NetWork::getInstance().pushPacket(packet);
     }
     spdlog::info("购买阶段结束，进入交火阶段");
+
     //权限控制
     controller->disablePurchase();
     controller->enableFire();
@@ -115,6 +142,30 @@ void RoundState::Update(MatchController *controller, float deltaTime) {
             spdlog::info("c4已安放，炸弹计时器开始");
             timerMs = Config::match::C4_TIMER.count();
             controller->c4_planted_and_counting = true;
+            flatbuffers::FlatBufferBuilder count_down_fbb;
+            //广播倒计时事件
+            auto count_down_event = moe::net::CreateCountDownEvent(
+                    count_down_fbb,
+                    static_cast<uint32_t>(timerMs)
+                );
+            auto event = moe::net::CreateGameEvent(
+                count_down_fbb,
+                moe::net::EventData::EventData_CountDownEvent,
+                count_down_event.Union()
+            );
+            auto header = moe::net::CreateReceivedHeader(
+                count_down_fbb,
+                Server::instance().getTick(),
+                myu::time::now_ms()
+            );
+            auto msg = moe::net::CreateReceivedNetMessage(
+                count_down_fbb,
+                header,
+                moe::net::ReceivedPacketUnion::ReceivedPacketUnion_GameEvent,
+                event.Union()
+            );
+            count_down_fbb.Finish(msg);
+            controller->BroadcastMessage(count_down_fbb.GetBufferSpan());
         }
     }
     if (controller->c4_defused) {
