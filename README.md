@@ -1,5 +1,7 @@
 # NWPU GameDev 2025 Server
 
+*[客户端git仓库](https://github.com/konakona418/nwpu-gamedev-2025)*
+
 ## 简介
 
 本项目是 **NWPU GameDev 2025** 游戏项目的服务端，基于 C++20 开发。服务端负责处理核心游戏逻辑、网络通信、物理模拟以及状态同步，支持多人在线对战（CS-like 射击游戏）。
