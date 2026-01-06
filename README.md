@@ -71,6 +71,15 @@ nwpu-gamedev-2025-server/
     cmake ..
     cmake --build . --config Release
     ```
+3. **官网下载faltc**
+   [flatc下载](https://github.com/google/flatbuffers/releases/v25.9.23)
+   注意下载v25.9.23版本
+
+5. **运行FlatBuffers头文件构建脚本**:
+   ```bash
+   cd ./schemas
+   python3 .\compile_fbs.py rebuild
+*需要更改compile_fbs.py中的FLATC_PATH为你的flatc实际路径*
 
 ### 运行服务端
 
