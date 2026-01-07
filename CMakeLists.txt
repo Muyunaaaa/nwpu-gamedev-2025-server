@@ -52,7 +52,9 @@ file(COPY ${CMAKE_SOURCE_DIR}/settings.toml
 # 服务器可执行程序
 # ==============================
 
-add_executable(server)
+add_executable(server
+        "include/stats/ComputeStats.h"
+        src/stats/ComputeStats.cpp)
 
 # ==============================
 # 源文件

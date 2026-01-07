@@ -37,6 +37,7 @@ struct PlayerState {
     bool alive = true;
     ClientID killer;
     struct ShotRecord {
+        int round;
         ClientID attacker;
         ClientID victim;
         float damage;

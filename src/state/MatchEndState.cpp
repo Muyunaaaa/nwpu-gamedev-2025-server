@@ -5,12 +5,15 @@
 #include "core/GameContext.h"
 #include "protocol/Main_generated.h"
 #include "util/getTime.h"
+#include "stats/ComputeStats.h"
+
 
 void MatchEndState::OnEnter(MatchController *controller) {
     //校验是否应该在该阶段
     timerMs = Config::match::END_UNTIL_SERVER_CLOSE_TIMER.count();
     GameContext::Instance().Reset();
     moe::net::PlayerTeam winner_team;
+    PlayerTeam winner_teamL;
     switch (winner) {
         case 0: {
             spdlog::error("MatchEndState entered but no winner set!");
@@ -18,14 +21,17 @@ void MatchEndState::OnEnter(MatchController *controller) {
         }
         case 1: {
             winner_team = moe::net::PlayerTeam::PlayerTeam_TEAM_CT;
+            winner_teamL = PlayerTeam::CT;
             break;
         }
         case 2: {
             winner_team = moe::net::PlayerTeam::PlayerTeam_TEAM_T;
+            winner_teamL = PlayerTeam::T;
             break;
         }
         case 3: {
             winner_team = moe::net::PlayerTeam::PlayerTeam_TEAM_NONE;
+            winner_teamL = PlayerTeam::NONE;
             break;
         }
         default: {
@@ -68,6 +74,17 @@ void MatchEndState::OnEnter(MatchController *controller) {
     controller->disableFire();
     controller->disableMove();
     controller->disablePurchase();
+
+    //输出到csv
+    ComputeStats::GetInstance().LoadFromPlayerStates(GameContext::Instance().Players());
+    std::string filePath = "match_stats_" + std::to_string(myu::time::now_ms()) + ".csv";
+    if (ComputeStats::GetInstance().ExportCSV(filePath,winner_teamL)) {
+        spdlog::info("比赛统计数据已导出到 {}", filePath);
+    } else {
+        spdlog::error("比赛统计数据导出失败");
+    }
+
+    GameContext::Instance().Reset();
 }
 
 void MatchEndState::Update(MatchController *controller, float deltaTime) {
