@@ -71,7 +71,7 @@ PlayerState *GameContext::GetPlayer(ClientID id) {
         return &(it->second); // 返回原始对象的地址，允许外部修改
     }
 
-    spdlog::warn("Attempted to get non-existent player state for ClientID: {}", id);
+    // spdlog::warn("Attempted to get non-existent player state for ClientID: {}", id);
     return nullptr;
 }
 
