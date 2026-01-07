@@ -48,6 +48,9 @@ int PhysRaycastHit::isHit(uint64_t shot_tick) {
         ClientID target_id = player_pair.first;
         auto& player_state = player_pair.second;
 
+        if (player_state.health <= 0) {
+            continue;
+        }
         if (player_state.team == shooter_team || target_id == shooter_id) {
             continue;
         }
