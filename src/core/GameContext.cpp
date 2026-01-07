@@ -71,7 +71,7 @@ PlayerState *GameContext::GetPlayer(ClientID id) {
         return &(it->second); // 返回原始对象的地址，允许外部修改
     }
 
-    spdlog::warn("Attempted to get non-existent player state for ClientID: {}", id);
+    // spdlog::warn("Attempted to get non-existent player state for ClientID: {}", id);
     return nullptr;
 }
 
@@ -114,11 +114,13 @@ float GameContext::playerShotted(ClientID Attacker, ClientID Victim, float damag
     }
     //添加记录
     players_[Attacker].shot_records.push_back(PlayerState::ShotRecord{
+        .round = MatchController::Instance().currentRound,
         .attacker = Attacker,
         .victim = Victim,
         .damage = damage
     });
     players_[Victim].damage_records.push_back(PlayerState::ShotRecord{
+        .round = MatchController::Instance().currentRound,
         .attacker = Attacker,
         .victim = Victim,
         .damage = damage
@@ -281,23 +283,23 @@ int GameContext::countLifes(PlayerTeam team) {
     return count;
 }
 
-void GameContext::flushShotRecords() {
-    // std::string filepath = "data/shot_records.txt";
-
-    std::string content;
-    for (auto &[id, state]: players_) {
-        content += std::format("Player ID: {}\n", id);
-        for (const auto &record: state.shot_records) {
-            // 假设 record 有一些可以打印的属性
-            content += std::format("  - Shot at: [x,y,z...]\n");
-        }
-    }
-
-    for (auto &[id, state]: players_) {
-        state.damage_records.clear();
-        state.shot_records.clear();
-    }
-}
+// void GameContext::flushShotRecords() {
+//     // std::string filepath = "data/shot_records.txt";
+//
+//     std::string content;
+//     for (auto &[id, state]: players_) {
+//         content += std::format("Player ID: {}\n", id);
+//         for (const auto &record: state.shot_records) {
+//             // 假设 record 有一些可以打印的属性
+//             content += std::format("  - Shot at: [x,y,z...]\n");
+//         }
+//     }
+//
+//     for (auto &[id, state]: players_) {
+//         state.damage_records.clear();
+//         state.shot_records.clear();
+//     }
+// }
 
 void GameContext::playerSnyc() {
     flatbuffers::FlatBufferBuilder fbb;

@@ -185,7 +185,7 @@ void HandlePacket::handleMove(ClientID id, const myu::net::MovePacket *msg) {
     ClientID client_id = msg->tempId();
     auto player = GameContext::Instance().GetPlayer(client_id);
     if (!player) {
-        spdlog::error("Received MovePacket for unknown Client ID {}", client_id);
+        // spdlog::error("Received MovePacket for unknown Client ID {}", client_id);
         return;
     }
 

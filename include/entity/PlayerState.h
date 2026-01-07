@@ -37,12 +37,13 @@ struct PlayerState {
     bool alive = true;
     ClientID killer;
     struct ShotRecord {
+        int round;
         ClientID attacker;
         ClientID victim;
         float damage;
     };
-    std::vector<ShotRecord> shot_records;
-    std::vector<ShotRecord> damage_records;
+    std::vector<ShotRecord> shot_records;//造成的伤害记录
+    std::vector<ShotRecord> damage_records;//受到的伤害记录
 
     std::unique_ptr<PhysicsCharacterController> physics_controller;
 
