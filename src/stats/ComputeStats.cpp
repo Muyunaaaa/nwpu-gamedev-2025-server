@@ -86,7 +86,7 @@ float ComputeStats::ComputeKD(uint32_t kills, uint32_t deaths) const {
 
 float ComputeStats::ComputeTotalDamage(const PlayerState &player) const {
     float damage = 0.0f;
-    for (const auto &record: player.damage_records) {
+    for (const auto &record: player.shot_records) {
         damage += record.damage;
     }
     return damage;
