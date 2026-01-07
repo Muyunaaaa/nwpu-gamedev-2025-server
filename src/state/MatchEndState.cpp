@@ -11,7 +11,6 @@
 void MatchEndState::OnEnter(MatchController *controller) {
     //校验是否应该在该阶段
     timerMs = Config::match::END_UNTIL_SERVER_CLOSE_TIMER.count();
-    GameContext::Instance().Reset();
     moe::net::PlayerTeam winner_team;
     PlayerTeam winner_teamL;
     switch (winner) {
